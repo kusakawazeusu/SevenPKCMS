@@ -11,6 +11,9 @@
         <script src="{{asset('js/popper.js')}}"></script>
         <script src="{{asset('js/bootstrap.js')}}"></script>
 
+        {{--  Load my own css  --}}
+        <link rel="stylesheet" type="text/css" href="{{asset('css/wireframe.css')}}">
+
         <title>SevenPK CMS</title>
 
     </head>
@@ -24,26 +27,49 @@
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
                 </ul>
+                
             </div>
         </nav>
 
-        <div class="container">
+        <div class="container-fluid">
         
-            <div class="row">
+            <div class="row mt-4">
                 <div class="col-md-3">
-                    @section('SideMenu')
-                        這邊顯示SideMenu
-                    @show
+
+                    <div class="jumbotron SideMenu">
+                    
+                        <h5 class="display-5">櫃控系統</h5>
+                        <hr>
+                        <p class="SideBarTitle">帳號</p>
+                        <a href="">員工管理</a>
+                        <br>
+                        <a class="mb-3" href="">會員儲值</a>
+
+                        <p class="SideBarTitle">遊戲機台</p>
+                        <a href="">機台機率管理</a><br>
+                        <a href="">機台分區管理</a><br>
+                        <a href="">機台數值表</a>
+
+                        <p class="SideBarTitle">通路</p>
+                        <a href="">介紹人</a><br>
+                        <a href="">經銷商</a>
+
+                        <p class="SideBarTitle">報表</p>
+                        <a href="">報表管理</a><br>
+                        <a href="">會員遊玩紀錄</a>
+
+                        <p class="SideBarTitle">業務</p>
+                        <a href="">交班管理</a>
+
+                        <p class="SideBarTitle">會員</p>
+                        <a href="">會員管理</a>
+
+                        <p class="SideBarTitle">時間控制系統</p>
+                        <a href="">時間牌型選擇</a><br>
+                        <a href="">控制牌型調整</a>
+                    </div>
+
                 </div>
                 <div class="col-md-9">
                     @section('Content')
