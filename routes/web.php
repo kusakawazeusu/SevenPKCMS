@@ -12,6 +12,7 @@
 */
 
 include 'Player.php';
+include 'MachineRoute.php';
 
 Route::get('/', function () {
     return view('index');
