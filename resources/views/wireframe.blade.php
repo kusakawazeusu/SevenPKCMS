@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
         <script src="{{asset('js/jquery-3.2.1.slim.min.js')}}"></script>
         <script src="{{asset('js/popper.js')}}"></script>
-        <script src="{{asset('js/bootstrap.js')}}"></script>
+        <script src="{{asset('js/bootstrap.min.js')}}"></script>
 
         {{--  Load my own css  --}}
         <link rel="stylesheet" type="text/css" href="{{asset('css/wireframe.css')}}">
@@ -35,7 +35,7 @@
         <div class="container-fluid">
         
             <div class="row mt-4">
-                <div class="col-md-3">
+                <div class="col-md-2">
 
                     <div class="jumbotron SideMenu">
                     
@@ -71,7 +71,7 @@
                     </div>
 
                 </div>
-                <div class="col-md-9">
+                <div class="col-md-10">
                     @section('Content')
                         這邊顯示Content
                     @show
