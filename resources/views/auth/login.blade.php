@@ -22,7 +22,7 @@
                     <input type="password" name="Password" id="Password" class="form-control" placeholder="請輸入密碼 ...">
                     </div>
 
-                    <button class="d-block mx-auto btn btn-primary" type="submit">送出</button>
+                    <input class="d-block mx-auto btn btn-primary" type="submit">
 
                 </form>
             </div>
