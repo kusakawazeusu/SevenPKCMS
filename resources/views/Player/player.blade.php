@@ -14,16 +14,16 @@
 		<div class="col-5">
 			<div class="row">
 				<form class="form-inline">
-					<div class=" input-group">
+					<div class=" input-group mr-2">
 						<label class="input-group-addon">名稱:</label>
 						<input type="text" class="form-control" placeholder="輸入名稱" aria-label="輸入名稱">
 					</div>
-					<div class="input-group">
+					<div class="input-group mr-2">
 						<label class="input-group-addon">卡片編號:</label>
 						<input type="text" class="form-control" placeholder="輸入名稱" aria-label="輸入名稱">
 					</div>
 				</form>
-				<button type="button" class="btn btn-secondary"><span class="glyphicon glyphicon-search"></span>搜尋</button>	
+				<button type="button" class="btn btn-secondary">搜尋</button>	
 			</div>
 		</div>
 	</div>
