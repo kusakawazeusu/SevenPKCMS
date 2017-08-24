@@ -67,7 +67,7 @@ return [
     'providers' => [
          'users' => [
              'driver' => 'database',
-             'table' => 'Operator',
+             'table' => 'operator',
          ],
     ],
 

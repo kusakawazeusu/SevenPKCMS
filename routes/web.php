@@ -18,6 +18,6 @@ Route::get('/', function () {
     return view('index');
 });
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/login','Login@ShowLoginForm')->name('login');
+Route::post('/login','Login@LoginAttempt');
+Route::get('/logout','Login@Logout');

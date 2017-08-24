@@ -33,9 +33,18 @@
                 <ul class="navbar-nav mr-auto">
                 </ul>
                 <span class="navbar-text mr-3">
-                    你好，{管理員名稱}！
+                    @if(Auth::guest())
+                    請登入！
+                    @else
+                    你好，{{ Auth::user()->Name }}！
+                    @endif
                 </span>
-                <button class="btn btn-primary">登出</button>
+                @if(Auth::guest())
+                <a href="{{ url('/login') }}" class="btn btn-primary">登入</a>
+                @else
+                <a href="{{ url('/logout') }}" class="btn btn-primary">登出</a>
+                @endif
+                
             </div>
         </nav>
 
