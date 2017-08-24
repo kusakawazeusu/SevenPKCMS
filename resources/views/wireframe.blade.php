@@ -38,13 +38,12 @@
                 </ul>
                 <span class="navbar-text mr-3">
                     @if(Auth::guest())
-                    請登入！
                     @else
                     你好，{{ Auth::user()->Name }}！
                     @endif
                 </span>
                 @if(Auth::guest())
-                <a href="{{ url('/login') }}" class="btn btn-primary">登入</a>
+                <a href="{{ url('/login') }}" class="btn btn-success">登入</a>
                 @else
                 <a href="{{ url('/logout') }}" class="btn btn-primary">登出</a>
                 @endif
