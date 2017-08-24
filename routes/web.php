@@ -14,10 +14,8 @@
 include 'Player.php';
 include 'MachineRoute.php';
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'MachineMonitorController@Index');
 
-Route::get('/login','Login@ShowLoginForm')->name('login');
-Route::post('/login','Login@LoginAttempt');
-Route::get('/logout','Login@Logout');
+Route::get('/login', 'Login@ShowLoginForm')->name('login');
+Route::post('/login', 'Login@LoginAttempt');
+Route::get('/logout', 'Login@Logout');
