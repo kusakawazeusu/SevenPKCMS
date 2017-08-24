@@ -14,7 +14,9 @@
         <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
         <script src="{{asset('js/popper.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
-        <script src="{{asset('js/sweetalert2.min.js')}}"></script>        
+        <script src="{{asset('js/sweetalert2.min.js')}}"></script>
+        <script src="{{asset('js/bootstrapValidator.js')}}"></script>
+           
 
         {{--  Load my own css  --}}
         <link rel="stylesheet" type="text/css" href="{{asset('css/wireframe.css')}}">

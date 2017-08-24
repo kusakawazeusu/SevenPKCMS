@@ -6,6 +6,13 @@ $(document).ready(function() {
 	});
 	
 	$('#addPlayer').click(function(event) {
+		myFunction();
 		/* Act on the event */
 	});
+	
+
+
+	
+
+
 });
