@@ -18,6 +18,9 @@ Route::get('/', function () {
     return view('index');
 });
 
+// Operator
+Route::get('/operator','Operator@ShowOperator');
+
 Route::get('/login','Login@ShowLoginForm')->name('login');
 Route::post('/login','Login@LoginAttempt');
 Route::get('/logout','Login@Logout');

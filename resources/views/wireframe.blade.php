@@ -61,7 +61,7 @@
                         <h5 class="display-5">櫃控系統</h5>
                         <hr>
                         <p class="SideBarTitle">帳號</p>
-                        <a href="">員工管理</a>
+                        <a href="{{ url('/operator') }}">員工管理</a>
                         <br>
                         <a href="">會員儲值</a><br><br>
 
