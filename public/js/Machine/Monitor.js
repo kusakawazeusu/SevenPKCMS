@@ -1,9 +1,8 @@
 $(function() {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('.machineCard').tooltip()
+    $('[data-toggle="dropdown"]').dropdown()
 })
+
 $(document).ready(function() {
-    $('.machine').on('show.bs.tooltip', function() {
-        // do something…
-        console.log('h');
-    })
+
 })
