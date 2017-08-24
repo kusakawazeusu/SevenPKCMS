@@ -16,6 +16,27 @@
     </head>
     <body>
 
+        @section('Navbar')
+        Navbar
+        @show
+
+        <div class="container">
+        
+            <div class="row">
+                <div class="col-md-3">
+                    @section('SideMenu')
+                        這邊顯示SideMenu
+                    @show
+                </div>
+                <div class="col-md-9">
+                    @section('Content')
+                        這邊顯示Content
+                    @show
+                </div>
+            </div>
+        
+        </div>
+
         
 
     </body>
