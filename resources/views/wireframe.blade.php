@@ -28,7 +28,10 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                 </ul>
-                
+                <span class="navbar-text mr-3">
+                    你好，{管理員名稱}！
+                </span>
+                <button class="btn btn-primary">登出</button>
             </div>
         </nav>
 
@@ -44,35 +47,35 @@
                         <p class="SideBarTitle">帳號</p>
                         <a href="">員工管理</a>
                         <br>
-                        <a class="mb-3" href="">會員儲值</a>
+                        <a href="">會員儲值</a><br><br>
 
                         <p class="SideBarTitle">遊戲機台</p>
                         <a href="">機台機率管理</a><br>
                         <a href="">機台分區管理</a><br>
-                        <a href="">機台數值表</a>
+                        <a href="">機台數值表</a><br><br>
 
                         <p class="SideBarTitle">通路</p>
                         <a href="">介紹人</a><br>
-                        <a href="">經銷商</a>
+                        <a href="">經銷商</a><br><br>
 
                         <p class="SideBarTitle">報表</p>
                         <a href="">報表管理</a><br>
-                        <a href="">會員遊玩紀錄</a>
+                        <a href="">會員遊玩紀錄</a><br><br>
 
                         <p class="SideBarTitle">業務</p>
-                        <a href="">交班管理</a>
+                        <a href="">交班管理</a><br><br>
 
                         <p class="SideBarTitle">會員</p>
-                        <a href="">會員管理</a>
+                        <a href="">會員管理</a><br><br>
 
                         <p class="SideBarTitle">時間控制系統</p>
                         <a href="">時間牌型選擇</a><br>
-                        <a href="">控制牌型調整</a>
+                        <a href="">控制牌型調整</a><br><br>
                     </div>
 
                 </div>
                 <div class="col-md-10">
-                    @section('Content')
+                    @section('content')
                         這邊顯示Content
                     @show
                 </div>
