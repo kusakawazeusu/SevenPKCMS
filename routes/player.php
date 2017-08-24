@@ -1,4 +1,5 @@
 <?php
-Route::get('/player', function () {
-    return view('Player.player');
+
+Route::group(['prefix'=>'Player'], function () {
+	Route::get('/', 'PlayerController@Index');
 });

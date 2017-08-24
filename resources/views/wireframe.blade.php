@@ -28,7 +28,7 @@
     <body>
 
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">7PK 管理系統</a>
+            <a class="navbar-brand" href="{{ url('/') }}">7PK 管理系統</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -83,7 +83,7 @@
                         <a href="">交班管理</a><br><br>
 
                         <p class="SideBarTitle">會員</p>
-                        <a href="">會員管理</a><br><br>
+                        <a href="{{ url('/Player') }}">會員管理</a><br><br>
 
                         <p class="SideBarTitle">時間控制系統</p>
                         <a href="">時間牌型選擇</a><br>
