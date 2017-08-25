@@ -1,9 +1,22 @@
 $(function() {
-    $('[data-toggle="tooltip"]').tooltip()
+    $('.machineCard').tooltip()
+    $('[data-toggle="dropdown"]').dropdown()
 })
+
+function CreditIn(id) {
+    console.log(id)
+}
+
+function CreditOn(id) {
+    console.log(id)
+}
+
+function GameReserved(id) {
+    console.log(id)
+}
+
 $(document).ready(function() {
-    $('.machine').on('show.bs.tooltip', function() {
-        // do something…
-        console.log('h');
+    $('.machineCard').on('show.bs.tooltip', function() {
+        $('.machineCard').attr('data-original-title', '使用者：<br>餘額：0')
     })
 })

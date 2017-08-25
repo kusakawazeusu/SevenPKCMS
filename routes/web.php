@@ -14,11 +14,10 @@
 include 'Player.php';
 include 'MachineRoute.php';
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', 'MachineMonitorController@Index');
 
 // Operator
+
 Route::get('/operator','Operator@ShowOperator');
 
 Route::get('/login','Login@ShowLoginForm')->name('login');

@@ -3,6 +3,12 @@
 @section('content')
 <script src="{{asset('js/Player.js')}}"></script>
 <meta name="csrf-token" content="{{ csrf_token() }}" /><!-- 切記這兩行伊定要放在body最下面---->
+<style>
+	.input-group-addon.addPlayer {
+		min-width:120px;
+		text-align:center;
+	}
+</style>
 <div>
 	<h1>帳號系統</h1>
 	<hr>
@@ -111,45 +117,138 @@
 					<span aria-hidden="true">&times;</span>
 				</button>
 			</div>
-			<form id="addProductForm" name="addProductForm">
+			<form id="addPlayerForm" name="addPlayerForm">
 				<div class="modal-body">
 					<div class="form-group">
 						<div class="input-group">
-							<span class="input-group-addon addProduct">產品名稱</span>
-							<input id="productName" name="productName" type="text" class="form-control addProInput" >
+							<span class="input-group-addon addPlayer">名字</span>
+							<input id="name" name="name" type="text" class="form-control player">
 						</div>
 					</div>
 					<div class="form-group">
-
 						<div class="input-group">
-							<span class="input-group-addon addProduct">產品種類</span>
-							<select id="proType" name="proType" class="form-control"  >
+							<span class="input-group-addon addPlayer">暱稱</span>
+							<input id="nickName" name="nickName" type="text" class="form-control player">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">卡號</span>
+							<input id="cardNumber" name="cardNumber" type="text" class="form-control player">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">身分證字號</span>
+							<input id="playerIDCardNumber" name="playerIDCardNumber" type="text" class="form-control player">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">性別</span>
+							<select id="gender" name="gender" class="form-control player">
+								<option value=0>男性</option>
+								<option value=1>女性</option>
+								<option value=2>其他</option>
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="input-group">
-							<span class="input-group-addon addProduct">批發價</span>
-							<input id="wholesalePrice" name="wholesalePrice" type="test" class="form-control addProInput" >
+							<span class="input-group-addon addPlayer">生日</span>
+							<input id="birthday" name="birthday" type="text" class="form-control player">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="input-group">
-							<span class="input-group-addon addProduct">售價</span>
-							<input id="salePrice" name="salePrice" type="text" class="form-control addProInput" >
+							<span class="input-group-addon addPlayer">職業</span>
+							<input id="career" name="career" type="text" class="form-control player">
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="input-group">
-							<span class="input-group-addon addProduct">廠商</span>						
-							<select id="company" name="company" class="form-control" >
+							<span class="input-group-addon addPlayer">介紹人名稱</span>
+							<select id="introducerName" name="introducerName" class="form-control player"  >
 							</select>
 						</div>
 					</div>
 					<div class="form-group">
 						<div class="input-group">
-							<span class="input-group-addon addProduct">備註</span>
+							<span class="input-group-addon addPlayer">住宅地址</span>
+							<input id="address" name="address" type="text" class="form-control player">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">住宅電話</span>
+							<select id="telephone" name="telephone" class="form-control player"  >
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">行動電話</span>
+							<input id="cellphone" name="cellphone" type="text" class="form-control player">
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">來店方式</span>
+							<label class="form-check-label mr-2">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="0">自行開車
+							</label>
+							<label class="form-check-label mr-2">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="1">交通車
+							</label>
+							<label class="form-check-label mr-2">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="2">客運
+							</label>
+							<label class="form-check-label mr-2">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="3">火車
+							</label>
+							<label class="form-check-label mr-2">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="4">其他
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">廣告接收</span>
+							<label class="form-check-label">
+								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">可電話通知
+							</label>
+							<label class="form-check-label">
+								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">手機簡訊
+							</label>
+							<label class="form-check-label">
+								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">都不收廣告
+							</label>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">婚姻狀況</span>
+							<select id="marry" name="marry" class="form-control player">
+								<option value=0>未婚</option>
+								<option value=1>已婚</option>
+							</select>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">備註</span>
 							<textarea class="form-control addProInput" rows="5" id="memo" name="memo"></textarea>
+						</div>
+					</div>
+					<div class="form-group">
+						<div class="input-group">
+							<span class="input-group-addon addPlayer">是否啟動此帳號</span>
+							<label class="form-check-label mr-2">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="0">使用
+							</label>
+							<label class="form-check-label mr-2">
+								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="1">凍結
+							</label>
 						</div>
 					</div>
 				</div>
@@ -157,7 +256,6 @@
 					<button type="submit"  id="addConfirm" class="btn btn-success" >新增</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
 				</div>
-
 			</form>
 		</div>
 	</div>

@@ -4,13 +4,13 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Input;
 
-class MachineMonitorController extends Controller
+class PlayerController extends Controller
 {
     //
     public function Index()
     {
-        $i = 150;
-        return view('Machine.Monitor', ['counters'=>$i]);
+    	return view('Player.player');
     }
 }
