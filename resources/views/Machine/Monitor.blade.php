@@ -2,19 +2,58 @@
 
 @section('content')
 <script src ="{{asset('js/Machine/Monitor.js')}}"></script>
+
+<style>
+
+    .modal-header, h4, .close {
+        background-color: #36648b;
+        color:white !important;
+        text-align: center;
+        font-size: 30px;
+    }
+
+    .modal-body {
+        background-color: #f9f9f9;
+    }
+
+    .modal-footer {
+        background-color: #f9f9f9;
+    }
+    /* Set gray background color and 100% height */
+    .sidenav {
+      background-color: #f1f1f1;
+      height: 100%;
+    }   
+</style>
 <div class="jumbotron">
     <div class="row">
         @for ($i = 0; $i < count($machines); $i++)
             <div class="col-lg-1 col-md-2 mb-5">
-                <div id="{{$machines[$i]->ID}}" type="button" class="card machineCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-placement="right" data-html="true"
- title="使用者：<br/>餘額：">
-                    <img class="card-img-top" src="{{asset('img/machine/offline.png')}}" alt="Card image cap">
+                <div id="{{$machines[$i]->ID}}" type="button" class="card machineCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-placement="right" data-html="true" title="使用者：<br/>餘額：" >
+                    @if($machines[$i]->Status == 0)   {{-- 未連線 --}}
+                        <img class="card-img-top" src="{{asset('img/machine/offline.png')}}" alt="Card image cap">
+                    @elseif($machines[$i]->Status == 1)   {{-- 連線中 --}}
+                        <img class="card-img-top" src="{{asset('img/machine/online.png')}}" alt="Card image cap">
+                    @elseif($machines[$i]->Status == 2)   {{-- 保留中 --}}
+                        <img class="card-img-top" src="{{asset('img/machine/event.png')}}" alt="Card image cap">
+                    @else   {{-- 有問題 --}}
+                        <img class="card-img-top" src="{{asset('img/machine/none.png')}}" alt="Card image cap">
+                    @endif
                     <div class="card-body">
                         <h6 class="card-title">第{{$machines[$i]->ID}}台</h6>
+                        @if($machines[$i]->Status == 0)   {{-- 未連線 --}}
                         <p class="card-text">離線中</p>
+                        @elseif($machines[$i]->Status == 1)   {{-- 連線中 --}}
+                        <p class="card-text">連線中</p>
+                        @elseif($machines[$i]->Status == 2)   {{-- 保留中 --}}
+                        <p class="card-text">保留中</p>
+                        @else   {{-- 有問題 --}}
+                        <p class="card-text">有問題</p>
+                        @endif
                     </div>
                 </div>                 
-                       
+                
+                <!-- dropdown menu id=machine's id -->       
                 <div class="dropdown-menu" style="width:100%" id="{{$machines[$i]->ID}}">
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="CreditIn(this.id)">鍵入</a>
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="CreditOut(this.id)">鍵出</a>
@@ -25,4 +64,47 @@
         @endfor
     </div>
 </div>
+
+<!-- CreditIn -->
+<div id="CreditInModal" class="modal fade" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">            
+                <h4 class="modal-title">鍵入</h4>
+                <button type="button" class="close" data-dismiss="modal">&times;</button>
+            </div>
+            <form id="CreditInForm" method="POST" class="form-horizontal">
+            <div class="modal-body CreditInFormBody">
+                <div class="flexbox">
+                    <div class="panel panel-default">
+                        <div class="panel-body">
+                            <!-- MNum -->
+                            <div class="form-group EGMNewFormMNum">
+                                <div class="input-group EGMNewInputMNum">
+                                    <span class="input-group-addon">@lang('EGM.Mnum')</span>
+                                    <input id="MNum" class="form-control" type="text" name="MNum" placeholder="6碼, ex 990001">
+                                </div>
+                            </div>
+
+                            <!-- IPAddress -->
+                            <div class="form-group EGMNewFormIPAddress">
+                                <div class="input-group EGMNewInputIPAddress">
+                                    <span class="input-group-addon">@lang('EGM.IPAddress')</span>
+                                    <input id="IPAddress" class="form-control" type="text" name="IPAddress" placeholder="192.169.90.06">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" name="add">           
+            <div>
+                <button id='CreaditInCancel' type="button" data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@lang('EGMDefault.cancel')</button>
+                <button id='CreaditInButton' class="btn btn-primary" type ="submit"><span class="glyphicon glyphicon-ok"></span>@lang('EGMDefault.add')</button>
+            </div> 
+        </form>  
+        </div>
+    </div>    
+</div>
+<!-- Create Machine -->
 @endsection
