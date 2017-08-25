@@ -4,7 +4,8 @@ $(function() {
 })
 
 function CreditIn(id) {
-    console.log(CreaditIn)
+    console.log("CreaditIn")
+    $('#CreditInModal').modal('show')
 }
 
 function CreditOut(id) {
