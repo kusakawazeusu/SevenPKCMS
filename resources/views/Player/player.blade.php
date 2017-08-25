@@ -1,8 +1,15 @@
 @extends('wireframe')
 
 @section('content')
-<script src="{{asset('js/Player.js')}}"></script>
+
 <meta name="csrf-token" content="{{ csrf_token() }}" /><!-- 切記這兩行伊定要放在body最下面---->
+<script>
+	
+	var showNum = 10;
+	
+	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
+</script>
+<script src="{{asset('js/Player.js')}}"></script>
 <style>
 	.input-group-addon.addPlayer {
 		min-width:120px;
@@ -21,15 +28,15 @@
 			<div class="row">
 				<form class="form-inline">
 					<div class=" input-group mr-2">
-						<label class="input-group-addon">名稱:</label>
-						<input type="text" class="form-control" placeholder="輸入名稱" aria-label="輸入名稱">
+						<label class="input-group-addon">姓名:</label>
+						<input type="text" id="name" name="name" class="form-control search" placeholder="輸入姓名" aria-label="輸入姓名">
 					</div>
 					<div class="input-group mr-2">
 						<label class="input-group-addon">卡片編號:</label>
-						<input type="text" class="form-control" placeholder="輸入名稱" aria-label="輸入名稱">
+						<input type="text" id="cardNumber" name="cardNumber" class="form-control search" placeholder="輸入卡片編號" aria-label="輸入卡片編號">
 					</div>
 				</form>
-				<button type="button" class="btn btn-secondary" onclick="myFunction()"><i class="fa fa-search" aria-hidden="true"></i>搜尋</button>	
+				<button type="button" id="searchBtn" class="btn btn-secondary"><i class="fa fa-search" aria-hidden="true"></i>搜尋</button>	
 			</div>
 		</div>
 	</div>
@@ -65,21 +72,19 @@
 			<th>操作</th>
 		</thead>
 		<tbody>
-			<tr>
-			</tr>
 		</tbody>
 	</table>
 	
 </div> 
 <div class="row justify-content-between">
 	<div class="col-4">
-		<div class="text-left"><a id="previous_page" class="btn btn-light" role="button">返回上一頁</a></div>
+		<div class="text-left"><a id="previousPage" class="btn btn-light" role="button">返回上一頁</a></div>
 	</div>
 	<div class="col-4">
-		<p class="text-center">總共<font id="total_page"></font>頁，目前<font id="page"></font>頁。</p>
+		<p class="text-center">總共<font id="totalPage"></font>頁，目前<font id="page"></font>頁。</p>
 	</div>
 	<div class="col-4">
-		<div class="text-right"><a id="next_page" class="btn btn-light" role="button">前往下一頁</a></div>
+		<div class="text-right"><a id="nextPage" class="btn btn-light" role="button">前往下一頁</a></div>
 	</div>
 </div>
 
