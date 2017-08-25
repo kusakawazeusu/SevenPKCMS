@@ -79,26 +79,18 @@
                     <div class="panel panel-default">
                         <div class="panel-body">
                             <!-- PlayerID -->
-                            <div class="form-group EGMNewFormMNum">
-                                <div class="input-group EGMNewInputMNum">
+                            <div class="form-group CreditInFormBodyPlayerID">
+                                <div class="input-group CreditInInputPlayerID">
                                     <span class="input-group-addon">會員編號</span>
-                                    <input id="MNum" class="form-control" type="text" name="MNum" placeholder="6碼, ex 990001">
+                                    <input id="PlayerID" class="form-control" type="text" name="PlayerID" placeholder="會員編號">
                                 </div>
                             </div>
 
-                            <!-- IPAddress -->
+                            <!-- CreaditIn -->
                             <div class="form-group EGMNewFormIPAddress">
                                 <div class="input-group EGMNewInputIPAddress">
-                                    <span class="input-group-addon">@lang('EGM.IPAddress')</span>
-                                    <input id="IPAddress" class="form-control" type="text" name="IPAddress" placeholder="192.169.90.06">
-                                </div>
-                            </div>
-
-                            <!-- IPAddress -->
-                            <div class="form-group EGMNewFormIPAddress">
-                                <div class="input-group EGMNewInputIPAddress">
-                                    <span class="input-group-addon">@lang('EGM.IPAddress')</span>
-                                    <input id="IPAddress" class="form-control" type="text" name="IPAddress" placeholder="192.169.90.06">
+                                    <span class="input-group-addon">鍵入點數</span>
+                                    <input id="CreaditIn" class="form-control" type="text" name="CreaditIn" placeholder="鍵入點數">
                                 </div>
                             </div>
                         </div>
@@ -107,8 +99,8 @@
             </div>
             <div class="modal-footer" name="add">           
             <div>
-                <button id='CreaditInCancel' type="button" data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>@lang('EGMDefault.cancel')</button>
-                <button id='CreaditInButton' class="btn btn-primary" type ="submit"><span class="glyphicon glyphicon-ok"></span>@lang('EGMDefault.add')</button>
+                <button id='CreaditInCancel' type="button" data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>取消</button>
+                <button id='CreaditInButton' class="btn btn-primary" type ="submit"><span class="glyphicon glyphicon-ok"></span>確認</button>
             </div> 
         </form>  
         </div>
