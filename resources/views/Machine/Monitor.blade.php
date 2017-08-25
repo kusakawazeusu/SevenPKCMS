@@ -4,7 +4,6 @@
 <script src ="{{asset('js/Machine/Monitor.js')}}"></script>
 
 <style>
-
     .modal-header, h4, .close {
         background-color: #36648b;
         color:white !important;
@@ -23,8 +22,9 @@
     .sidenav {
       background-color: #f1f1f1;
       height: 100%;
-    }   
+    }    
 </style>
+
 <div class="jumbotron">
     <div class="row">
         @for ($i = 0; $i < count($machines); $i++)
@@ -70,7 +70,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">            
-                <h4 class="modal-title">鍵入</h4>
+                <h4 class="modal-title d-block mx-auto">鍵入</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <form id="CreditInForm" method="POST" class="form-horizontal">
@@ -78,11 +78,19 @@
                 <div class="flexbox">
                     <div class="panel panel-default">
                         <div class="panel-body">
-                            <!-- MNum -->
+                            <!-- PlayerID -->
                             <div class="form-group EGMNewFormMNum">
                                 <div class="input-group EGMNewInputMNum">
-                                    <span class="input-group-addon">@lang('EGM.Mnum')</span>
+                                    <span class="input-group-addon">會員編號</span>
                                     <input id="MNum" class="form-control" type="text" name="MNum" placeholder="6碼, ex 990001">
+                                </div>
+                            </div>
+
+                            <!-- IPAddress -->
+                            <div class="form-group EGMNewFormIPAddress">
+                                <div class="input-group EGMNewInputIPAddress">
+                                    <span class="input-group-addon">@lang('EGM.IPAddress')</span>
+                                    <input id="IPAddress" class="form-control" type="text" name="IPAddress" placeholder="192.169.90.06">
                                 </div>
                             </div>
 

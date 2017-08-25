@@ -12,9 +12,9 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-
+123
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('operator/get','Operator@getOperators')->name('GetOperators');
+Route::get('operator/get', 'Operator@getOperators')->name('GetOperators');
