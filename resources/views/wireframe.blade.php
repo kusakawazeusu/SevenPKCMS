@@ -8,15 +8,16 @@
         {{--  Initialize Some Framework  --}}
         <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/font-awesome.min.css')}}">
-        <link rel="stylesheet" type="text/css" href="{{asset('css/datatables.min.css')}}"/>
-
+        <link rel="stylesheet" type="text/css" href="{{asset('css/dataTables.bootstrap4.css')}}"/>
+        
         <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
         <script src="{{asset('js/popper.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
         <script src="{{asset('js/sweetalert2.min.js')}}"></script>
         <script src="{{asset('js/bootstrapValidator.js')}}"></script>
 
-        <script src="{{asset('js/datatables.min.js')}}"></script>
+        <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
+        <script src="{{asset('js/dataTables.bootstrap4.js')}}"></script>
 
         {{--  Load my own css  --}}
         <link rel="stylesheet" type="text/css" href="{{asset('css/wireframe.css')}}">
