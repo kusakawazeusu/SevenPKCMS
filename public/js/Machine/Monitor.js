@@ -4,15 +4,15 @@ $(function() {
 })
 
 function CreditIn(id) {
-    console.log(id)
+    console.log(CreaditIn)
 }
 
-function CreditOn(id) {
-    console.log(id)
+function CreditOut(id) {
+    console.log(CreditOut)
 }
 
 function GameReserved(id) {
-    console.log(id)
+    console.log(GameReserved)
 }
 
 $(document).ready(function() {
