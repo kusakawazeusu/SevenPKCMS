@@ -15,14 +15,6 @@
 		min-width:120px;
 		text-align:center;
 	}
-
-	.modal-header, h4, .close {
-		background-color: #36648b;
-		color:white !important;
-		text-align: center;
-		font-size: 30px;
-	}
-
 </style>
 <div>
 	<h1>帳號系統</h1>

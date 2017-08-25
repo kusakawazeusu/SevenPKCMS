@@ -5,3 +5,21 @@
     font-weight: 600;
     margin-bottom: 5px;
 }
+
+.modal-header {
+    background-color: #36648b;
+    color:white !important;
+    text-align: center;
+    font-size: 30px;
+}
+
+#OperatorTable thead tr th
+{
+    text-align: center;
+}
+
+#CreateOperator .modal-dialog .modal-content .modal-body form .input-group .input-group-addon
+{
+    min-width: 120px;
+    text-align: center;
+}

@@ -85,7 +85,7 @@ $(document).ready(function() {
 <div class="row justify-content-between">
 
     <div class="col-md-2">
-        <button class="btn btn-primary">新增員工</button>
+        <button class="btn btn-primary" data-toggle="modal" data-target="#CreateOperator">新增員工</button>
     </div>
 
     <div class="col-md-4 mr-3">
@@ -113,8 +113,7 @@ $(document).ready(function() {
 </div>
 
 <div class="col-md-12">
-
-    <table id="OperatorTable"  class="table table-bordered table-hover" cellspacing="0">
+    <table id="OperatorTable"  class="table table-striped text-center" cellspacing="0">
             <thead>
                 <tr>
                     <th>員工姓名</th>
@@ -124,16 +123,114 @@ $(document).ready(function() {
                     <th>行動電話</th>
                 </tr>
             </thead>
-            
-            <tbody>
-            </tbody>
     </table>
-
-
 </div>
 
-    
+{{--  Modal  --}}
 
 
+<!-- Modal -->
+<div class="modal fade" id="CreateOperator" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title d-block mx-auto">新增一名員工</h4>
+            </div>
+            <div class="modal-body">
+
+                {{--  Show The Form  --}}
+                <form action="" method="POST">
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">帳號</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">密碼</div>
+                        <input type="password" class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">姓名</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">帳號類別</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">班別</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">員工介紹獎金</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">退碼底額</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">退碼抽成數</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">結算週期</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">身分證字號</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">性別</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">生日</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">住宅地址</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">住宅電話</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">行動電話</div>
+                        <input class="form-control" name="Account">
+                    </div>
+
+                    <div class="input-group mb-2">
+                        <div class="input-group-addon d-block mx-auto">備註</div>
+                        <textarea class="form-control" name="Account"></textarea>
+                    </div>
+
+
+                </form>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 @endsection
