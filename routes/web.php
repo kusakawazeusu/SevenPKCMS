@@ -16,6 +16,10 @@ include 'MachineRoute.php';
 
 Route::get('/', 'MachineMonitorController@Index');
 
-Route::get('/login', 'Login@ShowLoginForm')->name('login');
-Route::post('/login', 'Login@LoginAttempt');
-Route::get('/logout', 'Login@Logout');
+// Operator
+
+Route::get('/operator','Operator@ShowOperator');
+
+Route::get('/login','Login@ShowLoginForm')->name('login');
+Route::post('/login','Login@LoginAttempt');
+Route::get('/logout','Login@Logout');

@@ -5,18 +5,18 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
-        {{--  Initialize Bootstrap  --}}
+        {{--  Initialize Some Framework  --}}
         <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/font-awesome.min.css')}}">
-
-
+        <link rel="stylesheet" type="text/css" href="{{asset('css/datatables.min.css')}}"/>
 
         <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
         <script src="{{asset('js/popper.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
         <script src="{{asset('js/sweetalert2.min.js')}}"></script>
         <script src="{{asset('js/bootstrapValidator.js')}}"></script>
-           
+
+        <script src="{{asset('js/datatables.min.js')}}"></script>
 
         {{--  Load my own css  --}}
         <link rel="stylesheet" type="text/css" href="{{asset('css/wireframe.css')}}">
@@ -38,13 +38,12 @@
                 </ul>
                 <span class="navbar-text mr-3">
                     @if(Auth::guest())
-                    請登入！
                     @else
                     你好，{{ Auth::user()->Name }}！
                     @endif
                 </span>
                 @if(Auth::guest())
-                <a href="{{ url('/login') }}" class="btn btn-primary">登入</a>
+                <a href="{{ url('/login') }}" class="btn btn-success">登入</a>
                 @else
                 <a href="{{ url('/logout') }}" class="btn btn-primary">登出</a>
                 @endif
@@ -62,7 +61,7 @@
                         <h5 class="display-5">櫃控系統</h5>
                         <hr>
                         <p class="SideBarTitle">帳號</p>
-                        <a href="">員工管理</a>
+                        <a href="{{ url('/operator') }}">員工管理</a>
                         <br>
                         <a href="">會員儲值</a><br><br>
 
