@@ -15,6 +15,14 @@
 		min-width:120px;
 		text-align:center;
 	}
+
+	.modal-header, h4, .close {
+		background-color: #36648b;
+		color:white !important;
+		text-align: center;
+		font-size: 30px;
+	}
+
 </style>
 <div>
 	<h1>帳號系統</h1>
@@ -117,7 +125,7 @@
 		<!-- Modal content-->
 		<div class="modal-content">
 			<div class="modal-header">
-				<h4 class="modal-title">新增玩家</h4>
+				<h4 class="modal-title d-block mx-auto">新增玩家</h4>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
