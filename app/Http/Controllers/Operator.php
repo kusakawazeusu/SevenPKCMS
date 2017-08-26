@@ -67,4 +67,10 @@ class Operator extends Controller
         DB::table('Operator')->where('id',$request->input('id'))->delete();
         return Response('OK',200);
     }
+
+    function getOperatorData(Request $request)
+    {
+        $data = DB::table('Operator')->where('id',$request->input('id'))->first();
+        return Response::json($data);
+    }
 }

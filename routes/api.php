@@ -18,6 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 Route::get('operator/get', 'Operator@getOperators')->name('GetOperators');
+Route::get('operator/getbyid','Operator@getOperatorData')->name('GetOperatorById');
 Route::post('operator/post','Operator@createOperator')->name('CreateOperator');
 Route::post('operator/checkDepulicatedAccount','Operator@checkDepulicatedAccount')->name('CheckDepulicatedAccount');
+Route::post('operator/update','Operator@updateOperator')->name('UpdateOperator');
 Route::delete('operator/delete','Operator@deleteOperator')->name('DeleteOperator');
