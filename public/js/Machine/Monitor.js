@@ -2,7 +2,8 @@ $(function() {
     $('[data-toggle="dropdown"]').dropdown();
     $('.machineCardTooltip').tooltip({
         html: true,
-        title: '使用者：無<br>餘額：0'
+        title: '使用者：無<br>餘額：0',
+        placement: 'right'
     });
 })
 
@@ -36,7 +37,6 @@ $(document).ready(function() {
                 id: this.id
             },
             success: function(data) {
-                console.log(data);
                 if (data.CurPlayer != 0) {
                     $('.machineCardTooltip').attr('data-original-title', '使用者：' + data.CurPlayer.toString() + '<br>餘額：' + data.CurCredit.toString());
                 } else {
@@ -45,7 +45,6 @@ $(document).ready(function() {
             },
             error: function(data) {
                 console.log(data);
-                $('.machineCard').attr('data-original-title', '使用者：無<br>餘額：0');
             },
         });
     });
