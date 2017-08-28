@@ -7,6 +7,31 @@ $(function() {
     });
 })
 
+function CreditIn(id) {
+    $('.CreditInInputPlayerID #PlayerID').val('');
+    $('.CreditInInputPlayerID #PlayerID').prop('disabled', false);
+    console.log(id);
+    var playerID = 0;
+    $.ajax({
+        url: 'Machine/Monitor/GetCur',
+        type: 'post',
+        async: false,
+        data: {
+            id: id
+        },
+        success: function(data) {
+            console.log(data);
+            playerID = data.CurPlayer;
+        }
+    })
+    console.log(playerID);
+    if (playerID != 0) {
+        $('.CreditInInputPlayerID #PlayerID').val(playerID);
+        $('.CreditInInputPlayerID #PlayerID').prop('disabled', true);
+    }
+    $('#CreditInModal').modal('show');
+}
+
 function CreditOut(id) {
     console.log(CreditOut);
 }
@@ -26,7 +51,7 @@ $(document).ready(function() {
     $('.machineCard').on('show.bs.tooltip', function() {
         $.ajax({
             url: 'Machine/Monitor/GetCur',
-            type: "POST",
+            type: 'post',
             async: false,
             data: {
                 id: this.id
@@ -44,14 +69,20 @@ $(document).ready(function() {
         });
     });
 
-    $('#aCreditIn').click(function() {
-        CreditIn($(this).val());
-    })
-
-    function CreditIn(id) {
-        console.log("CreaditIn");
-        $('#CreditInModal').modal('show');
-    }
-
-
+    $('#CreaditInAccept').click(function(event) {
+        $.ajax({
+                url: 'Machine/Monitor/CreditIn',
+                type: 'post',
+                data: {
+                    playerID: $('.CreditInInputPlayerID #PlayerID').val(),
+                    credit: $('.CreditInInputCreditIn #CreaditIn').val()
+                },
+            })
+            .done(function(response) {
+                swal("鍵入成功", "", "success");
+            })
+            .fail(function() {
+                console.log("error");
+            });
+    });
 })

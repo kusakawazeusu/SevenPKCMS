@@ -56,8 +56,8 @@
                 
                 <!-- dropdown menu id=machine's id -->       
                 <div class="dropdown-menu" style="width:100%" id="{{$machines[$i]->ID}}">
-                    <a class="dropdown-item" id="aCreditIn" value="{{$machines[$i]->ID}}">鍵入</a>
-                    <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="CreditOut(this.id)">鍵出</a>
+                    <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick ="CreditIn(this.id)">鍵入</a>
+                    <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick ="CreditOut(this.id)">鍵出</a>
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="GameReserved(this.id)">保留</a>
                     <a class="dropdown-item">取消</a>
                 </div>
@@ -74,7 +74,7 @@
                 <h4 class="modal-title d-block mx-auto">鍵入</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
-            <form id="CreditInForm" method="POST" class="form-horizontal">
+            <form id="CreditInForm" class="form-horizontal">
             <div class="modal-body CreditInFormBody">
                 <div class="flexbox">
                     <div class="panel panel-default">
@@ -88,8 +88,8 @@
                             </div>
 
                             <!-- CreaditIn -->
-                            <div class="form-group EGMNewFormIPAddress">
-                                <div class="input-group EGMNewInputIPAddress">
+                            <div class="form-group CreditInFormBodyCreditIn">
+                                <div class="input-group CreditInInputCreditIn">
                                     <span class="input-group-addon">鍵入點數</span>
                                     <input id="CreaditIn" class="form-control" type="text" name="CreaditIn" placeholder="鍵入點數">
                                 </div>
@@ -101,7 +101,7 @@
             <div class="modal-footer" name="add">           
             <div>
                 <button id='CreaditInCancel' type="button" data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>取消</button>
-                <button id='CreaditInButton' class="btn btn-primary" type ="submit"><span class="glyphicon glyphicon-ok"></span>確認</button>
+                <button id='CreaditInAccept' class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>確認</button>
             </div> 
         </form>  
         </div>
