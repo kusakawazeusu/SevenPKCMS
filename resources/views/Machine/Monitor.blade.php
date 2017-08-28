@@ -32,7 +32,7 @@
     <div class="row">
         @for ($i = 0; $i < count($machines); $i++)
             <div class="col-lg-1 col-md-2 mb-5">
-                <div id="{{$machines[$i]->ID}}" type="button" value="{{$machines[$i]->ID}}" class="card machineCard machineCardTooltip">
+                <div id="{{$machines[$i]->ID}}" type="button" class="card machineCard machineCardTooltip" data-toggle="dropdown" >
                     @if($machines[$i]->Status == 0)   {{-- 未連線 --}}
                         <img class="card-img-top" src="{{asset('img/machine/offline.png')}}" alt="Card image cap">
                     @elseif($machines[$i]->Status == 1)   {{-- 連線中 --}}
