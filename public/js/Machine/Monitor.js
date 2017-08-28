@@ -7,11 +7,6 @@ $(function() {
     });
 })
 
-function CreditIn(id) {
-    console.log("CreaditIn");
-    $('#CreditInModal').modal('show');
-}
-
 function CreditOut(id) {
     console.log(CreditOut);
 }
@@ -49,6 +44,14 @@ $(document).ready(function() {
         });
     });
 
+    $('#aCreditIn').click(function() {
+        CreditIn($(this).val());
+    })
+
+    function CreditIn(id) {
+        console.log("CreaditIn");
+        $('#CreditInModal').modal('show');
+    }
 
 
 })

@@ -56,7 +56,7 @@
                 
                 <!-- dropdown menu id=machine's id -->       
                 <div class="dropdown-menu" style="width:100%" id="{{$machines[$i]->ID}}">
-                    <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="CreditIn(this.id)">鍵入</a>
+                    <a class="dropdown-item" id="aCreditIn" value="{{$machines[$i]->ID}}">鍵入</a>
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="CreditOut(this.id)">鍵出</a>
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="GameReserved(this.id)">保留</a>
                     <a class="dropdown-item">取消</a>
