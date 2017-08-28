@@ -3,8 +3,6 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" /><!-- 切記這兩行伊定要放在body最下面---->
 <script src ="{{asset('js/Machine/Monitor.js')}}"></script>
-    <script type="text/javascript" src="{{asset('js/tooltipster.bundle.min.js')}}"></script>
-        <link rel="stylesheet" type="text/css" href="{{asset('css/tooltipster.bundle.min.css')}}">
 
 <style>
     .modal-header, h4, .close {
