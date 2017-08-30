@@ -25,7 +25,7 @@ class Operator extends Controller
         if($ShowEntries == "ALL")
             $ShowEntries = $count;
 
-        $operators = DB::table('operator')->select("id","Name","Account","Type","IDCardNumber","Phone")->where('Name','like','%'.$SearchText.'%')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
+        $operators = DB::table('operator')->select("id","Name","Account","Type","IDCardNumber","Cellphone")->where('Name','like','%'.$SearchText.'%')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
         $operators['count'] = $count;
 
         return Response::json($operators);
@@ -34,17 +34,36 @@ class Operator extends Controller
     function createOperator(Request $request)
     {
         DB::table('Operator')->insert([
-            'Account' => $request->input('CreateAccount'),
-            'password' => Hash::make($request->input('CreatePassword')),
-            'Name' => $request->input('CreateName'),
-            'Type' => $request->input('CreateType'),
-            'Session' => $request->input('CreateSession'),
-            'IDCardNumber' => $request->input('CreateIDCardNumber'),
-            'Gender' => $request->input('CreateGender'),
-            'Birthday' => $request->input('CreateBirthday'),
-            'Address' => $request->input('CreateAddress'),
-            'Phone' => $request->input('CreatePhone'),
-            'Cellphone' => $request->input('CreateCellphone'),
+            'Account' => $request->input('Account'),
+            'password' => Hash::make($request->input('Password')),
+            'Name' => $request->input('Name'),
+            'Type' => $request->input('Type'),
+            'Session' => $request->input('Session'),
+            'IDCardNumber' => $request->input('IDCardNumber'),
+            'Gender' => $request->input('Gender'),
+            'Birthday' => $request->input('Birthday'),
+            'Address' => $request->input('Address'),
+            'Phone' => $request->input('Phone'),
+            'Cellphone' => $request->input('Cellphone'),
+        ]);
+
+        return Response('Success',200);
+    }
+
+    function updateOperator(Request $request)
+    {
+        DB::table('Operator')->where('Account',$request->input('Account'))->update([
+            'Account' => $request->input('Account'),
+            'password' => Hash::make($request->input('Password')),
+            'Name' => $request->input('Name'),
+            'Type' => $request->input('Type'),
+            'Session' => $request->input('Session'),
+            'IDCardNumber' => $request->input('IDCardNumber'),
+            'Gender' => $request->input('Gender'),
+            'Birthday' => $request->input('Birthday'),
+            'Address' => $request->input('Address'),
+            'Phone' => $request->input('Phone'),
+            'Cellphone' => $request->input('Cellphone'),
         ]);
 
         return Response('Success',200);
