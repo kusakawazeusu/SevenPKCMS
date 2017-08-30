@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Input;
 use Response;
 
 use App\Monitor;
+use App\MachineStatus;
 use App\PlayerModel;
 
 class MachineMonitorController extends Controller
@@ -20,18 +21,27 @@ class MachineMonitorController extends Controller
 
     public function GetCurPlayer()
     {
-        $CurPlayer = Monitor::where('ID', '=', Input::get('id'))->select('CurPlayer', 'CurCredit')->get()[0];
+        $CurPlayer = Monitor::where('ID', '=', Input::get('id'))->select('Name', 'CurCredit', 'Cellphone')->get()[0];
         return $CurPlayer;
     }
 
     public function CreditIn()
     {
-        $playerBalance = PlayerModel::where('ID', '=', Input::get('playerID'))->select('Balance')->get()[0];
-        $machineCurCredit = Monitor::where('CurPlayer', '=', Input::get('playerID'))->select('CurCredit')->get()[0];
-        if ($playerBalance >= Input::get('credit')) {
-            PlayerModel::where('ID', '=', Input::get('playerID'))->update(['Balance' => ($playerBalance - Input::get('credit'))]);
-            Monitor::where('CurPlayer', '=', Input::get('playerID'))->update(['Balance' => ($machineCurCredit + Input::get('credit'))]);
+        $playerBalance = PlayerModel::where('Cellphone', '=', Input::get('playerCellphone'))->select('Balance')->get()[0];
+        $machineCurStatus = Monitor::where('Cellphone', '=', Input::get('playerCellphone'))->select('CurCredit', 'ID')->get()[0];
+        if ($playerBalance->Balance >= Input::get('credit')) {
+            $playerBalance = $playerBalance->Balance - Input::get('credit');
+            $machineCurStatus->CurCredit = $machineCurStatus->CurCredit + Input::get('credit');
+            PlayerModel::where('Cellphone', '=', Input::get('playerCellphone'))->update(['Balance' => $playerBalance]);
+            MachineStatus::where('MachineID', '=', $machineCurStatus->ID)->update(['CurCredit' => $machineCurStatus->CurCredit]);
+        } else {
+            return 0;//fail
         }
-        return Response::json(['response'=>'true']);
+        return 1;//success
+    }
+
+    public function CreditOut()
+    {
+        return 1;
     }
 }
