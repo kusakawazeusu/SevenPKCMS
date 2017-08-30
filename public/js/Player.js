@@ -1,5 +1,3 @@
-
-
 var playerTable;
 $(document).ready(function() {
 
@@ -26,10 +24,7 @@ $(document).ready(function() {
 	$("#totalPage").text(pagesNum);
 
 
-	GetData(page);
-
-
-	
+	GetData(page);	
 
 	$('.deletePlayer').click(function(event) {
 		/* Act on the event */
@@ -171,7 +166,6 @@ function GetData(page)
 
 function DeletePlayer(ID)
 {
-	console.log(ID);
 	swal({
 		title: '確定刪除嗎?',
 		text: "將無法回復此人資料",
@@ -191,8 +185,8 @@ function DeletePlayer(ID)
 				})
 				.done(function() {
 					swal(
-						'Deleted!',
-						'Your file has been deleted.',
+						'刪除成功!',
+						'此會員已刪除.',
 						'success'
 						)
 					GetData(page);
