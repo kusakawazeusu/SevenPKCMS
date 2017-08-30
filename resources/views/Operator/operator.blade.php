@@ -30,7 +30,7 @@ $(document).ready(function() {
     */
 
     $("#Name").keyup(function(event){
-        if( event.keyCode > 64 && event.keyCode < 91 )
+        if( event.keyCode > 64 && event.keyCode < 91 || event.keyCode == 8 || event.keyCode == 46 )
         {
             SeachText = $(this).val();
             GetData(ShowEntries,Page,SeachText);
@@ -83,23 +83,26 @@ $(document).ready(function() {
     CreateForm.novalidate = false;
 
     $("#Account").focusout(function(){
-        $.ajax({
-            url: "{{ route('CheckDepulicatedAccount') }}",
-            method: "POST",
-            data: { "Account": $(this).val() },
-            statusCode: {
-                   506: function() {
-                        $("#Account").css('border','1px solid brown');
-                        $("#DepulicatedAccountText").show();
-                        AccountDepulicatedFlag = 1;
-                   },
-                   200: function() {
-                        $("#Account").css('border','1px solid green');
-                        $("#DepulicatedAccountText").hide();
-                        AccountDepulicatedFlag = 0;
-                   }
-               }
-        });
+        if( $(this).val() != "" )
+        {
+            $.ajax({
+                url: "{{ route('CheckDepulicatedAccount') }}",
+                method: "POST",
+                data: { "Account": $(this).val() },
+                statusCode: {
+                    506: function() {
+                            $("#Account").css('border','1px solid brown');
+                            $("#DepulicatedAccountText").show();
+                            AccountDepulicatedFlag = 1;
+                    },
+                    200: function() {
+                            $("#Account").css('border','1px solid green');
+                            $("#DepulicatedAccountText").hide();
+                            AccountDepulicatedFlag = 0;
+                    }
+                }
+            });
+        }
     });
 
     $("#OperatorSubmit").click(function(){
@@ -255,6 +258,7 @@ function OpenCreateOperatorModal()
     AjaxUrl = "{{ route('CreateOperator') }}";
     $("#OperatorModalTitle").text('新增一名員工');
     $("input").val('');
+    $("#Account").css('border','1px solid #ddd');
     $("#OperatorModal").modal('toggle');
 }
 
