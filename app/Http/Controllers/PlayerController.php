@@ -42,7 +42,6 @@ class PlayerController extends Controller
 
 	public function CreatePlayer()
 	{
-
 		PlayerModel::create([
 			'Name'=>Input::get('createName'), 
 			'IDCardNumber'=>Input::get('createIDCardNumber'), 

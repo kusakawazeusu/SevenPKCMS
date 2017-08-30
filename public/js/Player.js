@@ -79,20 +79,22 @@ $(document).ready(function() {
 		}
 	});
 
+	function InputTest(className)
+	{
+		var dataTest={};
+		$('.'+className).each(function(index, el) {
+			console.log(el.id);
+			dataTest[el.id] =$("#"+el.id+"").val();
+			console.log(dataTest);
+		});
+		return dataTest;
+	}
 	$('#createPlayerSubmit').click(function(event) {
+		var data = InputTest('create');
 		$.ajax({
 			url: 'Player/CreatePlayer',
 			type: 'POST',
-			data: {
-				createName:$('#createName').val(),
-				createIDCardNumber:$('#createIDCardNumber').val(),
-				createBirthday:$('#createBirthday').val(),
-				createGender:$('#createGender').val(),
-				createCellphone:$('#createCellphone').val(),
-				createCardNumber:$('#createCardNumber').val(),
-				createrIntroducerName:$('#createrIntroducerName').val(),
-				createEnable:$('#createEnable').val()
-			},
+			data: data,
 		})
 		.done(function(response) {
 			console.log("success");

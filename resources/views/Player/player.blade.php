@@ -89,183 +89,6 @@
 </div>
 
 
-<!-- Modal -->
-<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-	<div class="modal-dialog" role="document">
-		<div class="modal-content">
-			<div class="modal-header ">
-				<h5 class="modal-title" id="exampleModalLabel">新增</h5>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<div class="modal-body">
-				...
-			</div>
-			<div class="modal-footer">
-				<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-				<button type="button" class="btn btn-primary">Save changes</button>
-			</div>
-		</div>
-	</div>
-</div>
-
-
-
-<div class="modal fade" id="addProModal" role="dialog">
-	<div class="modal-dialog">
-		<!-- Modal content-->
-		<div class="modal-content">
-			<div class="modal-header">
-				<h4 class="modal-title d-block mx-auto">新增玩家</h4>
-				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
-					<span aria-hidden="true">&times;</span>
-				</button>
-			</div>
-			<form id="addPlayerForm" name="addPlayerForm">
-				<div class="modal-body">
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">名字</span>
-							<input id="name" name="name" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">暱稱</span>
-							<input id="nickName" name="nickName" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">卡號</span>
-							<input id="cardNumber" name="cardNumber" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">身分證字號</span>
-							<input id="playerIDCardNumber" name="playerIDCardNumber" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">性別</span>
-							<select id="gender" name="gender" class="form-control player">
-								<option value=0>男性</option>
-								<option value=1>女性</option>
-								<option value=2>其他</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">生日</span>
-							<input id="birthday" name="birthday" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">職業</span>
-							<input id="career" name="career" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">介紹人名稱</span>
-							<select id="introducerName" name="introducerName" class="form-control player"  >
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">住宅地址</span>
-							<input id="address" name="address" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">住宅電話</span>
-							<select id="telephone" name="telephone" class="form-control player"  >
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">行動電話</span>
-							<input id="cellphone" name="cellphone" type="text" class="form-control player">
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">來店方式</span>
-							<label class="form-check-label mr-2">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="0">自行開車
-							</label>
-							<label class="form-check-label mr-2">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="1">交通車
-							</label>
-							<label class="form-check-label mr-2">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="2">客運
-							</label>
-							<label class="form-check-label mr-2">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="3">火車
-							</label>
-							<label class="form-check-label mr-2">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="4">其他
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">廣告接收</span>
-							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">可電話通知
-							</label>
-							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">手機簡訊
-							</label>
-							<label class="form-check-label">
-								<input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">都不收廣告
-							</label>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">婚姻狀況</span>
-							<select id="marry" name="marry" class="form-control player">
-								<option value=0>未婚</option>
-								<option value=1>已婚</option>
-							</select>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">備註</span>
-							<textarea class="form-control addProInput" rows="5" id="memo" name="memo"></textarea>
-						</div>
-					</div>
-					<div class="form-group">
-						<div class="input-group">
-							<span class="input-group-addon addPlayer">是否啟動此帳號</span>
-							<label class="form-check-label mr-2">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="0">使用
-							</label>
-							<label class="form-check-label mr-2">
-								<input class="form-check-input" type="radio" name="inlineRadioOptions" value="1">凍結
-							</label>
-						</div>
-					</div>
-				</div>
-				<div class="modal-footer">
-					<button type="submit"  id="addConfirm" class="btn btn-success" >新增</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
-				</div>
-			</form>
-		</div>
-	</div>
-</div>
-
 
 <div class="modal fade" id="createPlayer" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
@@ -280,24 +103,36 @@
 
 				<form id="createPlayerForm">
 					<div class="row">
+						<div id="createAccountDiv" class="col-md-6 form-group">
+							<label class="FormLabel">帳號</label>
+							<input id="createAccount" type="text" name="createAccount" class="form-control create createInput" required>
+						</div>
+
+						<div class="col-md-6 form-group">
+							<label class="FormLabel">密碼</label>
+							<input type="password" id="createPassword" name="createPassword" class="form-control create createInput" required>
+
+						</div>
+					</div>
+					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">姓名</label>
-							<input type="text" id="createName" name="createName" class="form-control createInput" required>
+							<input type="text" id="createName" name="createName" class="form-control create createInput" required>
 						</div>						
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">身分證字號</label>
-							<input type="text" id="createIDCardNumber" name="createIDCardNumber" class="form-control createInput" required>
+							<input type="text" id="createIDCardNumber" name="createIDCardNumber" class="form-control create createInput" required>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">生日</label>
-							<input type="text" id="createBirthday" name="createBirthday" class="form-control createInput" required>
+							<input type="text" id="createBirthday" name="createBirthday" class="form-control create createInput" required>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">性別</label>
-							<select id="createGender" name="createGender" class="form-control" required>
+							<select id="createGender" name="createGender" class="form-control create" required>
 								<option value="0">男</option>
 								<option value="1">女</option>
 							</select>
@@ -308,22 +143,22 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">行動電話</label>
-							<input type="text" id="createCellphone" name="CreateCellphone" class="form-control createInput" required>
+							<input type="text" id="createCellphone" name="CreateCellphone" class="form-control create createInput" required>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">卡號</label>
-							<input type="text" id="createCardNumber" name="createCardNumber" class="form-control createInput" required>
+							<input type="text" id="createCardNumber" name="createCardNumber" class="form-control create createInput" required>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">介紹人名稱</label>
-							<input type="text" id="createrIntroducerName" name="createrIntroducerName" class="form-control createInput" required>
+							<input type="text" id="createrIntroducerName" name="createrIntroducerName" class="form-control create createInput" required>
 						</div>							
 						
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">是否啟動此帳號</label>
-							<select name="createEnable" class="form-control" required>
+							<select id="createEnable" name="createEnable" class="form-control create" required>
 								<option value="1">啟用</option>
 								<option value="0">凍結</option>
 							</select>
@@ -335,29 +170,29 @@
 					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">暱稱</label>
-							<input type="text" id="createNickName" name="createNickName createInput" class="form-control">
+							<input type="text" id="createNickName" name="createNickName" class="form-control create createInput">
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">職業</label>
-							<input type="text" id="createCareer" name="createCareer createInput" class="form-control">
+							<input type="text" id="createCareer" name="createCareer" class="form-control create createInput">
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">住宅地址</label>
-							<input type="text" id="createAddress" name="createAddress createInput" class="form-control">
+							<input type="text" id="createAddress" name="createAddress" class="form-control create createInput">
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">住宅電話</label>
-							<input type="text" id="createTelephone" name="createTelephone createInput" class="form-control">
+							<input type="text" id="createTelephone" name="createTelephone" class="form-control create createInput">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">婚姻狀況</label>
-							<select id="createMarry" name="createMarry" class="form-control">
+							<select id="createMarry" name="createMarry" class="form-control create">
 								<option value="0">未婚</option>
 								<option value="1">已婚</option>
 							</select>
@@ -365,7 +200,7 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">來店方式</label>
-							<select id="createComing" name="createComing" class="form-control">
+							<select id="createComing" name="createComing" class="form-control create">
 								<option value="0">自行開車</option>
 								<option value="1">交通車</option>
 								<option value="2">客運</option>
@@ -376,7 +211,7 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">廣告接收</label>
-							<select id="createAd" name="createAd" class="form-control">
+							<select id="createAd" name="createAd" class="form-control create">
 								<option value="0">可電話通知</option>
 								<option value="1">手機簡訊</option>
 								<option value="2">都不收廣告</option>
@@ -385,7 +220,7 @@
 						
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">備註</label>
-							<textarea type="text" id="createMemo" name="createMemo" class="form-control createInput"></textarea>
+							<textarea type="text" id="createMemo" name="createMemo" class="form-control create createInput"></textarea>
 						</div>
 					</div>
 				</div>
