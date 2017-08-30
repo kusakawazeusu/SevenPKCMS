@@ -104,8 +104,12 @@ $(document).ready(function() {
 
     $("#OperatorSubmit").click(function(){
 
-        for( var i=0;i<CreateForm.elements.length;i++ )
-            console.log( CreateForm.elements[i].value );
+        var AjaxData = {};
+
+        for( var i=1;i<CreateForm.elements.length;i++ )
+        {
+            AjaxData[CreateForm.elements[i].name] = CreateForm.elements[i].value;
+        }
 
         if( CreateForm.checkValidity() == false || AccountDepulicatedFlag == 1)
         {
@@ -116,27 +120,15 @@ $(document).ready(function() {
             $.ajax({
                url: AjaxUrl,
                method: "POST",
-               data: {
-                   "Account": CreateForm.elements['Account'].value,
-                   "Password": CreateForm.elements['Password'].value,
-                   "Name": CreateForm.elements['Name'].value,
-                   "Type": CreateForm.elements['Type'].value,
-                   "Session": CreateForm.elements['Session'].value,
-                   "IDCardNumber": CreateForm.elements['IDCardNumber'].value,
-                   "Gender": CreateForm.elements['Gender'].value,
-                   "Birthday": CreateForm.elements['Birthday'].value,
-                   "Address": CreateForm.elements['Address'].value,
-                   "Phone": CreateForm.elements['Phone'].value,
-                   "Cellphone": CreateForm.elements['Cellphone'].value
-               },
+               data: AjaxData,
                success: function(result) {
-                    swal("新增員工成功","列表將自動更新。","success");
+                    swal("操作成功！","列表將自動更新。","success");
                     GetData(ShowEntries,Page,SeachText);
                     $("#OperatorModal").modal('toggle');
                },
                statusCode: {
                    500: function() {
-                       swal("新增員工失敗","新增員工失敗，請確認欄位是否填寫正確！","error");
+                       swal("操作失敗","請確認欄位是否填寫正確！","error");
                    }
                }
             });
