@@ -11,19 +11,19 @@ use Response;
 class PlayerController extends Controller
 {
     //
-    public function Index()
-    {
-    	$numOfEntries = 1;
-    	return view('Player.Player',['numOfEntries'=>$numOfEntries]);
-    }
+	public function Index()
+	{
+		$numOfEntries = 1;
+		return view('Player.Player',['numOfEntries'=>$numOfEntries]);
+	}
 
-    public function GetPlayer($page,$num)
-    {
+	public function GetPlayer($page,$num)
+	{
 
     	//return 'GetPlayer';
 
 
-    	$offset = $num * $page;
+		$offset = $num * $page;
 		$name = Input::get('name');
 		$cardNumber = Input::get('cardNumber');
 		$query = PlayerModel::where([
@@ -38,26 +38,39 @@ class PlayerController extends Controller
 		->limit($num)
 		->get();
 		return Response::json(['players'=>$players,'numOfEntries'=>$numOfEntries]);
-    }
+	}
 
-    public function AddPlayer()
-    {
+	public function CreatePlayer()
+	{
 
-    }
+		PlayerModel::create([
+			'Name'=>Input::get('createName'), 
+			'IDCardNumber'=>Input::get('createIDCardNumber'), 
+			'Birthday'=>Input::get('createBirthday'), 
+			'Gender'=>Input::get('createGender'), 
+			'Cellphone'=>Input::get('createCellphone'), 
+			'CardNumber'=>Input::get('createCardNumber'), 
+			'IntroducerID'=>Input::get('createrIntroducerName'), 
+			'Enable'=>Input::get('createEnable')]);
+		return 'Success';
 
-    public function EditPlayer()
-    {
+	}
 
-    }
+	public function UpdatePlayer()
+	{
 
-    public function RemovePlayer()
-    {
+	}
 
-    }
+	public function DeletePlayer()
+	{
+        PlayerModel::where('ID',Input::get('ID'))->delete();
 
-    public function StorePhoto()
-    {
+        return 'Success';
+	}
 
-    }
+	public function StorePhoto()
+	{
+
+	}
 
 }

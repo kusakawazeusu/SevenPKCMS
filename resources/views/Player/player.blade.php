@@ -5,7 +5,7 @@
 <meta name="csrf-token" content="{{ csrf_token() }}" /><!-- 切記這兩行伊定要放在body最下面---->
 <script>
 	
-	var showNum = 10;
+	var showNum = 5;
 	
 	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
 </script>
@@ -22,7 +22,7 @@
 	<br>
 	<div class="row justify-content-between">
 		<div class="col-4">
-			<button id="addPlayer" name="addPlayer" class="btn btn-primary" data-toggle="modal" data-target="#addProModal">新增</button>
+			<button id="addPlayer" name="addPlayer" class="btn btn-primary" data-toggle="modal" data-target="#createPlayer">新增會員</button>
 		</div>
 		<div class="col-5">
 			<div class="row">
@@ -94,7 +94,7 @@
 	<div class="modal-dialog" role="document">
 		<div class="modal-content">
 			<div class="modal-header ">
-				<h5 class="modal-title" id="exampleModalLabel">新增玩家</h5>
+				<h5 class="modal-title" id="exampleModalLabel">新增</h5>
 				<button type="button" class="close" data-dismiss="modal" aria-label="Close">
 					<span aria-hidden="true">&times;</span>
 				</button>
@@ -260,6 +260,138 @@
 				<div class="modal-footer">
 					<button type="submit"  id="addConfirm" class="btn btn-success" >新增</button>
 					<button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+
+
+<div class="modal fade" id="createPlayer" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+	<div class="modal-dialog modal-lg" role="document">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h4 class="modal-title d-block mx-auto">新增會員</h4>
+			</div>
+			<div class="modal-body">
+
+				<h5>必填資訊</h5>
+				<hr>
+
+				<form id="createPlayerForm">
+					<div class="row">
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">姓名</label>
+							<input type="text" id="createName" name="createName" class="form-control createInput" required>
+						</div>						
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">身分證字號</label>
+							<input type="text" id="createIDCardNumber" name="createIDCardNumber" class="form-control createInput" required>
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">生日</label>
+							<input type="text" id="createBirthday" name="createBirthday" class="form-control createInput" required>
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">性別</label>
+							<select id="createGender" name="createGender" class="form-control" required>
+								<option value="0">男</option>
+								<option value="1">女</option>
+							</select>
+						</div>						
+					</div>
+
+					<div class="row">
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">行動電話</label>
+							<input type="text" id="createCellphone" name="CreateCellphone" class="form-control createInput" required>
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">卡號</label>
+							<input type="text" id="createCardNumber" name="createCardNumber" class="form-control createInput" required>
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">介紹人名稱</label>
+							<input type="text" id="createrIntroducerName" name="createrIntroducerName" class="form-control createInput" required>
+						</div>							
+						
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">是否啟動此帳號</label>
+							<select name="createEnable" class="form-control" required>
+								<option value="1">啟用</option>
+								<option value="0">凍結</option>
+							</select>
+						</div>
+					</div>
+
+					<h5 class="mt-4">額外資訊</h5>
+					<hr>
+					<div class="row">
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">暱稱</label>
+							<input type="text" id="createNickName" name="createNickName createInput" class="form-control">
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">職業</label>
+							<input type="text" id="createCareer" name="createCareer createInput" class="form-control">
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">住宅地址</label>
+							<input type="text" id="createAddress" name="createAddress createInput" class="form-control">
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">住宅電話</label>
+							<input type="text" id="createTelephone" name="createTelephone createInput" class="form-control">
+						</div>
+					</div>
+
+					<div class="row">
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">婚姻狀況</label>
+							<select id="createMarry" name="createMarry" class="form-control">
+								<option value="0">未婚</option>
+								<option value="1">已婚</option>
+							</select>
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">來店方式</label>
+							<select id="createComing" name="createComing" class="form-control">
+								<option value="0">自行開車</option>
+								<option value="1">交通車</option>
+								<option value="2">客運</option>
+								<option value="3">火車</option>
+								<option value="4">其他</option>
+							</select>
+						</div>
+
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">廣告接收</label>
+							<select id="createAd" name="createAd" class="form-control">
+								<option value="0">可電話通知</option>
+								<option value="1">手機簡訊</option>
+								<option value="2">都不收廣告</option>
+							</select>
+						</div>
+						
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">備註</label>
+							<textarea type="text" id="createMemo" name="createMemo" class="form-control createInput"></textarea>
+						</div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button type="button" id="createPlayerSubmit" class="btn btn-primary btn-lg">送出</button>
+					<button type="button" class="btn btn-danger btn-lg" data-dismiss="modal">取消</button>
 				</div>
 			</form>
 		</div>
