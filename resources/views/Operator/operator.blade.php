@@ -262,7 +262,7 @@ function OpenCreateOperatorModal()
 {
     AjaxUrl = "{{ route('CreateOperator') }}";
     $("#OperatorModalTitle").text('新增一名員工');
-    $("#OperatorModal").children("input").val('');
+    $("input").val('');
     $("#OperatorModal").modal('toggle');
 }
 
