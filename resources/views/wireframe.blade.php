@@ -72,7 +72,7 @@
 
                         <p class="SideBarTitle">遊戲機台</p>
                         <a href="">機台機率管理</a><br>
-                        <a href="">機台分區管理</a><br>
+                        <a href="{{ url('/Machine') }}">機台分區管理</a><br>
                         <a href="">機台數值表</a><br><br>
 
                         <p class="SideBarTitle">通路</p>
