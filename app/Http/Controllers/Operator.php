@@ -33,25 +33,87 @@ class Operator extends Controller
 
     function createOperator(Request $request)
     {
+        if( $request->input('IntroToggle') )
+        {
+            DB::table('introducer')->insert([
+                'IntroducerName' => $request->input('Name'),
+                'Gender' => $request->input('Gender'),
+                'Address' => $request->input('Address'),
+                'Cellphone' => $request->input('Cellphone'),
+                'ReturnThreshold' => $request->input('IntroBonusThreshold'),
+                'ReturnCreditRate' => $request->input('IntroBonusRate'),
+                'CalcWeeks' => $request->input('BonusPeriod'),
+                'Create_at' => date("Y-m-d H:i:s"),
+            ]);
+
+            $IntroducerID = DB::table('introducer')->max('id');
+        }
+
         DB::table('Operator')->insert([
             'Account' => $request->input('Account'),
             'password' => Hash::make($request->input('Password')),
             'Name' => $request->input('Name'),
             'Type' => $request->input('Type'),
             'Session' => $request->input('Session'),
+            'IntroducerID' => $IntroducerID,
             'IDCardNumber' => $request->input('IDCardNumber'),
             'Gender' => $request->input('Gender'),
             'Birthday' => $request->input('Birthday'),
             'Address' => $request->input('Address'),
             'Phone' => $request->input('Phone'),
-            'Cellphone' => $request->input('Cellphone'),
+            'IntroBonus' => $request->input('IntroBonus'),
+            'Cellphone' => $request->input('Cellphone')
         ]);
+
+
 
         return Response('Success',200);
     }
 
     function updateOperator(Request $request)
     {
+        // 此員工還不是介紹人，新建立一個介紹人
+        if( $request->input('IntroToggle') && DB::table('Operator')->where('Account',$request->input('Account'))->first()->IntroducerID == 0)
+        {
+            DB::table('introducer')->insert([
+                'IntroducerName' => $request->input('Name'),
+                'Gender' => $request->input('Gender'),
+                'Address' => $request->input('Address'),
+                'Cellphone' => $request->input('Cellphone'),
+                'ReturnThreshold' => $request->input('IntroBonusThreshold'),
+                'ReturnCreditRate' => $request->input('IntroBonusRate'),
+                'CalcWeeks' => $request->input('BonusPeriod'),
+                'Create_at' => date("Y-m-d H:i:s"),
+            ]);
+
+            $IntroducerID = DB::table('introducer')->max('id');
+
+            DB::table('Operator')->where('Account',$request->input('Account'))->update([
+                'IntroducerID' => $IntroducerID,
+                'IntroBonus' => $request->input('IntroBonus')
+            ]);
+            
+        }
+        // 此員工已經是介紹人 純更新資料
+        else if($request->input('IntroToggle'))
+        {
+            $IntroducerID = DB::table('operator')->where('Account',$request->input('Account'))->first()->IntroducerID;
+
+            DB::table('introducer')->where('ID',$IntroducerID)->update([
+                'IntroducerName' => $request->input('Name'),
+                'Gender' => $request->input('Gender'),
+                'Address' => $request->input('Address'),
+                'Cellphone' => $request->input('Cellphone'),
+                'ReturnThreshold' => $request->input('IntroBonusThreshold'),
+                'ReturnCreditRate' => $request->input('IntroBonusRate'),
+                'CalcWeeks' => $request->input('BonusPeriod'),
+            ]);
+
+            DB::table('operator')->where('Account',$request->input('Account'))->update([
+                'IntroBonus' => $request->input('IntroBonus')
+            ]);
+        }
+
         DB::table('Operator')->where('Account',$request->input('Account'))->update([
             'Account' => $request->input('Account'),
             'password' => Hash::make($request->input('Password')),
@@ -89,7 +151,15 @@ class Operator extends Controller
 
     function getOperatorData(Request $request)
     {
-        $data = DB::table('Operator')->where('id',$request->input('id'))->first();
+        if( DB::table('Operator')->where('id',$request->input('id'))->first()->IntroducerID != 0 )
+        {
+            $data = DB::table('Operator')->where('Operator.id',$request->input('id'))->join('Introducer','Operator.IntroducerID','=','Introducer.ID')->first();
+        }
+        else
+        {
+            $data = DB::table('Operator')->where('id',$request->input('id'))->first();
+        }
+        
         return Response::json($data);
     }
 }

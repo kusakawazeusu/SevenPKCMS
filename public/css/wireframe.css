@@ -18,6 +18,11 @@
     text-align: center;
 }
 
+#IntroducerTable thead tr th
+{
+    text-align: center;
+}
+
 .FormLabel
 {
     opacity: 0.7;

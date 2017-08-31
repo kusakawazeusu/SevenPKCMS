@@ -29,7 +29,7 @@ $(document).ready(function() {
     */
 
     $("#Name").keyup(function(event){
-        if( event.keyCode > 64 && event.keyCode < 91 || event.keyCode == 8 || event.keyCode == 46 )
+        if( (event.keyCode > 64 && event.keyCode < 91) || event.keyCode == 8 || event.keyCode == 46 || (event.keyCode < 58 && event.keyCode > 47) )
         {
             SeachText = $(this).val();
             GetData(ShowEntries,Page,SeachText);
@@ -84,7 +84,7 @@ $(document).ready(function() {
     CreateForm.novalidate = false;
 
     $("#Account").focusout(function(){
-        if( $(this).val() != "" )
+        if( $(this).val() != "" && AjaxUrl == "{{ route('CreateOperator') }}" )
         {
             $.ajax({
                 url: "{{ route('CheckDepulicatedAccount') }}",
@@ -108,17 +108,29 @@ $(document).ready(function() {
 
     $("#OperatorSubmit").click(function(){
 
+        var IntroToggle;
+        if($("#IntroCheck").is(":checked"))
+            IntroToggle = '&IntroToggle=1';
+        else
+            IntroToggle = '&IntroToggle=0';
+
+        console.log($("#OperatorForm").serialize()+IntroToggle);
+
         if( CreateForm.checkValidity() == false || AccountDepulicatedFlag == 1)
         {
             $("#OperatorForm").addClass("was-validated");
         }
         else
         {
+            $("#OperatorSubmit").prop('disabled',true);
+
             $.ajax({
                url: AjaxUrl,
                method: "POST",
-               data: $("#OperatorForm").serialize(),
+               data: $("#OperatorForm").serialize()+IntroToggle,
                success: function(result) {
+                    console.log(result);
+                    $("#OperatorSubmit").prop('disabled',false);
                     $("#OperatorModal").modal('hide');
                     swal({
                         title: "操作成功！",
@@ -130,18 +142,26 @@ $(document).ready(function() {
                statusCode: {
                    500: function() {
                        swal("操作失敗","請確認欄位是否填寫正確！","error");
+                       $("#OperatorSubmit").prop('disabled',false);
                    }
                }
             });
         }
     });
 
-    $("input[name='IntroToggle']").click(function(){
+    $("#IntroCheck").click(function(){
 
         if($(this).is(":checked"))
+        {
             $("input[name*='Intro'").prop('readonly',false);
+            $("select[name='BonusPeriod']").prop('disabled',false);
+        }
         else
+        {
             $("input[name*='Intro'").prop('readonly',true);
+            $("select[name='BonusPeriod']").prop('disabled',true);
+        }
+            
 
     });
 
@@ -224,22 +244,28 @@ function DeleteOperator(id)
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: '是！',
-        cancelButtonText: '取消'
-    }).then(function () {
-        $.ajax({
-            url: "{{ route('DeleteOperator') }}",
-            data: { "id": id },
-            method: "DELETE",
-            statusCode: {
-                200: function() {
-                    swal({
-                        title: "刪除成功！",
-                        type: "success"
-                    });
-                    GetData(ShowEntries,Page,SeachText);
-                }
-            }
-        });
+        cancelButtonText: '取消',
+        showLoaderOnConfirm: true,
+        preConfirm: function() {
+            return new Promise(function(resolve) {
+
+                $.ajax({
+                    url: "{{ route('DeleteOperator') }}",
+                    data: { "id": id },
+                    method: "DELETE",
+                    statusCode: {
+                        200: function() {
+                            swal({
+                                title: "刪除成功！",
+                                type: "success"
+                            });
+                            GetData(ShowEntries,Page,SeachText);
+                        }
+                    }
+                });
+
+            });
+        }
     })
 }
 
@@ -251,6 +277,8 @@ function OpenUpdateOperatorModal(id)
         method: "GET",
         success: function(data)
         {
+            console.log(data);
+
             $("#OperatorModalTitle").text('正在編輯： '+data.Name);
             
             $("#Account").val(data.Account);
@@ -262,6 +290,28 @@ function OpenUpdateOperatorModal(id)
             $("input[name='Address']").val(data.Address);
             $("input[name='Phone']").val(data.Phone);
             $("input[name='Memo']").val(data.Memo);
+
+            if(data.IntroducerID != 0)
+            {
+                $("#IntroCheck").prop('checked',true);
+                $("#IntroCheck").prop('disabled',true);
+                $("input[name*='Intro'").prop('readonly',false);
+                $("select[name='BonusPeriod']").prop('disabled',false);
+
+                $("input[name='IntroBonusThreshold']").val(data.ReturnThreshold);
+                $("input[name='IntroBonusRate']").val(data.ReturnCreditRate);
+                $("input[name='IntroBonus']").val(data.IntroBonus);
+
+                $("select[name='BonusPeriod']").children().eq(data.CalcWeeks).prop('selected',true);
+            }
+            else
+            {
+                $("#IntroCheck").prop('checked',false);
+                $("#IntroCheck").prop('disabled',false);
+                $("input[name*='Intro'").prop('readonly',true);
+                $("input[name*='Intro'").val('');
+                $("select[name='BonusPeriod']").prop('disabled',true);
+            }
 
             $("select[name='Type']").children().eq(data.Type).prop('selected',true);
             $("select[name='Session']").children().eq(data.Session).prop('selected',true);
@@ -433,8 +483,8 @@ function OpenCreateOperatorModal()
                     <h5 class="mt-4">額外資訊</h5>
                     <hr>
                     <div class="form-check form-check-inline">
-                        <label class="form-check-label">
-                            <input class="form-check-input" type="checkbox" name="IntroToggle"> 成為介紹人
+                        <label id="IntroLebel" class="form-check-label">
+                            <input class="form-check-input" id="IntroCheck" type="checkbox"> 成為介紹人
                         </label>
                     </div>
                     <div class="row">
@@ -454,8 +504,11 @@ function OpenCreateOperatorModal()
                             </div>
     
                             <div class="col-md-3 form-group">
-                                    <label class="FormLabel">結算週期</label>
-                                    <input type="text" name="IntroBonusPeriod" class="form-control" readonly>
+                                <label class="FormLabel">結算週期</label>
+                                <select name="BonusPeriod" class="form-control" disabled>
+                                    <option value="0">每周</option>
+                                    <option value="1">每月</option>
+                                </select>
                             </div>
                     </div>
 

@@ -76,7 +76,7 @@
                         <a href="">機台數值表</a><br><br>
 
                         <p class="SideBarTitle">通路</p>
-                        <a href="">介紹人</a><br>
+                        <a href="{{ url('/introducer') }}">介紹人</a><br>
                         <a href="">經銷商</a><br><br>
 
                         <p class="SideBarTitle">報表</p>

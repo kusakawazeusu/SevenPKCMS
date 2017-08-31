@@ -19,6 +19,8 @@ Route::get('/', 'MachineMonitorController@Index');
 // Operator
 
 Route::get('/operator','Operator@ShowOperator');
+Route::get('/introducer','Introducer@ShowIntroducer');
+
 
 Route::get('/login','Login@ShowLoginForm')->name('login');
 Route::post('/login','Login@LoginAttempt');
