@@ -75,37 +75,30 @@
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
             <form id="CreditInForm" class="form-horizontal">
-            <div class="modal-body CreditInFormBody">
-                <div class="flexbox">
-                    <div class="panel panel-default">
-                        <div class="panel-body">
-                            <!-- PlayerID -->
-                            <div class="form-group CreditInFormBodyPlayerID">
-                                <div class="input-group CreditInInputPlayerID">
-                                    <span class="input-group-addon">會員編號</span>
-                                    <input id="PlayerID" class="form-control" type="text" name="PlayerID" placeholder="會員編號">
-                                </div>
-                            </div>
+                <div class="modal-body CreditInFormBody">
+                    <!-- playerCellphone -->
+                    <div class="form-group">
+                        <div class="input-group CreditInInputplayerCellphone">
+                            <span class="input-group-addon">會員電話</span>
+                            <input id="playerCellphone" class="form-control" type="text" name="playerCellphone" placeholder="會員電話">
+                        </div>
+                    </div>
 
-                            <!-- CreaditIn -->
-                            <div class="form-group CreditInFormBodyCreditIn">
-                                <div class="input-group CreditInInputCreditIn">
-                                    <span class="input-group-addon">鍵入點數</span>
-                                    <input id="CreaditIn" class="form-control" type="text" name="CreaditIn" placeholder="鍵入點數">
-                                </div>
-                            </div>
+                    <!-- CreaditIn -->
+                    <div class="form-group">
+                        <div class="input-group CreditInInputCreditIn">
+                            <span class="input-group-addon">鍵入點數</span>
+                            <input id="CreaditIn" class="form-control" type="text" name="CreaditIn" placeholder="鍵入點數">
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="modal-footer" name="add">           
-            <div>
-                <button id='CreaditInCancel' type="button" data-dismiss="modal" class="btn btn-danger"><span class="glyphicon glyphicon-remove"></span>取消</button>
-                <button id='CreaditInAccept' class="btn btn-primary"><span class="glyphicon glyphicon-ok"></span>確認</button>
-            </div> 
-        </form>  
+                <div class="modal-footer">
+                    <button id='CreditInAccept' type="button" data-dismiss="modal" class="btn btn-primary">確認</button>
+                    <button id='CreditInCancel' type="button" data-dismiss="modal" class="btn btn-danger">取消</button>
+                </div>
+            </form>  
         </div>
     </div>    
 </div>
-<!-- Create Machine -->
+
 @endsection

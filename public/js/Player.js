@@ -1,5 +1,3 @@
-
-
 var playerTable;
 $(document).ready(function() {
 
@@ -26,10 +24,7 @@ $(document).ready(function() {
 	$("#totalPage").text(pagesNum);
 
 
-	GetData(page);
-
-
-	
+	GetData(page);	
 
 	$('.deletePlayer').click(function(event) {
 		/* Act on the event */
@@ -79,20 +74,22 @@ $(document).ready(function() {
 		}
 	});
 
+	function InputTest(className)
+	{
+		var dataTest={};
+		$('.'+className).each(function(index, el) {
+			console.log(el.id);
+			dataTest[el.id] =$("#"+el.id+"").val();
+			console.log(dataTest);
+		});
+		return dataTest;
+	}
 	$('#createPlayerSubmit').click(function(event) {
+		var data = InputTest('create');
 		$.ajax({
 			url: 'Player/CreatePlayer',
 			type: 'POST',
-			data: {
-				createName:$('#createName').val(),
-				createIDCardNumber:$('#createIDCardNumber').val(),
-				createBirthday:$('#createBirthday').val(),
-				createGender:$('#createGender').val(),
-				createCellphone:$('#createCellphone').val(),
-				createCardNumber:$('#createCardNumber').val(),
-				createrIntroducerName:$('#createrIntroducerName').val(),
-				createEnable:$('#createEnable').val()
-			},
+			data: data,
 		})
 		.done(function(response) {
 			console.log("success");
@@ -169,7 +166,6 @@ function GetData(page)
 
 function DeletePlayer(ID)
 {
-	console.log(ID);
 	swal({
 		title: '確定刪除嗎?',
 		text: "將無法回復此人資料",
@@ -189,8 +185,8 @@ function DeletePlayer(ID)
 				})
 				.done(function() {
 					swal(
-						'Deleted!',
-						'Your file has been deleted.',
+						'刪除成功!',
+						'此會員已刪除.',
 						'success'
 						)
 					GetData(page);
