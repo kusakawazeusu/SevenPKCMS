@@ -11,7 +11,7 @@ function CreditIn(id) {
     $('.CreditInInputplayerCellphone #playerCellphone').val('');
     $('.CreditInInputCreditIn #CreaditIn').val('');
     $('.CreditInInputplayerCellphone #playerCellphone').prop('disabled', false);
-    console.log(id);
+    $('#CreditInAccept').val(id);
     var playerCellphone = 0;
     $.ajax({
         url: 'Machine/Monitor/GetCur',
@@ -21,11 +21,9 @@ function CreditIn(id) {
             id: id
         },
         success: function(data) {
-            console.log(data);
             playerCellphone = data.Cellphone;
         }
     })
-    console.log(playerCellphone);
     if (playerCellphone != null) {
         $('.CreditInInputplayerCellphone #playerCellphone').val(playerCellphone);
         $('.CreditInInputplayerCellphone #playerCellphone').prop('disabled', true);
@@ -34,63 +32,96 @@ function CreditIn(id) {
 }
 
 function CreditOut(id) {
-    console.log("CreditOut");
-    swal({
-        title: '確定要鍵出嗎?',
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '是, 鍵出!',
-        cancelButtonText: '取消',
-        showLoaderOnConfirm: true
-    }).then(function() {
-        swal({
-            title: '請選擇交易方式',
-            type: 'question',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: '存入帳戶',
-            cancelButtonText: '兌現',
-            showLoaderOnConfirm: true,
-            allowEscapeKey: false,
-            allowOutsideClick: false,
-            allowEnterKey: false
-        }).then(function() {
-                return new Promise(function(resolve) {
-                    $.ajax({
-                            url: 'Machine/Monitor/CreditOut',
-                            type: 'POST',
-                            data: { ID: id },
-                        })
-                        .done(function(data) {
-                            console.log(data);
-                            swal(
-                                '鍵出成功!',
-                                '',
-                                'success'
-                            );
-                        })
-                        .fail(function() {
-                            console.log("error");
-                        });
-                });
+    console.log(id);
+    $.ajax({
+            url: 'Machine/Monitor/GetCur',
+            type: 'POST',
+            data: {
+                id: id
             },
-            function(dismiss) {
-                console.log("HH");
-                swal(
-                    '兌現', '', 'info'
-                )
-            })
-    }, function(dismiss) {
-        console.log("HHH");
-        swal(
-            '取消!',
-            '',
-            'error'
-        );
-    });
+        })
+        .done(function(data) {
+            console.log(data);
+            if (data.Status != 0) {
+                swal({
+                    title: '確定要鍵出嗎?',
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: '是, 鍵出!',
+                    cancelButtonText: '取消',
+                    showLoaderOnConfirm: true
+                }).then(function() {
+                    swal({
+                        title: '請選擇交易方式',
+                        text: '要取消交易直接點選空白處',
+                        type: 'question',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: '存入帳戶',
+                        cancelButtonText: '兌現',
+                        showLoaderOnConfirm: true,
+                        allowEscapeKey: false,
+                        allowEnterKey: false
+                    }).then(function() {
+                            return new Promise(function(resolve) {
+                                $.ajax({
+                                        url: 'Machine/Monitor/CreditOut',
+                                        type: 'POST',
+                                        data: {
+                                            ID: id,
+                                            type: 'ToCredit'
+                                        },
+                                    })
+                                    .done(function(data) {
+                                        if (data.done == 'success') {
+                                            swal('鍵出成功!', '會員餘額' + data.credit, 'success');
+                                            $('#machine' + data.machineID).attr("src", src = "img/machine/offline.png");
+                                            $('#machineStatus' + data.machineID).text("離線中");
+                                        } else
+                                            swal('I have no idea', '', 'error');
+                                    })
+                                    .fail(function() {
+                                        console.log("error");
+                                    });
+                            });
+                        },
+                        function(dismiss) {
+                            if (dismiss === 'cancel') {
+                                $.ajax({
+                                        url: 'Machine/Monitor/CreditOut',
+                                        type: 'POST',
+                                        data: {
+                                            ID: id,
+                                            type: 'ToCash'
+                                        },
+                                    })
+                                    .done(function(data) {
+                                        console.log(data);
+                                        if (data.done == 'success') {
+                                            swal('兌現', '應付金額' + data.credit, 'info');
+                                            $('#machine' + data.machineID).attr("src", src = "img/machine/offline.png");
+                                            $('#machineStatus' + data.machineID).text("離線中");
+                                        } else
+                                            swal('I have no idea', '', 'error');
+                                    })
+                                    .fail(function() {
+                                        console.log("error");
+                                    });
+                            } else {
+                                CreditOut(id);
+                            }
+                        })
+                }, function(dismiss) {
+                    swal('取消!', '', 'error');
+                });
+            } else {
+                console.log("a");
+                return false;
+            }
+        });
 }
 
 function GameReserved(id) {
@@ -132,13 +163,17 @@ $(document).ready(function() {
             type: 'post',
             data: {
                 playerCellphone: $('.CreditInInputplayerCellphone #playerCellphone').val(),
-                credit: $('.CreditInInputCreditIn #CreaditIn').val()
+                credit: $('.CreditInInputCreditIn #CreaditIn').val(),
+                machineID: $('#CreditInAccept').val()
             },
             success: function(data) {
-                if (data == 1)
+                if (data.done == 'success') {
                     swal("鍵入成功", "", "success");
-                else
-                    swal("鍵入失敗", "", "error");
+                } else {
+                    swal("鍵入失敗", data.errorMsg, "error");
+                }
+                $('#machine' + data.machineID).attr("src", src = "img/machine/online.png");
+                $('#machineStatus' + data.machineID).text("連線中");
             },
             error: function(data) {
                 console.log(data);
