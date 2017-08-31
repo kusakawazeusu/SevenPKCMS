@@ -9,12 +9,16 @@
         <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/font-awesome.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/dataTables.bootstrap4.css')}}"/>
+        <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap-datepicker.min.css')}}"/>
         
         <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
         <script src="{{asset('js/popper.min.js')}}"></script>
         <script src="{{asset('js/bootstrap.min.js')}}"></script>
         <script src="{{asset('js/sweetalert2.min.js')}}"></script>
         <script src="{{asset('js/bootstrapValidator.js')}}"></script>
+
+        <script src="{{asset('js/bootstrap-datepicker.min.js')}}"></script>
+        <script src="{{asset('js/bootstrap-datepicker.zh-TW.min.js')}}"></script>
 
         <script src="{{asset('js/jquery.dataTables.min.js')}}"></script>
         <script src="{{asset('js/dataTables.bootstrap4.js')}}"></script>

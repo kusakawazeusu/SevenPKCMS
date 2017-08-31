@@ -107,13 +107,6 @@ $(document).ready(function() {
 
     $("#OperatorSubmit").click(function(){
 
-        var AjaxData = {};
-
-        for( var i=1;i<CreateForm.elements.length;i++ )
-        {
-            AjaxData[CreateForm.elements[i].name] = CreateForm.elements[i].value;
-        }
-
         if( CreateForm.checkValidity() == false || AccountDepulicatedFlag == 1)
         {
             $("#OperatorForm").addClass("was-validated");
@@ -123,11 +116,15 @@ $(document).ready(function() {
             $.ajax({
                url: AjaxUrl,
                method: "POST",
-               data: AjaxData,
+               data: $("#OperatorForm").serialize(),
                success: function(result) {
-                    swal("操作成功！","列表將自動更新。","success");
+                    $("#OperatorModal").modal('hide');
+                    swal({
+                        title: "操作成功！",
+                        text: "列表將自動更新。",
+                        type: "success",
+                        animation: true});
                     GetData(ShowEntries,Page,SeachText);
-                    $("#OperatorModal").modal('toggle');
                },
                statusCode: {
                    500: function() {
@@ -138,7 +135,21 @@ $(document).ready(function() {
         }
     });
 
+    $("input[name='IntroToggle']").click(function(){
 
+        if($(this).is(":checked"))
+            $("input[name*='Intro'").prop('readonly',false);
+        else
+            $("input[name*='Intro'").prop('readonly',true);
+
+    });
+
+    $('.datepicker').datepicker({
+        format: 'yyyy-mm-dd',
+        language: 'zh-TW',
+        startView: 'decades',
+        defaultViewDate: {year: 1900}
+    });
 });
 
 /*
@@ -152,11 +163,15 @@ $(document).ready(function() {
 */
 function GetData(ShowEntries, Page, SearchText)
 {
-    t.clear().draw();
     var SendingData = { "ShowEntries":ShowEntries, "Page":Page, "SearchText":SearchText };
 
-    $.get("{{route('GetOperators')}}",SendingData,function(data){
 
+    $.ajax({
+        url: "{{route('GetOperators')}}",
+        method: "GET",
+        data: SendingData,
+        success: function(data) {
+            t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
             $("#NumberOfEntries").text(NumberOfEntries);
@@ -191,6 +206,10 @@ function GetData(ShowEntries, Page, SearchText)
                     "<button onclick='OpenUpdateOperatorModal("+data[i].id+")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteOperator("+data[i].id+")' class='btn btn-danger'><i class='fa fa-trash'></i></button>"
                 ]).draw(false);
             }
+        },
+
+
+ 
     });
 }
 
@@ -200,10 +219,11 @@ function DeleteOperator(id)
         title: '刪除員工',
         text: "你確定要刪除此員工嗎？",
         type: 'warning',
-        showCancelButton: false,
+        showCancelButton: true,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
-        confirmButtonText: '是！'
+        confirmButtonText: '是！',
+        cancelButtonText: '取消'
     }).then(function () {
         $.ajax({
             url: "{{ route('DeleteOperator') }}",
@@ -246,7 +266,7 @@ function OpenUpdateOperatorModal(id)
             $("select[name='Session']").children().eq(data.Session).prop('selected',true);
             $("select[name='Gender']").children().eq(data.Gender).prop('selected',true);
             
-            $("#OperatorModal").modal('toggle');
+            $("#OperatorModal").modal('show');
         }
     });
 
@@ -259,7 +279,7 @@ function OpenCreateOperatorModal()
     $("#OperatorModalTitle").text('新增一名員工');
     $("input").val('');
     $("#Account").css('border','1px solid #ddd');
-    $("#OperatorModal").modal('toggle');
+    $("#OperatorModal").modal('show');
 }
 
 </script>
@@ -298,7 +318,7 @@ function OpenCreateOperatorModal()
 
 </div>
 
-<div class="col-md-12">
+<div class="row">
     <table id="OperatorTable"  class="table table-striped text-center" cellspacing="0">
             <thead>
                 <tr>
@@ -326,7 +346,7 @@ function OpenCreateOperatorModal()
 </div>
 
 <!-- Operator Modal -->
-<div class="modal fade" id="OperatorModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal" id="OperatorModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
         <div class="modal-header">
@@ -405,34 +425,37 @@ function OpenCreateOperatorModal()
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">生日</label>
-                            <input type="text" name="Birthday" class="form-control" required>
-
+                            <input type="text" name="Birthday" class="datepicker form-control" required>
                         </div>
                     </div>
 
 
-
                     <h5 class="mt-4">額外資訊</h5>
                     <hr>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label">
+                            <input class="form-check-input" type="checkbox" name="IntroToggle"> 成為介紹人
+                        </label>
+                    </div>
                     <div class="row">
                             <div class="col-md-3 form-group">
                                 <label class="FormLabel">員工介紹獎金</label>
-                                <input type="text" name="IntroBonus" class="form-control">
+                                <input type="text" name="IntroBonus" class="form-control" readonly>
                             </div>
 
                             <div class="col-md-3 form-group">
                                     <label class="FormLabel">退碼底額</label>
-                                    <input type="text" name="BonusThreshold" class="form-control">
+                                    <input type="text" name="IntroBonusThreshold" class="form-control" readonly>
                             </div>
 
                             <div class="col-md-3 form-group">
                                     <label class="FormLabel">退碼抽成數</label>
-                                    <input type="text" name="BonusRate" class="form-control">
+                                    <input type="text" name="IntroBonusRate" class="form-control" readonly>
                             </div>
     
                             <div class="col-md-3 form-group">
                                     <label class="FormLabel">結算週期</label>
-                                    <input type="text" name="BonusPeriod" class="form-control">
+                                    <input type="text" name="IntroBonusPeriod" class="form-control" readonly>
                             </div>
                     </div>
 
