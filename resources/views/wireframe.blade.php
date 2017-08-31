@@ -9,7 +9,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/font-awesome.min.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/dataTables.bootstrap4.css')}}"/>
-        <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap-datepicker.min.css')}}"/>
+        <link rel="stylesheet" type="text/css" href="{{asset('css/bootstrap-datepicker3.min.css')}}"/>
         
         <script src="{{asset('js/jquery-3.2.1.min.js')}}"></script>
         <script src="{{asset('js/popper.min.js')}}"></script>

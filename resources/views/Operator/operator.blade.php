@@ -4,14 +4,13 @@
 
 
 <script>
-
-    var NumberOfEntries = 0;
-    var Page = 0;
-    var totalPage = 0;
-    var ShowEntries = 5;
-    var SeachText = "%";
-    var t;
-    var AjaxUrl;
+var NumberOfEntries = 0;
+var Page = 0;
+var totalPage = 0;
+var ShowEntries = 5;
+var SeachText = "%";
+var t;
+var AjaxUrl;
 
 $(document).ready(function() {
     
@@ -77,6 +76,8 @@ $(document).ready(function() {
     /*
         對資料進行的操作
     */
+
+
 
     var CreateForm = document.getElementById("OperatorForm");
     var AccountDepulicatedFlag = 0;
@@ -281,7 +282,6 @@ function OpenCreateOperatorModal()
     $("#Account").css('border','1px solid #ddd');
     $("#OperatorModal").modal('show');
 }
-
 </script>
 
 <h1>員工管理</h1>
