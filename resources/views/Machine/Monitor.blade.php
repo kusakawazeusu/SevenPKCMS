@@ -32,24 +32,24 @@
             <div class="col-lg-1 col-md-2 mb-5">
                 <div id="{{$machines[$i]->ID}}" type="button" class="card machineCard machineCardTooltip" data-toggle="dropdown" >
                     @if($machines[$i]->Status == 0)   {{-- 未連線 --}}
-                        <img class="card-img-top" src="{{asset('img/machine/offline.png')}}" alt="Card image cap">
+                        <img id="machine{{$machines[$i]->ID}}" class="card-img-top" src="{{asset('img/machine/offline.png')}}" alt="Card image cap">
                     @elseif($machines[$i]->Status == 1)   {{-- 連線中 --}}
-                        <img class="card-img-top" src="{{asset('img/machine/online.png')}}" alt="Card image cap">
+                        <img id="machine{{$machines[$i]->ID}}" class="card-img-top" src="{{asset('img/machine/online.png')}}" alt="Card image cap">
                     @elseif($machines[$i]->Status == 2)   {{-- 保留中 --}}
-                        <img class="card-img-top" src="{{asset('img/machine/event.png')}}" alt="Card image cap">
+                        <img id="machine{{$machines[$i]->ID}}" class="card-img-top" src="{{asset('img/machine/event.png')}}" alt="Card image cap">
                     @else   {{-- 有問題 --}}
                         <img class="card-img-top" src="{{asset('img/machine/none.png')}}" alt="Card image cap">
                     @endif
                     <div class="card-body">
                         <h6 class="card-title">第{{$machines[$i]->ID}}台</h6>
                         @if($machines[$i]->Status == 0)   {{-- 未連線 --}}
-                        <p id = "test" class="card-text test">離線中</p>
+                        <p id = "machineStatus{{$machines[$i]->ID}}" class="card-text">離線中</p>
                         @elseif($machines[$i]->Status == 1)   {{-- 連線中 --}}
-                        <p class="card-text">連線中</p>
+                        <p id = "machineStatus{{$machines[$i]->ID}}" class="card-text">連線中</p>
                         @elseif($machines[$i]->Status == 2)   {{-- 保留中 --}}
-                        <p class="card-text">保留中</p>
+                        <p id = "machineStatus{{$machines[$i]->ID}}" class="card-text">保留中</p>
                         @else   {{-- 有問題 --}}
-                        <p class="card-text">有問題</p>
+                        <p id = "machineStatus{{$machines[$i]->ID}}" class="card-text">有問題</p>
                         @endif
                     </div>
                 </div>                 
