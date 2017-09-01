@@ -20,7 +20,7 @@ Route::get('/', 'MachineMonitorController@Index');
 
 Route::get('/operator','Operator@ShowOperator');
 Route::get('/introducer','Introducer@ShowIntroducer');
-
+Route::get('/agent','Agent@ShowAgent');
 
 Route::get('/login','Login@ShowLoginForm')->name('login');
 Route::post('/login','Login@LoginAttempt');

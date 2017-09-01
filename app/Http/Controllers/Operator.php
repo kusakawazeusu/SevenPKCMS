@@ -33,6 +33,8 @@ class Operator extends Controller
 
     function createOperator(Request $request)
     {
+        $IntroducerID = 0;
+
         if( $request->input('IntroToggle') )
         {
             DB::table('introducer')->insert([

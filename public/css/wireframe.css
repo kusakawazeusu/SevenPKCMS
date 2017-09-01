@@ -22,8 +22,17 @@
 {
     text-align: center;
 }
+#AgentTable thead tr th
+{
+    text-align: center;
+}
+#CreditLogTable thead tr th
+{
+    text-align: center;
+}
 
 .FormLabel
 {
     opacity: 0.7;
 }
+

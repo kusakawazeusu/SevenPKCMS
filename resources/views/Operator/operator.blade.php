@@ -1,6 +1,9 @@
 @extends('wireframe')
 
+@section('title','員工管理')
+
 @section('content')
+
 
 
 <script>
@@ -195,6 +198,7 @@ function GetData(ShowEntries, Page, SearchText)
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
+            Page = 0;
             $("#NumberOfEntries").text(NumberOfEntries);
             $("#totalPage").text( totalPage );
             $("#page").text(Page+1);
@@ -341,7 +345,7 @@ function OpenCreateOperatorModal()
 <div class="row justify-content-between">
 
     <div class="col-md-2">
-        <button class="btn btn-primary" onclick="OpenCreateOperatorModal()">新增員工</button>
+        <button class="btn btn-primary" onclick="OpenCreateOperatorModal()"><i class="fa fa-user-plus"></i> 新增員工</button>
     </div>
 
     <div class="col-md-5 mr-3">
@@ -385,13 +389,13 @@ function OpenCreateOperatorModal()
 
 <div class="row justify-content-between mt-4">
         <div class="col-4">
-            <div class="text-left"><a id="previousPage" class="btn btn-light" role="button">返回上一頁</a></div>
+            <div class="text-left"><a id="previousPage" class="btn btn-light" role="button"><i class="fa fa-arrow-left"></i> 上一頁</a></div>
         </div>
         <div class="col-4">
             <p class="text-center">資料共<font id="NumberOfEntries"></font>筆，總共<font id="totalPage"></font>頁，目前在第<font id="page"></font>頁。</p>
         </div>
         <div class="col-4">
-            <div class="text-right"><a id="nextPage" class="btn btn-light" role="button">前往下一頁</a></div>
+            <div class="text-right"><a id="nextPage" class="btn btn-light" role="button">下一頁 <i class="fa fa-arrow-right"></i> </a></div>
         </div>
 </div>
 
@@ -530,7 +534,7 @@ function OpenCreateOperatorModal()
                     </div>
         </div>
         <div class="modal-footer">
-            <button type="button" id="OperatorSubmit" class="btn btn-primary btn-lg mx-auto">送出</button>
+            <button type="button" id="OperatorSubmit" class="btn btn-primary btn-lg mx-auto"><i class="fa fa-check"></i> 送出</button>
         </div>
         </form>
     </div>

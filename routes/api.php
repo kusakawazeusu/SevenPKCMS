@@ -18,8 +18,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 });
 
 // Operator API
-Route::get('operator/get', 'Operator@getOperators')->name('GetOperators');
-Route::get('operator/getbyid','Operator@getOperatorData')->name('GetOperatorById');
+Route::get('operators', 'Operator@getOperators')->name('GetOperators');
+Route::get('operator','Operator@getOperatorData')->name('GetOperatorById');
 Route::post('operator/post','Operator@createOperator')->name('CreateOperator');
 Route::post('operator/checkDepulicatedAccount','Operator@checkDepulicatedAccount')->name('CheckDepulicatedAccount');
 Route::post('operator/update','Operator@updateOperator')->name('UpdateOperator');
@@ -31,3 +31,13 @@ Route::get('introducer/getbyid','Introducer@getIntroducerData')->name('GetIntrod
 Route::post('introducer/post','Introducer@createIntroducer')->name('CreateIntroducer');
 Route::post('introducer/update','Introducer@updateIntroducer')->name('UpdateIntroducer');
 Route::delete('introducer/delete','Introducer@deleteIntroducer')->name('DeleteIntroducer');
+
+// Agent API
+Route::get('agents', 'Agent@getAgent')->name('GetAgents');
+Route::get('agent','Agent@getAgentData')->name('GetAgentById');
+Route::post('agent','Agent@createAgent')->name('CreateAgent');
+Route::patch('agent','Agent@updateAgent')->name('UpdateAgent');
+Route::delete('agent','Agent@deleteAgent')->name('DeleteAgent');
+
+Route::patch('credit','Agent@manipulateCredit')->name('ManipulateCredit');
+Route::get('creditlogs','Agent@getCreditLog')->name('GetCreditLog');

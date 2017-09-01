@@ -27,7 +27,7 @@
         <link rel="stylesheet" type="text/css" href="{{asset('css/wireframe.css')}}">
         <link rel="stylesheet" type="text/css" href="{{asset('css/sweetalert2.min.css')}}">
 
-        <title>SevenPK CMS</title>
+        <title>@yield('title') - 7PK管理系統</title>
 
     </head>
     <body>
@@ -77,7 +77,7 @@
 
                         <p class="SideBarTitle">通路</p>
                         <a href="{{ url('/introducer') }}">介紹人</a><br>
-                        <a href="">經銷商</a><br><br>
+                        <a href="{{ url('/agent') }}">經銷商</a><br><br>
 
                         <p class="SideBarTitle">報表</p>
                         <a href="">報表管理</a><br>
