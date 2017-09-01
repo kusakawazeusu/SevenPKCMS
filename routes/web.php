@@ -11,17 +11,17 @@
 |
 */
 
-include 'Player.php';
-include 'MachineRoute.php';
+Route::middleware(['auth'])->group(function(){
 
-Route::get('/', 'MachineMonitorController@Index');
+    include 'Player.php';
+    include 'MachineRoute.php';
 
-// Operator
-
-Route::get('/operator','Operator@ShowOperator');
-Route::get('/introducer','Introducer@ShowIntroducer');
-Route::get('/agent','Agent@ShowAgent');
-
+    Route::get('/', 'MachineMonitorController@Index');
+    Route::get('/operator','Operator@ShowOperator');
+    Route::get('/introducer','Introducer@ShowIntroducer');
+    Route::get('/agent','Agent@ShowAgent');
+    
+});
 Route::get('/login','Login@ShowLoginForm')->name('login');
 Route::post('/login','Login@LoginAttempt');
 Route::get('/logout','Login@Logout');
