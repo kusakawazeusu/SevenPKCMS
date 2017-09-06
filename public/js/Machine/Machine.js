@@ -65,25 +65,47 @@ $(document).ready(function () {
         對資料進行的操作
     */
 
-    var CreateForm = document.getElementById("IntroducerForm");
+    var CreateForm = document.getElementById("MachineForm");
     CreateForm.novalidate = false;
 
-    $("#IntroducerSubmit").click(function () {
+    $("#MachineSubmit").click(function () {
+
+        $.ajax({
+            url: 'Machine/Create',
+            method: "POST",
+            data: $("#MachineForm").serialize(),
+            success: function (result) {
+                $("#MachineSubmit").prop('disabled', false);
+                $("#MachineModal").modal('hide');
+                swal({
+                    title: "操作成功！",
+                    text: "列表將自動更新。",
+                    type: "success",
+                    animation: true
+                });
+                GetData(ShowEntries, Page, SeachText);
+            },
+            statusCode: {
+                500: function () {
+                    swal("操作失敗", "請確認欄位是否填寫正確！", "error");
+                }
+            }
+        });
 
         if (CreateForm.checkValidity() == false) {
-            $("#IntroducerForm").addClass("was-validated");
+            $("#MachineForm").addClass("was-validated");
         }
         else {
-            $("#IntroducerSubmit").prop('disabled', true);
-            console.log($("#IntroducerForm").serialize());
+            $("#MachineSubmit").prop('disabled', true);
+            console.log($("#MachineForm").serialize());
 
             $.ajax({
-                url: AjaxUrl,
+                url: 'Machine/Create',
                 method: "POST",
-                data: $("#IntroducerForm").serialize(),
+                data: $("#MachineForm").serialize(),
                 success: function (result) {
-                    $("#IntroducerSubmit").prop('disabled', false);
-                    $("#IntroducerModal").modal('hide');
+                    $("#MachineSubmit").prop('disabled', false);
+                    $("#MachineModal").modal('hide');
                     swal({
                         title: "操作成功！",
                         text: "列表將自動更新。",
@@ -231,7 +253,6 @@ function OpenUpdateIntroducerModal(id) {
 }
 
 function OpenCreateMachineModal() {
-    AjaxUrl = "{{ route('CreateIntroducer') }}";
     $("#MachineModalTitle").text('新增一台機台');
     $("input").val('');
     $("#MachineModal").modal('show');

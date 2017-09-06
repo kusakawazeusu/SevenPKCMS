@@ -11,4 +11,9 @@ class MachineController extends Controller
     {
         return view('Machine.Machine');
     }
+
+    public function Create()
+    {
+        return 1;
+    }
 }

@@ -116,7 +116,7 @@
             </div>
             <div class="modal-body">
 
-                <form id="IntroducerForm">
+                <form id="MachineForm">
                     <input type="hidden" name="id" class="form-control" required>
 
                     <div class="row">
@@ -247,7 +247,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" id="IntroducerSubmit" class="btn btn-primary btn-lg mx-auto">送出</button>
+                <button type="button" id="MachineSubmit" class="btn btn-primary btn-lg mx-auto">送出</button>
             </div>
             </form>
         </div>
