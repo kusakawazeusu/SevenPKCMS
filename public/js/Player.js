@@ -15,21 +15,17 @@ $(document).ready(function() {
 		TakePhoto(globalType,globalID);
 	});
 
-	/*$('#TakePictureModal').on('shown.bs.modal', function() { //
-		// do something...
-		console.log('open');
-		Webcam.set({
-			width: 400,
-			height: 400,
-			image_format: 'jpeg',
-			jpeg_quality: 90
-		});
-		Webcam.attach( '#my_camera' );
-	});*/
-
 	$('#TakePictureModal').on('hide.bs.modal', function() { //當一個modal關閉時，要把所以有的值恢復起始
 		// do something...
 		Webcam.reset()
+	});
+
+	$('#updatePicture').click(function(event) {
+		/* Act on the event */
+		console.log('update');
+		InitCamera();
+		$('#updatePicture').hide();
+		$('#takePictureConfirm').show();
 	});
 
 
@@ -71,6 +67,12 @@ $(document).ready(function() {
 		/* Act on the event */
 
 		DeletePlayer($(this).val());
+	});
+
+	
+
+	$('.search').on('keyup change', function(event) {
+		GetData(page);
 	});
 
 	$("#nextPage").click(function(){
@@ -156,8 +158,8 @@ function GetData(page)
 		url: 'Player/'+page+'/'+showNum,
 		type: 'GET',
 		data: {
-			name: $('.search#name').val(),
-			cardNumber:$('.search#cardNumber').val()
+			name: $('#searchName').val(),
+			cardNumber:$('#searchCardNumber').val()
 		},
 	})
 	.done(function(response) {
@@ -175,7 +177,7 @@ function GetData(page)
 				response['players'][i].CardType,
 				response['players'][i].IDCardNumber,
 				response['players'][i].Cellphone,
-				response['players'][i].IntroducerID,
+				response['players'][i].IntroducerName,
 				'<td style="text-align:center">'+
 
 				'<button class="btn btn-primary mr-1" id="IDCardPhoto"' + response['players'][i].ID+'"'+
@@ -195,7 +197,7 @@ function GetData(page)
 
 		entries = response['numOfEntries'];
 			pagesNum = Math.ceil(entries / showNum);  // 記錄總共有幾頁
-
+			$('#NumberOfEntries').text(entries);
 			$("#totalPage").text(pagesNum);
 
 			$("#page").text(page+1);
@@ -275,6 +277,8 @@ function TakePhoto(Type,ID)
 		})
 		.done(function() {
 			console.log("success");
+			$('#takePictureConfirm').hide();
+			$('#updatePicture').show();
 		})
 		.fail(function() {
 			console.log("error");
@@ -295,16 +299,18 @@ function CheckPhoto(Type,ID)
 		if(response['valid']==true)
 		{
 			InitCamera();
+			$('#takePictureConfirm').show();
+			$('#updatePicture').hide();
 			$('#TakePictureModal').modal('toggle');
 			globalType = Type;
 			globalID = ID;
-
-			//TakePhoto(Type,ID);
 		}
 		else
 		{			
 			document.getElementById('my_camera').innerHTML = '<img id="Photo" src="'+response['Photo']+'"/>';
 			$('#TakePictureModal').modal('toggle');
+			$('#takePictureConfirm').hide();			
+			$('#updatePicture').show();
 
 		}
 	})

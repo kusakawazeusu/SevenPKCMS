@@ -24,11 +24,10 @@ class PlayerController extends Controller
 
     	//return 'GetPlayer';
 
-
 		$offset = $num * $page;
 		$name = Input::get('name');
 		$cardNumber = Input::get('cardNumber');
-		$query = PlayerModel::where([
+		$query = DB::table('playerview')->where([
 			['Name','LIKE','%'.$name.'%'],			
 			['CardNumber','LIKE','%'.$cardNumber.'%']
 			]);
@@ -44,7 +43,8 @@ class PlayerController extends Controller
 
 	public function CreatePlayer()
 	{
-		PlayerModel::create([
+
+		$newID = PlayerModel::create([
 			'Account'=>Input::get('Account'),
 			'Password'=>Hash::make(Input::get('Password')),
 			'Name'=>Input::get('Name'), 
@@ -61,8 +61,9 @@ class PlayerController extends Controller
 			'Marry'=>Input::get('Marry'),
 			'Coming'=>Input::get('Coming'),
 			'ReceiveAd'=>Input::get('ReceiveAd'),
-			'CardNumber'=>PlayerModel::max('id')+1,
-			'Memo'=>Input::get('Memo')]);
+			'CardType'=>'會員',
+			'Memo'=>Input::get('Memo')])->ID;
+		PlayerModel::where('ID','=',$newID)->update(['CardNumber'=>$newID]);
 		return 'Success';
 
 	}
