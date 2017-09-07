@@ -44,7 +44,7 @@ var operatorID = {{ Auth::user()->id }};
                         <img class="card-img-top" src="{{asset('img/machine/none.png')}}" alt="Card image cap">
                     @endif
                     <div class="card-body">
-                        <h6 class="card-title">第{{$machines[$i]->ID}}台</h6>
+                        <h6 class="card-title">第{{$machines[$i]->MachineName}}台</h6>
                         @if($machines[$i]->Status == 0)   {{-- 未連線 --}}
                         <p id = "machineStatus{{$machines[$i]->ID}}" class="card-text">離線中</p>
                         @elseif($machines[$i]->Status == 1)   {{-- 連線中 --}}

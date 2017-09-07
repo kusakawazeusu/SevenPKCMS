@@ -6,5 +6,6 @@
     Route::post('/Monitor/CreditIn', 'MachineMonitorController@CreditIn');
     Route::post('/Monitor/CreditOut', 'MachineMonitorController@CreditOut');
     Route::get('/', 'MachineController@Index');
-    Route::get('/Create', 'MachineController@Create');
+    Route::get('/GetTableData', 'MachineController@GetTableData');
+    Route::post('/Create', 'MachineController@Create');
   });

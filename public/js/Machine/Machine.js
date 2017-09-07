@@ -8,6 +8,12 @@ var AjaxUrl;
 
 $(document).ready(function () {
 
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') //處理csrf token
+        }
+    });
+
     t = $('#MachineTable').DataTable({
         "paging": false,
         "info": false,
@@ -69,41 +75,17 @@ $(document).ready(function () {
     CreateForm.novalidate = false;
 
     $("#MachineSubmit").click(function () {
-
-        $.ajax({
-            url: 'Machine/Create',
-            method: "POST",
-            data: $("#MachineForm").serialize(),
-            success: function (result) {
-                $("#MachineSubmit").prop('disabled', false);
-                $("#MachineModal").modal('hide');
-                swal({
-                    title: "操作成功！",
-                    text: "列表將自動更新。",
-                    type: "success",
-                    animation: true
-                });
-                GetData(ShowEntries, Page, SeachText);
-            },
-            statusCode: {
-                500: function () {
-                    swal("操作失敗", "請確認欄位是否填寫正確！", "error");
-                }
-            }
-        });
-
         if (CreateForm.checkValidity() == false) {
             $("#MachineForm").addClass("was-validated");
         }
         else {
             $("#MachineSubmit").prop('disabled', true);
-            console.log($("#MachineForm").serialize());
-
             $.ajax({
                 url: 'Machine/Create',
                 method: "POST",
                 data: $("#MachineForm").serialize(),
                 success: function (result) {
+                    console.log(result);
                     $("#MachineSubmit").prop('disabled', false);
                     $("#MachineModal").modal('hide');
                     swal({
@@ -126,18 +108,18 @@ $(document).ready(function () {
 
 /*
     This function is used for getting data from API.
-
+ 
     @params
         - ShowEntries : Indicated the number of records we query from the API.
         - Page : We needs this to calculate the data offset.
         - SearchText : The keyword we're searching for.
-
+ 
 */
 function GetData(ShowEntries, Page, SearchText) {
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
     $.ajax({
-        url: "{{route('GetIntroducers')}}",
+        url: 'Machine/GetTableData',
         method: "GET",
         data: SendingData,
         success: function (data) {
@@ -151,45 +133,45 @@ function GetData(ShowEntries, Page, SearchText) {
             var NumOfData = Object.keys(data).length - 1;
 
             for (var i = 0; i < NumOfData; i++) {
-                var Gender, CalcMethod;
 
-                switch (data[i].Gender) {
-                    case 0:
-                        Gender = "男";
+                var oneBet;
+                switch (data[i].SectionID) {
+                    case 0: oneBet = 2;
                         break;
-                    case 1:
-                        Gender = "女";
+                    case 1: oneBet = 3;
                         break;
-                    case 2:
-                        Gender = "其他";
+                    case 2: oneBet = 5;
+                        break;
+                    case 3: oneBet = 10;
+                        break;
+                    default:
                         break;
                 }
-
-                switch (data[i].CalcWeeks) {
-                    case 0:
-                        CalcMethod = "每周";
-                        break;
-                    case 1:
-                        CalcMethod = "每月";
-                        break;
-                }
-
                 t.row.add([
-                    data[i].IntroducerName,
-                    data[i].Cellphone,
-                    Gender,
-                    data[i].Address,
-                    data[i].ReturnThreshold,
-                    data[i].ReturnCreditRate,
-                    CalcMethod,
-                    data[i].Create_at,
-                    "<button onclick='OpenUpdateIntroducerModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteIntroducer(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>"
+                    "<button onclick='OpenUpdateIntroducerModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteIntroducer(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>",
+                    data[i].ID,
+                    data[i].AgentID,
+                    data[i].MachineName,
+                    data[i].SectionID,
+                    oneBet,
+                    data[i].MaxDepositCredit,
+                    data[i].DepositCreditOnce,
+                    data[i].MinCoinOut,
+                    data[i].MaxCoinIn,
+                    data[i].CoinInOnce,
+                    data[i].CoinInBonus,
+                    data[i].TwoPairsOdd,
+                    data[i].ThreeOfAKindOdd,
+                    data[i].StraightOdd,
+                    data[i].FlushOdd,
+                    data[i].FullHouseOdd,
+                    data[i].FourOfAKindOdd,
+                    data[i].STRFlushOdd,
+                    data[i].FiveOfAKindOdd,
+                    data[i].RoyalFlushOdd
                 ]).draw(false);
             }
         },
-
-
-
     });
 }
 
@@ -255,5 +237,15 @@ function OpenUpdateIntroducerModal(id) {
 function OpenCreateMachineModal() {
     $("#MachineModalTitle").text('新增一台機台');
     $("input").val('');
+    $('input[name="TwoPairsOdd"]').val('1');
+    $('input[name="ThreeOfAKindOdd"]').val('2');
+    $('input[name="StraightOdd"]').val('3');
+    $('input[name="FlushOdd"]').val('5');
+    $('input[name="FullHouseOdd"]').val('7');
+    $('input[name="FourOfAKindOdd"]').val('50');
+    $('input[name="STRFlushOdd"]').val('120');
+    $('input[name="FiveOfAKindOdd"]').val('200');
+    $('input[name="RoyalFlushOdd"]').val('500');
+    $("#MachineForm").removeClass("was-validated");
     $("#MachineModal").modal('show');
 }

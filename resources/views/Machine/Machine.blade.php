@@ -76,6 +76,7 @@
                 <th>開分最大金額</th>
                 <th>開分一次加多少金額</th>
                 <th>最少可以上分金額</th>
+                <th>最大可以下分金額</th>
                 <th>下分金額</th>
                 <th>下分額外的贈分</th>
                 <th>兩對賠率</th>
@@ -121,25 +122,22 @@
 
                     <div class="row">
 
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-3 form-group">
                             <label class="FormLabel">經銷商編號</label>
                             <input type="text" name="AgentID" class="form-control" required>
                         </div>
-<!--
+
                         <div class="col-md-3 form-group">
-                            <label class="FormLabel">性別</label>
-                            <select name="Gender" class="form-control" required>
-                            <option value="0">男</option>
-                            <option value="1">女</option>
-                            </select>
+                            <label class="FormLabel">機台名稱(編號)</label>
+                            <input type="text" name="MachineName" class="form-control" required>
                         </div>
--->
-                        <div class="col-md-4 form-group">
+
+                        <div class="col-md-3 form-group">
                             <label class="FormLabel">機台IP位址</label>
                             <input type="text" name="IPAddress" class="form-control" required>
                         </div>
 
-                        <div class="col-md-4 form-group">
+                        <div class="col-md-3 form-group">
                             <label class="FormLabel">分區編號</label>
                             <select name="SectionID" class="form-control" required>
                                 <option value="0">2</option>
