@@ -30,12 +30,9 @@ $(document).ready(function() {
         對表格進行的操作。
     */
 
-    $("#Name").keyup(function(event){
-        if( (event.keyCode > 64 && event.keyCode < 91) || event.keyCode == 8 || event.keyCode == 46 || (event.keyCode < 58 && event.keyCode > 47) )
-        {
-            SeachText = $(this).val();
-            GetData(ShowEntries,Page,SeachText);
-        }
+    $("#Name").on('input',function(event){
+        SeachText = $(this).val();
+        GetData(ShowEntries,Page,SeachText);
     });
 
     $(".ShowEntries").change(function(){

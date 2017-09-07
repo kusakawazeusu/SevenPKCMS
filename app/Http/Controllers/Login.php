@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Auth;
 use Session;
+use DB;
+use Response;
 
 class Login extends Controller
 {
@@ -23,6 +25,23 @@ class Login extends Controller
 
         if( Auth::attempt($UserData) )
         {
+            $NonShift = DB::table('session')->where('id',Auth::user()->SessionID)->whereNull('EndTime')->first();
+
+            if( !$NonShift )
+            {
+                DB::table('session')->insert([
+                    'OperatorID' => Auth::user()->id,
+                    'Status' => 1,
+                    'StartTime' => date('Y-m-d H:i:s'),
+                ]);
+
+                $Shift = DB::table('session')->where('OperatorID',Auth::user()->id)->orderBy('StartTime','dsc')->whereNull('EndTime')->first();
+
+                DB::table('operator')->where('id',Auth::user()->id)->update([
+                    'SessionID' => $Shift->ID
+                ]);
+            }
+
             return redirect('/');
         }
         else

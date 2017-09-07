@@ -41,9 +41,12 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mr-auto">
                 </ul>
+                @if(!Auth::guest())
+                <a href="{{ url('/knockoff') }}" class="btn btn-light mr-3">下班</a>
+                <a href="{{ url('/shift') }}" class="btn btn-light mr-3">交班</a>
+                @endif
                 <span class="navbar-text mr-3">
-                    @if(Auth::guest())
-                    @else
+                    @if(!Auth::guest())
                     你好，{{ Auth::user()->Name }}！
                     @endif
                 </span>

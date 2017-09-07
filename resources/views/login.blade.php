@@ -1,5 +1,7 @@
 @extends('wireframe')
 
+@section('title','登入系統')
+
 @section('content')
 
 <div class="row justify-content-center">
@@ -9,6 +11,11 @@
         <div class="card">
             <div class="card-body">
                 <h4 class="card-title text-center"><strong>登入</strong></h4>
+                @if(session('error'))
+                <div class="alert alert-danger">
+                    {{ session('error') }}
+                </div>
+                @endif
                 <hr>
                 <form method="POST" action="{{ route('login') }}">
                     {{ csrf_field() }}

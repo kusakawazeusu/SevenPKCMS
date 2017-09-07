@@ -20,7 +20,11 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/operator','Operator@ShowOperator');
     Route::get('/introducer','Introducer@ShowIntroducer');
     Route::get('/agent','Agent@ShowAgent');
-    
+
+    Route::get('/knockoff','Shift@KnockOffCount');
+    Route::post('/knockoff','Shift@KnockOff');
+    Route::get('/shift','Shift@ShiftCount');
+    Route::post('/shift','Shift@Shift');
 });
 Route::get('/login','Login@ShowLoginForm')->name('login');
 Route::post('/login','Login@LoginAttempt');
