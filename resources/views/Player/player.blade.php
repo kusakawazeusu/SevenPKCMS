@@ -12,11 +12,9 @@
 	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
 </script>
 <script src="{{asset('js/Player.js')}}"></script>
+<script src="{{asset('js/webcam.min.js')}}"></script>
+<script src="{{asset('js/webcam.swf')}}"></script>
 <style>
-	.input-group-addon.addPlayer {
-		min-width:120px;
-		text-align:center;
-	}
 </style>
 <div>
 	<h1>帳號系統</h1>
@@ -24,7 +22,8 @@
 	<br>
 	<div class="row justify-content-between">
 		<div class="col-4">
-			<button id="addPlayer" name="addPlayer" class="btn btn-primary" data-toggle="modal" data-target="#createPlayer">新增會員</button>
+			<button id="createPlayerBtn" name="createPlayerBtn" class="btn btn-primary" data-toggle="modal" data-target="#playerModal">新增會員</button>
+			<button type="button" class="btn btn-success" id="TakePicture" data-toggle="modal" data-target="#TakePictureModal">Take Picture</button>
 		</div>
 		<div class="col-5">
 			<div class="row">
@@ -92,7 +91,9 @@
 
 
 
-<div class="modal fade" id="createPlayer" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+
+
+<div class="modal fade" id="playerModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -104,6 +105,7 @@
 				<hr>
 
 				<form id="createPlayerForm">
+					<input type="hidden" id="ID" name="ID">
 					<div class="row">
 						<div id="createAccountDiv" class="col-md-6 form-group">
 							<label class="FormLabel">帳號(行動電話)</label>
@@ -223,5 +225,25 @@
 			</form>
 		</div>
 	</div>
+</div>
+
+
+
+<div class="TakePictureModalDiv">
+	<div class="modal fade" id="TakePictureModal" role="dialog" aria-hidden="true" tabindex="-1" aria-labelledby="myModalLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="container-fluid " >
+						<div id="my_camera" class="d-block mx-auto" style="width:500px; height:500px;"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="takePictureConfirm" type="button" class="btn btn-success">拍照</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>  
 </div>
 @endsection
