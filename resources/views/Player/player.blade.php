@@ -22,7 +22,7 @@
 	<br>
 	<div class="row justify-content-between">
 		<div class="col-4">
-			<button id="createPlayerBtn" name="createPlayerBtn" class="btn btn-primary" data-toggle="modal" data-target="#playerModal">新增會員</button>
+			<button id="createPlayerBtn" name="createPlayerBtn" class="btn btn-primary" data-toggle="modal" data-target="#playerModal"><i class="fa fa-user-plus"></i> 新增會員</button>
 		</div>
 		<div class="col-6">
 			<div class="row">
@@ -33,7 +33,7 @@
 							<option value="5">5</option>
 							<option value="10">10</option>
 							<option value="20">20</option>
-							<option value="all">ALL</option>
+							<option value="all">全部</option>
 						</select>
 					</div>
 					<div class=" input-group mr-2">
@@ -70,13 +70,13 @@
 </div> 
 <div class="row justify-content-between">
 	<div class="col-4">
-		<div class="text-left"><a id="previousPage" class="btn btn-light" role="button">返回上一頁</a></div>
+		<div class="text-left"><a id="previousPage" class="btn btn-light" role="button"><i class="fa fa-arrow-left"></i> 上一頁</a></div>
 	</div>
 	<div class="col-4">
 		<p class="text-center">資料共<font id="NumberOfEntries"></font>筆，總共<font id="totalPage"></font>頁，目前在第<font id="page"></font>頁。</p>
 	</div>
 	<div class="col-4">
-		<div class="text-right"><a id="nextPage" class="btn btn-light" role="button">前往下一頁</a></div>
+		<div class="text-right"><a id="nextPage" class="btn btn-light" role="button">下一頁 <i class="fa fa-arrow-right"></i> </a></div>
 	</div>
 </div>
 
