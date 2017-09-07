@@ -25,6 +25,9 @@
       height: 100%;
     }    
 </style>
+<script>
+var operatorID = {{ Auth::user()->id }};
+</script>
 
 <div class="jumbotron">
     <div class="row">
