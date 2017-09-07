@@ -1,10 +1,16 @@
 var playerTable;
+var ajaxUrl;
 $(document).ready(function() {
 
 	$.ajaxSetup({
 		headers: {
 			'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') //處理csrf token
 		}
+	});
+
+	$('#addPlayer').click(function(event) {
+		/* Act on the event */
+		$('#playerModalTitle').text('新增會員');
 	});
 
 
@@ -19,6 +25,13 @@ $(document).ready(function() {
 		"bAutoWidth": false
 	});
 
+	$('#Birthday').datepicker({
+		format: 'yyyy-mm-dd',
+		language: 'zh-TW',
+		startView: 'decades',
+		autoclose: 1,
+		defaultViewDate: {year: 1900}
+	});
 	
 	$("#page").text('1');
 	$("#totalPage").text(pagesNum);
@@ -74,7 +87,7 @@ $(document).ready(function() {
 		}
 	});
 
-	function InputTest(className)
+	function GetInput(className)
 	{
 		var dataTest={};
 		$('.'+className).each(function(index, el) {
@@ -84,12 +97,12 @@ $(document).ready(function() {
 		});
 		return dataTest;
 	}
-	$('#createPlayerSubmit').click(function(event) {
-		var data = InputTest('create');
+
+	$('#playerSubmit').click(function(event) {
 		$.ajax({
 			url: 'Player/CreatePlayer',
 			type: 'POST',
-			data: data,
+			data: $('#createPlayerForm').serialize(),
 		})
 		.done(function(response) {
 			console.log("success");
@@ -124,8 +137,8 @@ function GetData(page)
 		{
 			playerTable.row.add([
 				'<td style="text-align:center">'+
-				'<button class="btn btn-warning mr-1"><i class="fa fa-edit aria-hidden="true"></i></button>'+
-				'<button class="btn btn-danger deletePlayer mr-1" onclick=DeletePlayer("'+response['players'][i].ID+'")><i class="fa fa-remove" aria-hidden="true"></i></button>'+
+				'<button class="btn btn-success mr-1 updateBtn" onclick=GetPlayerData("'+response['players'][i].ID+'")><i class="fa fa-pencil aria-hidden="true"></i></button>'+
+				'<button class="btn btn-danger deletePlayer mr-1" onclick=DeletePlayer("'+response['players'][i].ID+'")><i class="fa fa-trash" aria-hidden="true"></i></button>'+
 				'</td>',
 				response['players'][i].CardNumber,
 				response['players'][i].Name,
@@ -136,15 +149,15 @@ function GetData(page)
 				response['players'][i].IntroducerID,
 				'<td style="text-align:center">'+
 
-				'<button class="btn btn-primary mr-1" id="edit"' + response['players'][i].ID+'"'+
+				'<button class="btn btn-primary mr-1" id="createIDCardPhoto"' + response['players'][i].ID+'"'+
 				'data-id="'+response['players'][i].ID+'" data-toggle="modal" data-target=""'+
 				'>證件</button>'+
 
-				'<button class="btn btn-primary mr-1" id="edit"' + response['players'][i].ID+'"'+
+				'<button class="btn btn-primary mr-1" id="createIDCardBackPhoto"' + response['players'][i].ID+'"'+
 				'data-id="'+response['players'][i].ID+'" data-toggle="modal" data-target=""'+
 				'>證件反面</button>'+
 
-				'<button class="btn btn-primary mr-1" id="edit"' + response['players'][i].ID+'"'+
+				'<button class="btn btn-primary mr-1" id="createPhoto"' + response['players'][i].ID+'"'+
 				'data-id="'+response['players'][i].ID+'" data-toggle="modal" data-target=""'+
 				'>照片</button>'+
 				'</td>'
@@ -162,6 +175,23 @@ function GetData(page)
 	.fail(function() {
 		console.log("error");
 	});
+}
+
+function GetPlayerData(ID)
+{
+	console.log(ID);
+	$.ajax({
+		url: 'Player/PlayerData',
+		type: 'GET',
+		data: {ID: ID},
+	})
+	.done(function(response) {
+		console.log(response);
+	})
+	.fail(function() {
+		console.log("error");
+	});
+	
 }
 
 function DeletePlayer(ID)
