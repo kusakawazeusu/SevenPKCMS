@@ -1,5 +1,7 @@
 var playerTable;
 var ajaxUrl;
+var globalType;
+var globalID;
 $(document).ready(function() {
 
 	$.ajaxSetup({
@@ -8,9 +10,31 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#addPlayer').click(function(event) {
+	$('#takePictureConfirm').click(function() {
+		/* Act on the event */
+		TakePhoto(globalType,globalID);
+	});
+
+	$('#TakePictureModal').on('hide.bs.modal', function() { //當一個modal關閉時，要把所以有的值恢復起始
+		// do something...
+		Webcam.reset()
+	});
+
+	$('#updatePicture').click(function(event) {
+		/* Act on the event */
+		console.log('update');
+		InitCamera();
+		$('#updatePicture').hide();
+		$('#takePictureConfirm').show();
+	});
+
+
+
+	$('#createPlayerBtn').click(function(event) {
 		/* Act on the event */
 		$('#playerModalTitle').text('新增會員');
+		ajaxUrl = 'Player/CreatePlayer';
+		$('#Account').attr('readonly', false);
 	});
 
 
@@ -37,12 +61,18 @@ $(document).ready(function() {
 	$("#totalPage").text(pagesNum);
 
 
-	GetData(page);	
+	GetData(page);
 
 	$('.deletePlayer').click(function(event) {
 		/* Act on the event */
 
 		DeletePlayer($(this).val());
+	});
+
+	
+
+	$('.search').on('keyup change', function(event) {
+		GetData(page);
 	});
 
 	$("#nextPage").click(function(){
@@ -100,15 +130,16 @@ $(document).ready(function() {
 
 	$('#playerSubmit').click(function(event) {
 		$.ajax({
-			url: 'Player/CreatePlayer',
+			url: ajaxUrl,
 			type: 'POST',
-			data: $('#createPlayerForm').serialize(),
+			data:$('#createPlayerForm').serialize(),
 		})
 		.done(function(response) {
+			console.log(response);
 			console.log("success");
 			swal("新增員工成功","列表將自動更新。","success");
 			GetData(page);
-			$('#createPlayer').modal('toggle');
+			$('#playerModal').modal('toggle');
 			$('.createInput').val('');
 			
 		})
@@ -127,8 +158,8 @@ function GetData(page)
 		url: 'Player/'+page+'/'+showNum,
 		type: 'GET',
 		data: {
-			name: $('.search#name').val(),
-			cardNumber:$('.search#cardNumber').val()
+			name: $('#searchName').val(),
+			cardNumber:$('#searchCardNumber').val()
 		},
 	})
 	.done(function(response) {
@@ -146,19 +177,19 @@ function GetData(page)
 				response['players'][i].CardType,
 				response['players'][i].IDCardNumber,
 				response['players'][i].Cellphone,
-				response['players'][i].IntroducerID,
+				response['players'][i].IntroducerName,
 				'<td style="text-align:center">'+
 
-				'<button class="btn btn-primary mr-1" id="createIDCardPhoto"' + response['players'][i].ID+'"'+
-				'data-id="'+response['players'][i].ID+'" data-toggle="modal" data-target=""'+
+				'<button class="btn btn-primary mr-1" id="IDCardPhoto"' + response['players'][i].ID+'"'+
+				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Front",'+response['players'][i].ID+')'+
 				'>證件</button>'+
 
-				'<button class="btn btn-primary mr-1" id="createIDCardBackPhoto"' + response['players'][i].ID+'"'+
-				'data-id="'+response['players'][i].ID+'" data-toggle="modal" data-target=""'+
+				'<button class="btn btn-primary mr-1" id="IDCardBackPhoto"' + response['players'][i].ID+'"'+
+				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Back",'+response['players'][i].ID+')'+
 				'>證件反面</button>'+
 
-				'<button class="btn btn-primary mr-1" id="createPhoto"' + response['players'][i].ID+'"'+
-				'data-id="'+response['players'][i].ID+'" data-toggle="modal" data-target=""'+
+				'<button class="btn btn-primary mr-1" id="Photo"' + response['players'][i].ID+'"'+
+				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Photo",'+response['players'][i].ID+')'+
 				'>照片</button>'+
 				'</td>'
 				]).draw(false);
@@ -166,7 +197,7 @@ function GetData(page)
 
 		entries = response['numOfEntries'];
 			pagesNum = Math.ceil(entries / showNum);  // 記錄總共有幾頁
-
+			$('#NumberOfEntries').text(entries);
 			$("#totalPage").text(pagesNum);
 
 			$("#page").text(page+1);
@@ -179,7 +210,6 @@ function GetData(page)
 
 function GetPlayerData(ID)
 {
-	console.log(ID);
 	$.ajax({
 		url: 'Player/PlayerData',
 		type: 'GET',
@@ -187,6 +217,13 @@ function GetPlayerData(ID)
 	})
 	.done(function(response) {
 		console.log(response);
+		$('#playerModalTitle').text('正在編輯： ' +response.Name );
+		for (var key in response) 
+			$('#'+key).val(response[key]);
+		$('#Account').attr('readonly', true);
+		$('#playerModal').modal('toggle');
+		ajaxUrl = 'Player/UpdatePlayer';
+
 	})
 	.fail(function() {
 		console.log("error");
@@ -227,4 +264,68 @@ function DeletePlayer(ID)
 			});
 		}   
 	}).catch(swal.noop);
+}
+
+function TakePhoto(Type,ID)
+{
+	Webcam.snap( function(data_uri) {
+		document.getElementById('my_camera').innerHTML = '<img id="memberInfoPhoto" src="'+data_uri+'"/>';
+		$.ajax({
+			url: 'Player/CreatePhoto',
+			type: 'POST',
+			data: {photo: data_uri,ID: ID,Type:Type},
+		})
+		.done(function() {
+			console.log("success");
+			$('#takePictureConfirm').hide();
+			$('#updatePicture').show();
+		})
+		.fail(function() {
+			console.log("error");
+		});
+	});
+}
+
+function CheckPhoto(Type,ID)
+{
+	$.ajax({
+		url: 'Player/CheckPhoto',
+		type: 'POST',
+		dataType: 'json',
+		data: {ID:ID,Type:Type},
+	})
+	.done(function(response) {
+		console.log(response);
+		if(response['valid']==true)
+		{
+			InitCamera();
+			$('#takePictureConfirm').show();
+			$('#updatePicture').hide();
+			$('#TakePictureModal').modal('toggle');
+			globalType = Type;
+			globalID = ID;
+		}
+		else
+		{			
+			document.getElementById('my_camera').innerHTML = '<img id="Photo" src="'+response['Photo']+'"/>';
+			$('#TakePictureModal').modal('toggle');
+			$('#takePictureConfirm').hide();			
+			$('#updatePicture').show();
+
+		}
+	})
+	.fail(function() {
+		console.log("error");
+	});	
+}
+
+function InitCamera()
+{
+	Webcam.set({
+			width: 400,
+			height: 400,
+			image_format: 'jpeg',
+			jpeg_quality: 90
+		});
+		Webcam.attach( '#my_camera' );
 }

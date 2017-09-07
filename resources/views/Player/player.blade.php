@@ -12,11 +12,9 @@
 	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
 </script>
 <script src="{{asset('js/Player.js')}}"></script>
+<script src="{{asset('js/webcam.min.js')}}"></script>
+<script src="{{asset('js/webcam.swf')}}"></script>
 <style>
-	.input-group-addon.addPlayer {
-		min-width:120px;
-		text-align:center;
-	}
 </style>
 <div>
 	<h1>帳號系統</h1>
@@ -24,39 +22,31 @@
 	<br>
 	<div class="row justify-content-between">
 		<div class="col-4">
-			<button id="addPlayer" name="addPlayer" class="btn btn-primary" data-toggle="modal" data-target="#createPlayer">新增會員</button>
+			<button id="createPlayerBtn" name="createPlayerBtn" class="btn btn-primary" data-toggle="modal" data-target="#playerModal"><i class="fa fa-user-plus"></i> 新增會員</button>
 		</div>
-		<div class="col-5">
+		<div class="col-6">
 			<div class="row">
 				<form class="form-inline">
 					<div class=" input-group mr-2">
-						<label class="input-group-addon">姓名:</label>
-						<input type="text" id="name" name="name" class="form-control search" placeholder="輸入姓名" aria-label="輸入姓名">
+						<label class="input-group-addon">顯示筆數</label>
+						<select class="form-control input-sm" id="show">
+							<option value="5">5</option>
+							<option value="10">10</option>
+							<option value="20">20</option>
+							<option value="all">全部</option>
+						</select>
+					</div>
+					<div class=" input-group mr-2">
+						<div class="input-group-addon">姓名</div>
+						<input type="text" id="searchName" name="searchName" class="form-control search" placeholder="輸入姓名" aria-label="輸入姓名">
 					</div>
 					<div class="input-group mr-2">
-						<label class="input-group-addon">卡片編號:</label>
-						<input type="text" id="cardNumber" name="cardNumber" class="form-control search" placeholder="輸入卡片編號" aria-label="輸入卡片編號">
+						<div class="input-group-addon">卡片編號</div>
+						<input type="text" id="searchCardNumber" name="searchCardNumber" class="form-control search" placeholder="輸入卡片編號" aria-label="輸入卡片編號">
 					</div>
 				</form>
-				<button type="button" id="searchBtn" class="btn btn-secondary"><i class="fa fa-search" aria-hidden="true"></i>搜尋</button>	
 			</div>
 		</div>
-	</div>
-</div>
-
-<div class="row">
-	<div class="col-md-2">
-		<form class="form-inline">
-			<div class="form-group">
-				<label for="show">顯示筆數：</label>
-				<select class="form-control input-sm" id="show">
-					<option value="5">5</option>
-					<option value="10">10</option>
-					<option value="20">20</option>
-					<option value="all">ALL</option>
-				</select>
-			</div>
-		</form>
 	</div>
 </div>
 <br>
@@ -80,19 +70,21 @@
 </div> 
 <div class="row justify-content-between">
 	<div class="col-4">
-		<div class="text-left"><a id="previousPage" class="btn btn-light" role="button">返回上一頁</a></div>
+		<div class="text-left"><a id="previousPage" class="btn btn-light" role="button"><i class="fa fa-arrow-left"></i> 上一頁</a></div>
 	</div>
 	<div class="col-4">
-		<p class="text-center">總共<font id="totalPage"></font>頁，目前<font id="page"></font>頁。</p>
+		<p class="text-center">資料共<font id="NumberOfEntries"></font>筆，總共<font id="totalPage"></font>頁，目前在第<font id="page"></font>頁。</p>
 	</div>
 	<div class="col-4">
-		<div class="text-right"><a id="nextPage" class="btn btn-light" role="button">前往下一頁</a></div>
+		<div class="text-right"><a id="nextPage" class="btn btn-light" role="button">下一頁 <i class="fa fa-arrow-right"></i> </a></div>
 	</div>
 </div>
 
 
 
-<div class="modal fade" id="createPlayer" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+
+
+<div class="modal fade" id="playerModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -104,6 +96,7 @@
 				<hr>
 
 				<form id="createPlayerForm">
+					<input type="hidden" id="ID" name="ID">
 					<div class="row">
 						<div id="createAccountDiv" class="col-md-6 form-group">
 							<label class="FormLabel">帳號(行動電話)</label>
@@ -223,5 +216,26 @@
 			</form>
 		</div>
 	</div>
+</div>
+
+
+
+<div class="TakePictureModalDiv">
+	<div class="modal fade" id="TakePictureModal" role="dialog" aria-hidden="true" tabindex="-1" aria-labelledby="myModalLabel">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div class="modal-body">
+					<div class="container-fluid " >
+						<div id="my_camera" class="d-block mx-auto" style="width:400px; height:400px;"></div>
+					</div>
+				</div>
+				<div class="modal-footer">
+					<button id="takePictureConfirm" type="button" class="btn btn-success">拍照</button>
+					<button id="updatePicture" type="button" class="btn btn-success">編輯</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+				</div>
+			</div>
+		</div>
+	</div>  
 </div>
 @endsection
