@@ -15,7 +15,6 @@ class Machine extends Model
     protected $fillable = [
         'AgentID',
         'MachineName',
-        'IPAddress',
         'SectionID',
         'MaxDepositCredit',
         'DepositCreditOnce',

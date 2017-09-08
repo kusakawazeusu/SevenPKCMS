@@ -28,15 +28,20 @@ $(document).ready(function () {
         對表格進行的操作。
     */
 
-    $("#Name").keyup(function (event) {
-        if ((event.keyCode > 64 && event.keyCode < 91) || event.keyCode == 8 || event.keyCode == 46 || (event.keyCode < 58 && event.keyCode > 47)) {
-            SeachText = $(this).val();
-            GetData(ShowEntries, Page, SeachText);
-        }
+    $("#AgentID").keyup(function (event) {
+        SeachText = $(this).val();
+        GetData(ShowEntries, Page, SeachText);
     });
 
     $(".ShowEntries").change(function () {
         ShowEntries = $(this).val();
+        if (ShowEntries == 'ALL') {
+            ShowEntries = NumberOfEntries;
+            totalPage = 1;
+            Page = 0;
+        } else {
+            Page = 0;
+        }
         GetData(ShowEntries, Page, SeachText);
     });
 
@@ -81,11 +86,10 @@ $(document).ready(function () {
         else {
             $("#MachineSubmit").prop('disabled', true);
             $.ajax({
-                url: 'Machine/Create',
+                url: AjaxUrl,
                 method: "POST",
                 data: $("#MachineForm").serialize(),
                 success: function (result) {
-                    console.log(result);
                     $("#MachineSubmit").prop('disabled', false);
                     $("#MachineModal").modal('hide');
                     swal({
@@ -134,25 +138,26 @@ function GetData(ShowEntries, Page, SearchText) {
 
             for (var i = 0; i < NumOfData; i++) {
 
-                var oneBet;
+                var oneBet, section;
                 switch (data[i].SectionID) {
-                    case 0: oneBet = 2;
+                    case 0: oneBet = 20; section = 2;
                         break;
-                    case 1: oneBet = 3;
+                    case 1: oneBet = 30; section = 3;
                         break;
-                    case 2: oneBet = 5;
+                    case 2: oneBet = 50; section = 5;
                         break;
-                    case 3: oneBet = 10;
+                    case 3: oneBet = 100; section = 10;
                         break;
                     default:
                         break;
                 }
+
                 t.row.add([
-                    "<button onclick='OpenUpdateIntroducerModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteIntroducer(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>",
+                    "<button onclick='OpenUpdateMachineModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteMachine(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>",
                     data[i].ID,
                     data[i].AgentID,
                     data[i].MachineName,
-                    data[i].SectionID,
+                    section,
                     oneBet,
                     data[i].MaxDepositCredit,
                     data[i].DepositCreditOnce,
@@ -175,10 +180,10 @@ function GetData(ShowEntries, Page, SearchText) {
     });
 }
 
-function DeleteIntroducer(id) {
+function DeleteMachine(id) {
     swal({
-        title: '刪除介紹人',
-        text: "你確定要刪除此介紹人嗎？",
+        title: '刪除機台',
+        text: "你確定要刪除此機台嗎？",
         type: 'warning',
         showCancelButton: true,
         confirmButtonColor: '#3085d6',
@@ -186,52 +191,60 @@ function DeleteIntroducer(id) {
         confirmButtonText: '是！',
         cancelButtonText: '取消',
         showLoaderOnConfirm: true,
-        preConfirm: function () {
-            return new Promise(function (resolve) {
-
-                $.ajax({
-                    url: "{{ route('DeleteIntroducer') }}",
-                    data: { "id": id },
-                    method: "DELETE",
-                    statusCode: {
-                        200: function () {
-                            swal({
-                                title: "刪除成功！",
-                                type: "success"
-                            });
-                            GetData(ShowEntries, Page, SeachText);
-                        }
-                    }
-                });
-
-            });
-        }
-    })
+        allowEscapeKey: false,
+        allowOutsideClick: false,
+        allowEnterKey: false
+    }).then(function () {
+        $.ajax({
+            url: 'Machine/Delete',
+            data: { "id": id },
+            method: "post",
+            statusCode: {
+                200: function () {
+                    swal({
+                        title: "刪除成功！",
+                        type: "success"
+                    });
+                    GetData(ShowEntries, Page, SeachText);
+                }
+            }
+        });
+    }, function (dismiss) {
+        swal('取消!', '', 'error');
+    });
 }
 
-function OpenUpdateIntroducerModal(id) {
+function OpenUpdateMachineModal(id) {
     $.ajax({
-        url: "{{ route('GetIntroducerById') }}",
+        url: 'Machine/GetMachineByID',
         data: { "id": id },
         method: "GET",
         success: function (data) {
-            $("#IntroducerModalTitle").text('正在編輯： ' + data.IntroducerName);
-            $("input[name='Name']").val(data.IntroducerName);
-            $("input[name='Cellphone']").val(data.Cellphone);
-            $("input[name='Address']").val(data.Address);
-            $("textarea[name='Memo']").val(data.Memo);
-            $("input[name='BonusRate']").val(data.ReturnCreditRate);
-            $("input[name='BonusThreshold']").val(data.ReturnThreshold);
-            $("select[name='BonusPeriod']").children().eq(data.CalcWeeks).prop('selected', true);
-            $("select[name='Gender']").children().eq(data.Gender).prop('selected', true);
-
-            $("input[name='id']").val(id);
-
-            $("#IntroducerModal").modal('show');
+            $("#MachineModalTitle").text('正在編輯： 第' + data.ID + '台');
+            $("input[name='id']").val(data.ID);
+            $("input[name='AgentID']").val(data.AgentID);
+            $("input[name='MachineName']").val(data.MachineName);
+            $("select[name='SectionID']").val(data.SectionID);
+            $("input[name='MaxDepositCredit']").val(data.MaxDepositCredit);
+            $("input[name='DepositCreditOnce']").val(data.DepositCreditOnce);
+            $("input[name='MinCoinOut']").val(data.MinCoinOut);
+            $("input[name='MaxCoinIn']").val(data.MaxCoinIn);
+            $("input[name='CoinInOnce']").val(data.CoinInOnce);
+            $('input[name="CoinInBonus"]').val(data.CoinInBonus);
+            $('input[name="TwoPairsOdd"]').val(data.TwoPairsOdd);
+            $('input[name="ThreeOfAKindOdd"]').val(data.ThreeOfAKindOdd);
+            $('input[name="StraightOdd"]').val(data.StraightOdd);
+            $('input[name="FlushOdd"]').val(data.FlushOdd);
+            $('input[name="FullHouseOdd"]').val(data.FullHouseOdd);
+            $('input[name="FourOfAKindOdd"]').val(data.FourOfAKindOdd);
+            $('input[name="STRFlushOdd"]').val(data.STRFlushOdd);
+            $('input[name="FiveOfAKindOdd"]').val(data.FiveOfAKindOdd);
+            $('input[name="RoyalFlushOdd"]').val(data.RoyalFlushOdd);
+            $("#MachineForm").removeClass("was-validated");
+            $("#MachineModal").modal('show');
+            AjaxUrl = 'Machine/Edit';
         }
     });
-
-    AjaxUrl = "{{ route('UpdateIntroducer') }}";
 }
 
 function OpenCreateMachineModal() {
@@ -248,4 +261,5 @@ function OpenCreateMachineModal() {
     $('input[name="RoyalFlushOdd"]').val('500');
     $("#MachineForm").removeClass("was-validated");
     $("#MachineModal").modal('show');
+    AjaxUrl = 'Machine/Create';
 }
