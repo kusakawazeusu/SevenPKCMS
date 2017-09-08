@@ -50,14 +50,14 @@
                     </select>
                 </div>
             </div>
-            <!--
+            
             <div class="col-md-6">
                 <div class="input-group mb-2">
-                    <div class="input-group-addon">姓名</div>
-                    <input type="text" class="form-control" id="Name" placeholder="要搜尋的姓名 ...">
+                    <div class="input-group-addon">廠商編號</div>
+                    <input type="text" class="form-control" id="AgentID" placeholder="要搜尋的廠商編號...">
                 </div>
             </div>
-            -->
+            
         </div>
     </div>
 
@@ -122,22 +122,17 @@
 
                     <div class="row">
 
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-4 form-group">
                             <label class="FormLabel">經銷商編號</label>
                             <input type="text" name="AgentID" class="form-control" required>
                         </div>
 
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-4 form-group">
                             <label class="FormLabel">機台名稱(編號)</label>
                             <input type="text" name="MachineName" class="form-control" required>
                         </div>
 
-                        <div class="col-md-3 form-group">
-                            <label class="FormLabel">機台IP位址</label>
-                            <input type="text" name="IPAddress" class="form-control" required>
-                        </div>
-
-                        <div class="col-md-3 form-group">
+                        <div class="col-md-4 form-group">
                             <label class="FormLabel">分區編號</label>
                             <select name="SectionID" class="form-control" required>
                                 <option value="0">2</option>
@@ -146,6 +141,7 @@
                                 <option value="3">10</option>
                             </select>
                         </div>
+
                     </div>
 
                     <div class="row">
