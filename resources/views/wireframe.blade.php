@@ -70,7 +70,7 @@
                         <br><br>
 
                         <p class="SideBarTitle">遊戲機台</p>
-                        <a href="">機台機率管理</a><br>
+                        <a href="{{url('/Probaility')}}">機台機率管理</a><br>
                         <a href="{{ url('/Machine') }}">機台分區管理</a><br>
                         <a href="">機台數值表</a><br><br>
 
@@ -89,7 +89,7 @@
                         <a href="{{ url('/Player') }}">會員管理</a><br><br>
 
                         <p class="SideBarTitle">時間控制系統</p>
-                        <a href="">時間牌型選擇</a><br>
+                        <a href="{{ url('/CardBuff') }}">時間牌型選擇</a><br>
                         <a href="">控制牌型調整</a><br><br>
                     </div>
 

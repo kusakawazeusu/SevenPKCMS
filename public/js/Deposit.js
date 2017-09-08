@@ -13,6 +13,7 @@ function Deposit(ID,Type=null)
 			inputAttributes:{min:1},
 			showCancelButton: true,
 			confirmButtonText: '儲值',
+			cancelButtonColor:'#d33',
 			showLoaderOnConfirm: true,
 			allowOutsideClick: false
 		}).then(function (credit) {
@@ -33,6 +34,12 @@ function Deposit(ID,Type=null)
 			.fail(function() {
 				console.log("error");
 			});
+		},function(dismiss)
+		{
+			swal({
+					type: 'error',
+					title: '取消儲值!'
+				})
 		});
 	})
 	.fail(function() {
