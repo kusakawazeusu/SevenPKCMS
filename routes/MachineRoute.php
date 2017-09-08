@@ -11,5 +11,5 @@
     Route::get('/GetMachineByID', 'MachineController@GetMachineByID');
     Route::post('/Edit', 'MachineController@Update');
     Route::post('/Delete', 'MachineController@Delete');
-    Route::post('/Probability', 'MachineProbabilityController@Index');
+    Route::get('/Probability', 'MachineProbabilityController@Index');
   });

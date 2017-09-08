@@ -70,7 +70,7 @@
                         <br><br>
 
                         <p class="SideBarTitle">遊戲機台</p>
-                        <a href="{{url('/Probaility')}}">機台機率管理</a><br>
+                        <a href="{{url('/Machine/Probability')}}">機台機率管理</a><br>
                         <a href="{{ url('/Machine') }}">機台分區管理</a><br>
                         <a href="">機台數值表</a><br><br>
 
