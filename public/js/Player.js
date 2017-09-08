@@ -179,6 +179,7 @@ function GetData(page)
 				response['players'][i].Cellphone,
 				response['players'][i].IntroducerName,
 				'<td style="text-align:center">'+
+				'<button class="btn btn-info mr-1" onclick=PlayerDeposit('+response['players'][i].ID+')><i class="fa fa-plus"></i></button>'+
 
 				'<button class="btn btn-primary mr-1" id="IDCardPhoto"' + response['players'][i].ID+'"'+
 				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Front",'+response['players'][i].ID+')'+
@@ -322,10 +323,15 @@ function CheckPhoto(Type,ID)
 function InitCamera()
 {
 	Webcam.set({
-			width: 400,
-			height: 400,
-			image_format: 'jpeg',
-			jpeg_quality: 90
-		});
-		Webcam.attach( '#my_camera' );
+		width: 400,
+		height: 400,
+		image_format: 'jpeg',
+		jpeg_quality: 90
+	});
+	Webcam.attach( '#my_camera' );
+}
+
+function PlayerDeposit(ID)
+{
+	Deposit(ID,'Reload');
 }

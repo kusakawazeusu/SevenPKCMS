@@ -9,5 +9,6 @@ Route::group(['prefix'=>'Player'], function () {
 	Route::post('/UpdatePlayer','PlayerController@UpdatePlayer');
 	Route::post('/CheckPhoto','PlayerController@CheckPhoto');
 	Route::post('/CreatePhoto','PlayerController@CreatePhoto');
+	Route::post('/Deposit','PlayerController@Deposit');
 
 });
