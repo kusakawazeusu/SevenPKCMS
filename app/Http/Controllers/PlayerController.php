@@ -159,4 +159,10 @@ class PlayerController extends Controller
 			return Response::json(['valid'=>true,'Photo'=>null]);
 	}
 
+	public function Deposit()
+	{
+		PlayerModel::where('ID','=',Input::get('ID'))->increment('Balance',Input::get('credit'));
+		return 'DepositSuccess';
+	}
+
 }

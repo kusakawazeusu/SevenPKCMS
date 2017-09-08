@@ -67,8 +67,7 @@
                         <hr>
                         <p class="SideBarTitle">帳號</p>
                         <a href="{{ url('/operator') }}">員工管理</a>
-                        <br>
-                        <a href="">會員儲值</a><br><br>
+                        <br><br>
 
                         <p class="SideBarTitle">遊戲機台</p>
                         <a href="">機台機率管理</a><br>
