@@ -120,6 +120,7 @@ $(document).ready(function () {
  
 */
 function GetData(ShowEntries, Page, SearchText) {
+    return 0;
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
     $.ajax({
@@ -248,18 +249,9 @@ function OpenUpdateMachineModal(id) {
 }
 
 function OpenCreateMachineModal() {
-    $("#MachineModalTitle").text('新增一台機台');
+    //$("#MachineProbabilityModal").text('新增一台機台');
     $("input").val('');
-    $('input[name="TwoPairsOdd"]').val('1');
-    $('input[name="ThreeOfAKindOdd"]').val('2');
-    $('input[name="StraightOdd"]').val('3');
-    $('input[name="FlushOdd"]').val('5');
-    $('input[name="FullHouseOdd"]').val('7');
-    $('input[name="FourOfAKindOdd"]').val('50');
-    $('input[name="STRFlushOdd"]').val('120');
-    $('input[name="FiveOfAKindOdd"]').val('200');
-    $('input[name="RoyalFlushOdd"]').val('500');
-    $("#MachineForm").removeClass("was-validated");
-    $("#MachineModal").modal('show');
+    //$("#MachineProbabilityModal").removeClass("was-validated");
+    $("#MachineProbabilityModal").modal('show');
     AjaxUrl = 'Machine/Create';
 }

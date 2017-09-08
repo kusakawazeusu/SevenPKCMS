@@ -1,7 +1,7 @@
 @extends('wireframe') @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <!-- 切記這兩行伊定要放在body最下面---->
-<script src="{{asset('js/Machine/Machine.js')}}"></script>
+<script src="{{asset('js/Machine/MachineProbability.js')}}"></script>
 
 <style>
     .modal-header,
@@ -108,17 +108,14 @@
     </div>
 </div>
 
-<!-- Machine Modal -->
-<div class="modal" id="MachineModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<!-- Machine Probability Modal -->
+<div class="modal" id="MachineProbabilityModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
                 <h4 id="MachineModalTitle" class="modal-title d-block mx-auto"></h4>
             </div>
             <div class="modal-body">
-
-                <form id="MachineForm">
-                    <input type="hidden" name="id" class="form-control" required>
 
                     <div class="row">
 
@@ -143,6 +140,9 @@
                         </div>
 
                     </div>
+
+                <form id="MachineForm">
+                    <input type="hidden" name="id" class="form-control" required>
 
                     <div class="row">
 

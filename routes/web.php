@@ -15,6 +15,8 @@ Route::middleware(['auth'])->group(function(){
 
     include 'Player.php';
     include 'MachineRoute.php';
+    include 'CardBuff.php';
+    include 'CardType.php';
 
     Route::get('/', 'MachineMonitorController@Index');
     Route::get('/operator','Operator@ShowOperator');
