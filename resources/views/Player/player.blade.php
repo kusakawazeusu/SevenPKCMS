@@ -15,8 +15,6 @@
 <script src="{{asset('js/Deposit.js')}}"></script>
 <script src="{{asset('js/webcam.min.js')}}"></script>
 <script src="{{asset('js/webcam.swf')}}"></script>
-<style>
-</style>
 <div>
 	<h1>帳號系統</h1>
 	<hr>

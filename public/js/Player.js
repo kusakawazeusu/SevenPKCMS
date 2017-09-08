@@ -106,27 +106,17 @@ $(document).ready(function() {
 			pagesNum = 1;
 			page = 0;
 			$("#totalPage").text(pagesNum);
-			GetData(0);
+			GetData(page);
 		}
 		else
 		{
 			pages_num = Math.ceil(entries / showNum);
 			page = 0;
 			$("#totalPage").text(pagesNum);
-			GetData(0);
+			GetData(page);
 		}
 	});
 
-	function GetInput(className)
-	{
-		var dataTest={};
-		$('.'+className).each(function(index, el) {
-			console.log(el.id);
-			dataTest[el.id] =$("#"+el.id+"").val();
-			console.log(dataTest);
-		});
-		return dataTest;
-	}
 
 	$('#playerSubmit').click(function(event) {
 		$.ajax({
