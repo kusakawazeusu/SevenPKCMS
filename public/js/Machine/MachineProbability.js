@@ -6,7 +6,7 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     $.ajaxSetup({
         headers: {
@@ -14,7 +14,7 @@ $(document).ready(function () {
         }
     });
 
-    t = $('#MachineTable').DataTable({
+    t = $('#MachineProbabilityTable').DataTable({
         "paging": false,
         "info": false,
         "searching": false,
@@ -28,12 +28,12 @@ $(document).ready(function () {
         對表格進行的操作。
     */
 
-    $("#AgentID").keyup(function (event) {
+    $("#AgentID").keyup(function(event) {
         SeachText = $(this).val();
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $(".ShowEntries").change(function () {
+    $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -45,28 +45,26 @@ $(document).ready(function () {
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $("#nextPage").click(function (event) {
+    $("#nextPage").click(function(event) {
 
         if (Page >= totalPage - 1) {
             swal({
                 title: "已到最後一頁！",
                 type: 'warning'
             });
-        }
-        else {
+        } else {
             Page += 1;
             GetData(ShowEntries, Page, SeachText);
         }
     });
 
-    $("#previousPage").click(function () {
+    $("#previousPage").click(function() {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
                 type: 'warning'
             });
-        }
-        else {
+        } else {
             Page -= 1;
             GetData(ShowEntries, Page, SeachText);
         }
@@ -76,22 +74,21 @@ $(document).ready(function () {
         對資料進行的操作
     */
 
-    var CreateForm = document.getElementById("MachineForm");
+    var CreateForm = document.getElementById("MachineProbabilityForm");
     CreateForm.novalidate = false;
 
-    $("#MachineSubmit").click(function () {
+    $("#MachineProbabilitySubmit").click(function() {
         if (CreateForm.checkValidity() == false) {
-            $("#MachineForm").addClass("was-validated");
-        }
-        else {
-            $("#MachineSubmit").prop('disabled', true);
+            $("#MachineProbabilityForm").addClass("was-validated");
+        } else {
+            $("#MachineProbabilitySubmit").prop('disabled', true);
             $.ajax({
                 url: AjaxUrl,
                 method: "POST",
-                data: $("#MachineForm").serialize(),
-                success: function (result) {
-                    $("#MachineSubmit").prop('disabled', false);
-                    $("#MachineModal").modal('hide');
+                data: $("#MachineProbabilityForm").serialize(),
+                success: function(result) {
+                    $("#MachineProbabilitySubmit").prop('disabled', false);
+                    $("#MachineProbabilityModal").modal('hide');
                     swal({
                         title: "操作成功！",
                         text: "列表將自動更新。",
@@ -101,7 +98,7 @@ $(document).ready(function () {
                     GetData(ShowEntries, Page, SeachText);
                 },
                 statusCode: {
-                    500: function () {
+                    500: function() {
                         swal("操作失敗", "請確認欄位是否填寫正確！", "error");
                     }
                 }
@@ -120,14 +117,14 @@ $(document).ready(function () {
  
 */
 function GetData(ShowEntries, Page, SearchText) {
-    return 0;
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
     $.ajax({
-        url: 'Machine/GetTableData',
+        url: 'Probability/GetTableData',
         method: "GET",
         data: SendingData,
-        success: function (data) {
+        success: function(data) {
+            console.log(data);
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
@@ -139,119 +136,106 @@ function GetData(ShowEntries, Page, SearchText) {
 
             for (var i = 0; i < NumOfData; i++) {
 
-                var oneBet, section;
+                var section;
                 switch (data[i].SectionID) {
-                    case 0: oneBet = 20; section = 2;
+                    case 0:
+                        section = 2;
                         break;
-                    case 1: oneBet = 30; section = 3;
+                    case 1:
+                        section = 3;
                         break;
-                    case 2: oneBet = 50; section = 5;
+                    case 2:
+                        section = 5;
                         break;
-                    case 3: oneBet = 100; section = 10;
+                    case 3:
+                        section = 10;
                         break;
                     default:
                         break;
                 }
 
                 t.row.add([
-                    "<button onclick='OpenUpdateMachineModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteMachine(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>",
+                    "<button onclick='OpenUpdateProbabilityModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i>",
                     data[i].ID,
                     data[i].AgentID,
                     data[i].MachineName,
                     section,
-                    oneBet,
-                    data[i].MaxDepositCredit,
-                    data[i].DepositCreditOnce,
-                    data[i].MinCoinOut,
-                    data[i].MaxCoinIn,
-                    data[i].CoinInOnce,
-                    data[i].CoinInBonus,
-                    data[i].TwoPairsOdd,
-                    data[i].ThreeOfAKindOdd,
-                    data[i].StraightOdd,
-                    data[i].FlushOdd,
-                    data[i].FullHouseOdd,
-                    data[i].FourOfAKindOdd,
-                    data[i].STRFlushOdd,
-                    data[i].FiveOfAKindOdd,
-                    data[i].RoyalFlushOdd
+                    data[i].TwoPairs,
+                    data[i].ThreeOfAKind,
+                    data[i].Straight,
+                    data[i].Flush,
+                    data[i].FullHouse,
+                    data[i].FourOfAKind,
+                    data[i].STRFlush,
+                    data[i].FiveOfAKind,
+                    data[i].RoyalFlush,
+                    data[i].BonusDifficulty,
+                    data[i].WildCard,
+                    data[i].RealFourOfAKind,
+                    data[i].RealSTRFlush,
+                    data[i].RealFiveOfAKind,
+                    data[i].RealRoyalFlush,
+                    data[i].Turtle,
+                    data[i].DoubleStar,
+                    data[i].Water
                 ]).draw(false);
             }
         },
     });
 }
 
-function DeleteMachine(id) {
-    swal({
-        title: '刪除機台',
-        text: "你確定要刪除此機台嗎？",
-        type: 'warning',
-        showCancelButton: true,
-        confirmButtonColor: '#3085d6',
-        cancelButtonColor: '#d33',
-        confirmButtonText: '是！',
-        cancelButtonText: '取消',
-        showLoaderOnConfirm: true,
-        allowEscapeKey: false,
-        allowOutsideClick: false,
-        allowEnterKey: false
-    }).then(function () {
-        $.ajax({
-            url: 'Machine/Delete',
-            data: { "id": id },
-            method: "post",
-            statusCode: {
-                200: function () {
-                    swal({
-                        title: "刪除成功！",
-                        type: "success"
-                    });
-                    GetData(ShowEntries, Page, SeachText);
-                }
-            }
-        });
-    }, function (dismiss) {
-        swal('取消!', '', 'error');
-    });
-}
-
-function OpenUpdateMachineModal(id) {
+function OpenUpdateProbabilityModal(id) {
     $.ajax({
-        url: 'Machine/GetMachineByID',
+        url: 'Probability/GetMachineByID',
         data: { "id": id },
         method: "GET",
-        success: function (data) {
-            $("#MachineModalTitle").text('正在編輯： 第' + data.ID + '台');
+        success: function(data) {
+
+            var section;
+            switch (data.SectionID) {
+                case 0:
+                    section = 2;
+                    break;
+                case 1:
+                    section = 3;
+                    break;
+                case 2:
+                    section = 5;
+                    break;
+                case 3:
+                    section = 10;
+                    break;
+                default:
+                    break;
+            }
+
+            $("#MachineProbabilityModalTitle").text('正在編輯： 經銷商' + data.AgentID + ' 第' + data.ID + '台 ' + section + '分區');
             $("input[name='id']").val(data.ID);
-            $("input[name='AgentID']").val(data.AgentID);
-            $("input[name='MachineName']").val(data.MachineName);
-            $("select[name='SectionID']").val(data.SectionID);
-            $("input[name='MaxDepositCredit']").val(data.MaxDepositCredit);
-            $("input[name='DepositCreditOnce']").val(data.DepositCreditOnce);
-            $("input[name='MinCoinOut']").val(data.MinCoinOut);
-            $("input[name='MaxCoinIn']").val(data.MaxCoinIn);
-            $("input[name='CoinInOnce']").val(data.CoinInOnce);
-            $('input[name="CoinInBonus"]').val(data.CoinInBonus);
-            $('input[name="TwoPairsOdd"]').val(data.TwoPairsOdd);
-            $('input[name="ThreeOfAKindOdd"]').val(data.ThreeOfAKindOdd);
-            $('input[name="StraightOdd"]').val(data.StraightOdd);
-            $('input[name="FlushOdd"]').val(data.FlushOdd);
-            $('input[name="FullHouseOdd"]').val(data.FullHouseOdd);
-            $('input[name="FourOfAKindOdd"]').val(data.FourOfAKindOdd);
-            $('input[name="STRFlushOdd"]').val(data.STRFlushOdd);
-            $('input[name="FiveOfAKindOdd"]').val(data.FiveOfAKindOdd);
-            $('input[name="RoyalFlushOdd"]').val(data.RoyalFlushOdd);
-            $("#MachineForm").removeClass("was-validated");
-            $("#MachineModal").modal('show');
-            AjaxUrl = 'Machine/Edit';
+
+            $("input[name='TwoPairs']").val(data.TwoPairs);
+            $("input[name='ThreeOfAKind']").val(data.ThreeOfAKind);
+            $("input[name='Straight']").val(data.Straight);
+            $("input[name='Flush']").val(data.Flush);
+            $("input[name='FullHouse']").val(data.FullHouse);
+            $('input[name="FourOfAKind"]').val(data.FourOfAKind);
+
+            $('input[name="STRFlush"]').val(data.STRFlush);
+            $('input[name="FiveOfAKind"]').val(data.FiveOfAKind);
+            $('input[name="RoyalFlush"]').val(data.RoyalFlush);
+            $('input[name="RealFourOfAKind"]').val(data.RealFourOfAKind);
+            $('input[name="RealSTRFlush"]').val(data.RealSTRFlush);
+            $('input[name="RealFiveOfAKind"]').val(data.RealFiveOfAKind);
+
+            $('input[name="RealRoyalFlush"]').val(data.RealRoyalFlush);
+            $('input[name="Turtle"]').val(data.Turtle);
+            $('input[name="DoubleStar"]').val(data.DoubleStar);
+            $('input[name="BonusDifficulty"]').val(data.BonusDifficulty);
+            $('input[name="WildCard"]').val(data.WildCard);
+            $('input[name="Water"]').val(data.Water);
+
+            $("#MachineProbabilityForm").removeClass("was-validated");
+            $("#MachineProbabilityModal").modal('show');
+            AjaxUrl = 'Probability/Edit';
         }
     });
-}
-
-function OpenCreateMachineModal() {
-    //$("#MachineProbabilityModal").text('新增一台機台');
-    $("input").val('');
-    //$("#MachineProbabilityModal").removeClass("was-validated");
-    $("#MachineProbabilityModal").modal('show');
-    AjaxUrl = 'Machine/Create';
 }
