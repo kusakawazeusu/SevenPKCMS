@@ -1,15 +1,12 @@
 <?php
 
 Route::group(['prefix'=>'CardType'], function () {
-	Route::get('/', 'CardBuffController@Index');
+	Route::get('/', 'CardTypeController@Index');
 
+	Route::post('/CreateCardType','CardTypeController@CreateCardType');
 	Route::get('/CardTypeData','CardTypeController@CardTypeData');
-	/*Route::post('/CreatePlayer', 'PlayerController@CreatePlayer');
-	Route::post('/DeletePlayer', 'PlayerController@DeletePlayer');
-	Route::get('/PlayerData','PlayerController@GetPlayerData');
-	Route::post('/UpdatePlayer','PlayerController@UpdatePlayer');
-	Route::post('/CheckPhoto','PlayerController@CheckPhoto');
-	Route::post('/CreatePhoto','PlayerController@CreatePhoto');
-	Route::post('/Deposit','PlayerController@Deposit');*/
+	Route::post('/UpdateCardType','CardTypeController@UpdateCardType');
+	Route::get('/{page}/{num}','CardTypeController@GetCardType');//抓取批量的資料
+	Route::get('/CardTypeDatas','CardTypeController@CardTypeDatas');
 
 });

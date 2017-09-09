@@ -90,7 +90,7 @@
 
                         <p class="SideBarTitle">時間控制系統</p>
                         <a href="{{ url('/CardBuff') }}">時間牌型選擇</a><br>
-                        <a href="">控制牌型調整</a><br><br>
+                        <a href="{{ url('/CardType') }}">控制牌型調整</a><br><br>
                     </div>
 
                 </div>

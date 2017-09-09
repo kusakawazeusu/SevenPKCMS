@@ -12,7 +12,6 @@
 	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
 </script>
 <script src="{{asset('js/CardBuff.js')}}"></script>
-<script src="{{asset('js/bootstrap-datetimepicker.min.js')}}"></script>
 
 
 
