@@ -34,6 +34,11 @@ $(document).ready(function()
 		if( page > pagesNum -1)
 		{
 			page = page - 1;
+			swal({
+				title: "已到最後一頁！",
+				type: 'warning'
+			});
+
 		}
 		else
 			GetData(page);
@@ -45,6 +50,10 @@ $(document).ready(function()
 		if( page < 0)
 		{
 			page = 0;
+			swal({
+				title: "已到第一頁！",
+				type: 'warning'
+			});
 		}
 		else
 			GetData(page);
@@ -98,7 +107,7 @@ $(document).ready(function()
 function GetCardType()
 {
 	$.ajax({
-		url: 'CardType/CardTypeData',
+		url: 'CardType/CardTypeDatas',
 		type: 'GET',
 	})
 	.done(function(response) {

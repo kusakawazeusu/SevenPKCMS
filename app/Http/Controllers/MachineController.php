@@ -9,6 +9,7 @@ use Response;
 
 use App\Machine;
 use App\MachineStatus;
+use App\MachineProbability;
 
 class MachineController extends Controller
 {
@@ -43,6 +44,9 @@ class MachineController extends Controller
         $machineStatus = new MachineStatus;
         $machineStatus->MachineID = $newMachineID;
         $machineStatus->save();
+        $machineProbability = new MachineProbability;
+        $machineProbability->MachineID = $newMachineID;
+        $machineProbability->save();
     }
 
     public function GetTableData()
@@ -97,6 +101,8 @@ class MachineController extends Controller
     public function Delete()
     {
         Machine::where('ID', Input::get('id'))->delete();
+        MachineStatus::where('MachineID', Input::get('id'))->delete();
+        MachineProbability::where('MachineID', Input::get('id'))->delete();
         return;
     }
 }

@@ -80,6 +80,10 @@ $(document).ready(function() {
 		if( page > pagesNum -1)
 		{
 			page = page - 1;
+			swal({
+				title: "已到最後一頁！",
+				type: 'warning'
+			});
 		}
 		else
 			GetData(page);
@@ -90,7 +94,11 @@ $(document).ready(function() {
 		page = page -1;
 		if( page < 0)
 		{
-			page = 0;
+			page = 0;			
+			swal({
+				title: "已到第一頁！",
+				type: 'warning'
+			});
 		}
 		else
 			GetData(page);

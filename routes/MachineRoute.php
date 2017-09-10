@@ -12,4 +12,7 @@
     Route::post('/Edit', 'MachineController@Update');
     Route::post('/Delete', 'MachineController@Delete');
     Route::get('/Probability', 'MachineProbabilityController@Index');
+    Route::get('/Probability/GetTableData', 'MachineProbabilityController@GetTableData');
+    Route::get('/Probability/GetMachineByID', 'MachineProbabilityController@GetMachineByID');
+    Route::post('/Probability/Edit', 'MachineProbabilityController@Update');
   });
