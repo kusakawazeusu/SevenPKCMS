@@ -80,7 +80,7 @@
 
                         <p class="SideBarTitle">報表</p>
                         <a href="">報表管理</a><br>
-                        <a href="">會員遊玩紀錄</a><br><br>
+                        <a href="{{url('/PlayerLog')}}">會員遊玩紀錄</a><br><br>
 
                         <p class="SideBarTitle">業務</p>
                         <a href="">交班管理</a><br><br>
