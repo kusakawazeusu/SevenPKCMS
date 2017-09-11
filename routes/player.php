@@ -14,4 +14,8 @@ Route::group(['prefix'=>'Player'], function () {
 
 Route::group(['prefix'=>'PlayerLog'], function () {
 	Route::get('/', 'PlayerLogController@Index');
+	Route::get('/{page}/{num}','PlayerLogController@GetPlayerLog');
+	Route::get('/{ID}','PlayerLogController@GetPlayerLogByID');
+	Route::get('/PlayerLogData/{page}/{num}','PlayerLogController@GetPlayerLogDataByID');
+
 });

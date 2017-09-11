@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Input;
 use App\PlayerModel;
+use App\PlayerAccModel;
 use DB;
 use Response;
 use Hash;
@@ -64,6 +65,8 @@ class PlayerController extends Controller
 			'CardType'=>'會員',
 			'Memo'=>Input::get('Memo')])->ID;
 		PlayerModel::where('ID','=',$newID)->update(['CardNumber'=>$newID]);
+		PlayerAccModel::create([
+			'PlayerID'=>$newID]);
 		return 'Success';
 
 	}
@@ -118,6 +121,7 @@ class PlayerController extends Controller
 	public function DeletePlayer()
 	{
 		PlayerModel::where('ID',Input::get('ID'))->delete();
+		PlayerAccModel::where('PlayerID',Input::get('ID'))->delete();
 
 		return 'Success';
 	}

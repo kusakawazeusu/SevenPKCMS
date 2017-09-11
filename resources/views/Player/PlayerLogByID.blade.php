@@ -8,10 +8,10 @@
 <script>
 	
 	var showNum = 5;
-	
-	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
+	var ID = {{$ID}};
+	var entries = 0;  // 紀錄總共有幾筆data
 </script>
-<script src="{{asset('js/PlayerLog.js')}}"></script>
+<script src="{{asset('js/PlayerLogByID.js')}}"></script>
 
 <div>
 	<h1>會員遊玩紀錄</h1>
@@ -20,13 +20,14 @@
 	<div class="row justify-content-between">
 
 		<div class="col-md-2">
+		<button id="exportExcel" name="exportExcel" class="btn btn-success" onclick=Test()><i class="fa fa-download"></i> 匯出EXCEL</button>
 		</div>
 
-		<div class="col-md-5 mr-3">
+		<div class="col-md-6">
 			<div class="row">
-				<div class="col-md-6">
-					<div class="input-group mb-2">
-						<div class="input-group-addon">顯示筆數</div>
+				<form class="form-inline">
+					<div class=" input-group mr-2">
+						<label class="input-group-addon">顯示筆數</label>
 						<select class="form-control input-sm" id="show">
 							<option value="5">5</option>
 							<option value="10">10</option>
@@ -34,29 +35,33 @@
 							<option value="all">全部</option>
 						</select>
 					</div>
-				</div>
-
-				<div class="col-md-6">
-					<div class="input-group mb-2">
-						<div class="input-group-addon">姓名</div>
-						<input type="text" class="form-control search" id="Name" placeholder="要搜尋的姓名 ...">
+					<div class=" input-group mr-2">
+						<div class="input-group-addon">開始時間</div>
+						<input type="text" id="StartTime" name="StartTime" class="form-control search" placeholder="開始時間" aria-label="開始時間">
 					</div>
-				</div>
+					<div class="input-group mr-2">
+						<div class="input-group-addon">結束時間</div>
+						<input type="text" id="EndTime" name="EndTime" class="form-control search" placeholder="結束時間" aria-label="結束時間">
+					</div>
+				</form>
 			</div>
 		</div>
 	</div>
 	<br>
-	<table class="table display table-striped" id="PlayerLogTable" style="text-align:center">
+	<table class="table display table-striped" id="PlayerLogByIDTable" style="text-align:center">
 		<thead>
 			<th>編號</th>
-			<th>名字</th>
-			<th>遊玩次數</th>
-			<th>雙星次數</th>
-			<th>總押注金額</th>
+			<th>會員名稱</th>
+			<th>機台編號</th>
+			<th>分區編號</th>
+			<th>押注金額</th>
+			<th>牌型名稱</th>
+			<th>牌型贏得倍率</th>
+			<th>比倍次數</th>
+			<th>比倍贏得倍率</th>
+			<th>JP贏錢金額</th>
 			<th>總贏錢金額</th>
-			<th>水位率</th>
-			<th>最後遊玩時間</th>
-			<th>紀錄查詢</th>
+			<th>建立時間</th>
 		</thead>
 		<tbody>
 		</tbody>
