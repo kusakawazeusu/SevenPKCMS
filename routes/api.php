@@ -41,3 +41,11 @@ Route::delete('agent','Agent@deleteAgent')->name('DeleteAgent');
 
 Route::patch('credit','Agent@manipulateCredit')->name('ManipulateCredit');
 Route::get('creditlogs','Agent@getCreditLog')->name('GetCreditLog');
+
+//Report API
+Route::get('report/singlesessionreport','Report@getSingleSessionReport')->name('GetSingleSessionData');
+Route::get('report/singlesessionreport/get','Report@getSingleSessionReportByid')->name('GetSingleSessionDataByid');
+
+Route::get('report/singledayreport','Report@getSingleDayReport')->name('GetSingleDayData');
+Route::get('report/monthReport','Report@getMonthReport')->name('GetMonthData');
+Route::get('report/playerbetReport','Report@getPlayerBetReport')->name('GetPlayerBetData');

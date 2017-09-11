@@ -39,7 +39,10 @@
             </button>
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
                 <ul class="navbar-nav mr-auto">
+                    @section('navbar-item')
+                    @show
                 </ul>
                 @if(!Auth::guest())
                 <a href="{{ url('/knockoff') }}" class="btn btn-light mr-3">下班</a>
@@ -82,7 +85,7 @@
                         <a href="{{ url('/agent') }}">經銷商</a><br><br>
 
                         <p class="SideBarTitle">報表</p>
-                        <a href="">報表管理</a><br>
+                        <a href="{{ url('/report') }}">報表管理</a><br>
                         <a href="">會員遊玩紀錄</a><br><br>
 
                         <p class="SideBarTitle">業務</p>

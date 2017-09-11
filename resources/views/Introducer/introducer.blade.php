@@ -32,11 +32,13 @@ $(document).ready(function() {
 
     $("#Name").on('input',function(event){
         SeachText = $(this).val();
+        Page = 0;
         GetData(ShowEntries,Page,SeachText);
     });
 
     $(".ShowEntries").change(function(){
         ShowEntries = $(this).val();
+        Page = 0;
         GetData(ShowEntries,Page,SeachText);
     });
 
@@ -134,7 +136,6 @@ function GetData(ShowEntries, Page, SearchText)
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
-            Page = 0;
             $("#NumberOfEntries").text(NumberOfEntries);
             $("#totalPage").text( totalPage );
             $("#page").text(Page+1);

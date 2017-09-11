@@ -30,7 +30,10 @@
 {
     text-align: center;
 }
-
+#SingleSessionTable thead tr th
+{
+    text-align: center;
+}
 .FormLabel
 {
     opacity: 0.7;
