@@ -78,15 +78,20 @@
                         <p class="SideBarTitle">遊戲機台</p>
                         <a href="{{url('/Machine/Probability')}}">機台機率管理</a><br>
                         <a href="{{ url('/Machine') }}">機台分區管理</a><br>
-                        <a href="">機台數值表</a><br><br>
+                        <a href="{{url('/Machine/Meter')}}">機台數值表</a><br><br>
 
                         <p class="SideBarTitle">通路</p>
                         <a href="{{ url('/introducer') }}">介紹人</a><br>
                         <a href="{{ url('/agent') }}">經銷商</a><br><br>
 
                         <p class="SideBarTitle">報表</p>
+<<<<<<< HEAD
                         <a href="{{ url('/report') }}">報表管理</a><br>
                         <a href="">會員遊玩紀錄</a><br><br>
+=======
+                        <a href="">報表管理</a><br>
+                        <a href="{{url('/PlayerLog')}}">會員遊玩紀錄</a><br><br>
+>>>>>>> 9b73fad64576e4b0006f60ae596ea6fad4fc16bf
 
                         <p class="SideBarTitle">業務</p>
                         <a href="">交班管理</a><br><br>

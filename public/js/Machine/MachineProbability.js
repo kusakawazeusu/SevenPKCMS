@@ -6,7 +6,7 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $.ajaxSetup({
         headers: {
@@ -28,12 +28,12 @@ $(document).ready(function() {
         對表格進行的操作。
     */
 
-    $("#AgentID").keyup(function(event) {
+    $("#AgentID").keyup(function (event) {
         SeachText = $(this).val();
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $(".ShowEntries").change(function() {
+    $(".ShowEntries").change(function () {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -45,7 +45,7 @@ $(document).ready(function() {
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $("#nextPage").click(function(event) {
+    $("#nextPage").click(function (event) {
 
         if (Page >= totalPage - 1) {
             swal({
@@ -58,7 +58,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#previousPage").click(function() {
+    $("#previousPage").click(function () {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
@@ -77,7 +77,7 @@ $(document).ready(function() {
     var CreateForm = document.getElementById("MachineProbabilityForm");
     CreateForm.novalidate = false;
 
-    $("#MachineProbabilitySubmit").click(function() {
+    $("#MachineProbabilitySubmit").click(function () {
         if (CreateForm.checkValidity() == false) {
             $("#MachineProbabilityForm").addClass("was-validated");
         } else {
@@ -86,7 +86,7 @@ $(document).ready(function() {
                 url: AjaxUrl,
                 method: "POST",
                 data: $("#MachineProbabilityForm").serialize(),
-                success: function(result) {
+                success: function (result) {
                     $("#MachineProbabilitySubmit").prop('disabled', false);
                     $("#MachineProbabilityModal").modal('hide');
                     swal({
@@ -98,7 +98,7 @@ $(document).ready(function() {
                     GetData(ShowEntries, Page, SeachText);
                 },
                 statusCode: {
-                    500: function() {
+                    500: function () {
                         swal("操作失敗", "請確認欄位是否填寫正確！", "error");
                     }
                 }
@@ -123,8 +123,7 @@ function GetData(ShowEntries, Page, SearchText) {
         url: 'Probability/GetTableData',
         method: "GET",
         data: SendingData,
-        success: function(data) {
-            console.log(data);
+        success: function (data) {
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
@@ -189,7 +188,7 @@ function OpenUpdateProbabilityModal(id) {
         url: 'Probability/GetMachineByID',
         data: { "id": id },
         method: "GET",
-        success: function(data) {
+        success: function (data) {
 
             var section;
             switch (data.SectionID) {
