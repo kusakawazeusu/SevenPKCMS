@@ -67,7 +67,7 @@ class PlayerController extends Controller
 		PlayerModel::where('ID','=',$newID)->update(['CardNumber'=>$newID]);
 		PlayerAccModel::create([
 			'PlayerID'=>$newID]);
-		return 'Success';
+		return '新增會員成功！';
 
 	}
 
@@ -115,7 +115,7 @@ class PlayerController extends Controller
 			'ReceiveAd'=>Input::get('ReceiveAd'),
 			'Memo'=>Input::get('Memo')
 			]);
-		return 'update';
+		return '更新會員成功！';
 	}
 
 	public function DeletePlayer()
@@ -123,7 +123,7 @@ class PlayerController extends Controller
 		PlayerModel::where('ID',Input::get('ID'))->delete();
 		PlayerAccModel::where('PlayerID',Input::get('ID'))->delete();
 
-		return 'Success';
+		return '刪除會員成功！';
 	}
 
 	public function CreatePhoto()
@@ -166,7 +166,23 @@ class PlayerController extends Controller
 	public function Deposit()
 	{
 		PlayerModel::where('ID','=',Input::get('ID'))->increment('Balance',Input::get('credit'));
-		return 'DepositSuccess';
+		return '儲值成功！';
+	}
+
+	public function CheckPassword()
+	{
+		$password = PlayerModel::where('ID','=',Input::get('ID'))->value('Password');
+		if(Hash::check(Input::get('Password'),$password))
+			return Response::json(['valid'=>true]);
+		return Response::json(['valid'=>false]);
+	}
+
+	public function UpdatePassword()
+	{
+		PlayerModel::where('ID','=',Input::get('ID'))->update([
+			'Password'=>Hash::make(Input::get('Password'))
+			]);
+		return '變更密碼成功！';
 	}
 
 }

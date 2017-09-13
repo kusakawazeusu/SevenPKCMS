@@ -10,6 +10,8 @@ Route::group(['prefix'=>'Player'], function () {
 	Route::post('/CheckPhoto','PlayerController@CheckPhoto');
 	Route::post('/CreatePhoto','PlayerController@CreatePhoto');
 	Route::post('/Deposit','PlayerController@Deposit');
+	Route::post('/CheckPassword','PlayerController@CheckPassword');
+	Route::post('/UpdatePassword','PlayerController@UpdatePassword');
 });
 
 Route::group(['prefix'=>'PlayerLog'], function () {
