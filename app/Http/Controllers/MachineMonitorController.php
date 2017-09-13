@@ -17,7 +17,7 @@ class MachineMonitorController extends Controller
     public function Index()
     {
         $machines = Monitor::all();
-        return view('Machine.Monitor', ['counters'=>$machines->count()-1,'machines'=>$machines]);
+        return view('Machine.Monitor', ['counters'=>$machines->count(),'machines'=>$machines]);
     }
 
     public function GetCur()
@@ -45,8 +45,8 @@ class MachineMonitorController extends Controller
         } else {
             return Response::json(['done'=>'unsuccess', 'errorMsg'=>'餘額不足']);
         }
-        return Response::json(['done'=>'success','machineID'=>Monitor::where('Cellphone', '=', Input::get('playerCellphone'))->select('CurCredit',
-        'ID')->get()[0]->ID]);
+            return Response::json(['done'=>'success','machineID'=>Monitor::where('Cellphone', '=', Input::get('playerCellphone'))->select('CurCredit',
+            'ID')->get()[0]->ID]);
     }
 
     public function CreditOut()
@@ -72,6 +72,29 @@ class MachineMonitorController extends Controller
             return $response;
         }
 
-        return Response::json(['done'=>'unsuccess', 'type'=>'ToCredit', 'credit'=>0]);
+            return Response::json(['done'=>'unsuccess', 'type'=>'ToCredit', 'credit'=>0]);
+    }
+    
+    public function RefreshMachineStatus()
+    {
+        $machines = Monitor::all();
+        return $machines;
+    }
+
+    public function GetDepositCredit()
+    {
+        $response = Monitor::where('ID', '=', Input::get('id'))->select('MaxDepositCredit', 'DepositCreditOnce', 'Cellphone')->get()[0];
+        return $response;
+    }
+
+    public function CheckCreditIn()
+    {
+        $player = PlayerModel::where('Cellphone', '=', Input::get('PlayerPhone'))->get();
+        if (sizeof($player)==0) {
+            return Response::json(['valid'=>'false', 'errMsg'=>'phone']);
+        } elseif ($player[0]->Balance < Input::get('Credit')) {
+            return Response::json(['valid'=>'false', 'errMsg'=>'creditNoEnough']);
+        }
+        return Response::json(['valid'=>'true']);
     }
 }
