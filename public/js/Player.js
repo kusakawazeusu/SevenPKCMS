@@ -20,6 +20,10 @@ $(document).ready(function() {
 		Webcam.reset()
 	});
 
+	$('#playerModal').on('hide.bs.modal', function() {
+		// do something...
+	});
+
 	$('#updatePicture').click(function(event) {
 		/* Act on the event */
 		console.log('update');
@@ -30,12 +34,30 @@ $(document).ready(function() {
 
 
 
-	$('#createPlayerBtn').click(function(event) {
-		/* Act on the event */
-		$('#playerModalTitle').text('新增會員');
-		ajaxUrl = 'Player/CreatePlayer';
-		$('#Account').attr('readonly', false);
-	});
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+$('#createPlayerBtn').click(function(event) {
+	/* Act on the event */
+	$('.createInput').val('');
+	$('#PasswordLabel').text('密碼');
+	$('#Password').show();
+	$('#PasswordBtn').hide();
+	$('#playerModalTitle').text('新增會員');
+	ajaxUrl = 'Player/CreatePlayer';
+	$('#Account').attr('readonly', false);
+});
 
 
 	////////////////////////////////////////
@@ -65,7 +87,6 @@ $(document).ready(function() {
 
 	$('.deletePlayer').click(function(event) {
 		/* Act on the event */
-
 		DeletePlayer($(this).val());
 	});
 
@@ -127,25 +148,29 @@ $(document).ready(function() {
 
 
 	$('#playerSubmit').click(function(event) {
-		$.ajax({
-			url: ajaxUrl,
-			type: 'POST',
-			data:$('#createPlayerForm').serialize(),
-		})
-		.done(function(response) {
-			console.log(response);
-			console.log("success");
-			swal("新增員工成功","列表將自動更新。","success");
-			GetData(page);
-			$('#playerModal').modal('toggle');
-			$('.createInput').val('');
-			
-		})
-		.fail(function() {
-			console.log("error");
-		});		
+		SubmitData();
 	});	
 });
+
+function SubmitData()
+{
+	$.ajax({
+		url: ajaxUrl,
+		type: 'POST',
+		data:$('#PlayerForm').serialize(),
+	})
+	.done(function(response) {
+		console.log(response);
+		console.log("success");
+		swal(response,"列表將自動更新。","success");
+		GetData(page);
+		$('#playerModal').modal('toggle');
+
+	})
+	.fail(function() {
+		console.log("error");
+	});	
+}
 
 var page=0;
 var pagesNum = Math.ceil(entries / showNum);  // 記錄總共有幾頁
@@ -209,6 +234,10 @@ function GetData(page)
 
 function GetPlayerData(ID)
 {
+	$('#PasswordLabel').text('');
+	$('#Password').hide();
+	$('#PasswordBtn').show();
+	$('.createInput').val('');
 	$.ajax({
 		url: 'Player/PlayerData',
 		type: 'GET',
@@ -249,10 +278,10 @@ function DeletePlayer(ID)
 					type: 'POST',
 					data: {ID: ID},
 				})
-				.done(function() {
+				.done(function(response) {
 					swal(
-						'刪除成功!',
-						'此會員已刪除.',
+						response,
+						'此會員已刪除',
 						'success'
 						)
 					GetData(page);
@@ -332,4 +361,102 @@ function InitCamera()
 function PlayerDeposit(ID)
 {
 	Deposit(ID,'Reload');
+}
+
+function ChangePassword()
+{
+	console.log($('#ID').val());
+
+	swal({
+		title: '請輸入舊密碼',
+		input: 'password',  
+		showCancelButton: true,
+		cancelButtonColor: '#d33',
+		showLoaderOnConfirm: true,
+		cancelButtonText: '取消變更',
+		allowOutsideClick:false,
+		inputPlaceholder:
+		'請輸入舊密碼',
+		confirmButtonText:
+		'繼續 <i class="fa fa-arrow-right"></i>',
+		preConfirm: function (password){
+			return new Promise(function(resolve,reject){
+				$.ajax({
+					url: 'Player/CheckPassword',
+					type: 'POST',
+					data: {
+						ID:$('#ID').val(),
+						Password: password},
+					})
+				.done(function(response) {
+					if(response.valid==true)
+						resolve();
+					else 
+						reject('密碼錯誤');
+				})
+				.fail(function() {
+					console.log("CheckPassword Error");
+				});
+
+			})
+		}
+	}).then(function(){
+		
+
+		swal({
+			title: '輸入新密碼及確認',
+			html:
+			'<input type="password" id="NewPasswrod" class="swal2-input">' +
+			'<input type="password" id="ConfirmNewPasswrod" class="swal2-input">',
+			preConfirm: function () {
+				return new Promise(function (resolve,reject) {
+					if($('#NewPasswrod').val()!=$('#ConfirmNewPasswrod').val())
+					{
+						reject('請確認密碼相同！');						
+						$('#NewPasswrod').addClass('swal2-inputerror');
+						$('#ConfirmNewPasswrod').addClass('swal2-inputerror');
+					}
+					else if($('#NewPasswrod').val()===''|| $('#ConfirmNewPasswrod').val()==='')
+					{
+						reject('密碼不可為空');
+						$('#NewPasswrod').addClass('swal2-inputerror');
+						$('#ConfirmNewPasswrod').addClass('swal2-inputerror');
+					}
+					else
+						resolve();
+				})
+			},
+			onOpen: function () {
+				$('#NewPasswrod').focus()
+			}
+		}).then(function () {
+
+			$.ajax({
+				url: 'Player/UpdatePassword',
+				type: 'POST',
+				data: {
+					ID:$('#ID').val(),
+					Password: $('#NewPasswrod').val()},
+				})
+			.done(function(response) {
+				console.log(response);
+				swal({
+					type: 'success',
+					title: response
+				})
+			})
+			.fail(function() {
+				console.log("error");
+			});
+			
+
+
+		}).catch(swal.noop)
+	},function(dismiss){
+		swal({
+			type: 'error',
+			title: '取消變更密碼'
+		})
+	});
+
 }

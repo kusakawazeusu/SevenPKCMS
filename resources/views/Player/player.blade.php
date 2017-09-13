@@ -11,10 +11,14 @@
 	
 	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
 </script>
+<script src="{{asset('js/test.js')}}"></script>
+
+
 <script src="{{asset('js/Player.js')}}"></script>
 <script src="{{asset('js/Deposit.js')}}"></script>
 <script src="{{asset('js/webcam.min.js')}}"></script>
 <script src="{{asset('js/webcam.swf')}}"></script>
+
 <div>
 	<h1>帳號系統</h1>
 	<hr>
@@ -83,7 +87,9 @@
 
 
 
-<div class="modal fade" id="playerModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+
+
+<div class="modal fade" id="playerModal" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -94,39 +100,40 @@
 				<h5>必填資訊</h5>
 				<hr>
 
-				<form id="createPlayerForm">
+				<form id="PlayerForm" method="POST" role="form" data-toggle="validator">
 					<input type="hidden" id="ID" name="ID">
 					<div class="row">
 						<div id="createAccountDiv" class="col-md-6 form-group">
 							<label class="FormLabel">帳號(行動電話)</label>
 							<input id="Account" type="text" name="Account" class="form-control create createInput update" required>
+							<small id="AccountText" style="display:none;color:brown !important" class="form-text text-muted">請取另外一個帳號名稱，此帳號重複了！</small>							
 						</div>
 
 						<div class="col-md-6 form-group">
-							<label class="FormLabel">密碼</label>
-							<input type="password" id="Password" name="Password" class="form-control create createInput update" required>
-
+							<label class="FormLabel" id="PasswordLabel"></label>
+							<input id="Password" type="password" name="Password" class="form-control create createInput update" >
+							<button type="button" id="PasswordBtn" name="PasswordBtn" class="form-control btn btn-warning mt-2" onclick=ChangePassword()>更改密碼</button>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">姓名</label>
-							<input type="text" id="Name" name="Name" class="form-control create createInput update" required>
+							<input type="text" id="Name" name="Name" class="form-control create createInput update" >
 						</div>						
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">身分證字號</label>
-							<input type="text" id="IDCardNumber" name="IDCardNumber" class="form-control create createInput update" required>
+							<input type="text" id="IDCardNumber" name="IDCardNumber" class="form-control create createInput update" >
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">生日</label>
-							<input type="text" id="Birthday" name="Birthday" class="form-control create createInput update" required>
+							<input type="text" id="Birthday" name="Birthday" class="form-control create createInput update" >
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">性別</label>
-							<select id="Gender" name="Gender" class="form-control create update" required>
+							<select id="Gender" name="Gender" class="form-control create update" >
 								<option value="0">男</option>
 								<option value="1">女</option>
 							</select>
@@ -137,12 +144,12 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">介紹人名稱</label>
-							<input type="text" id="IntroducerName" name="IntroducerName" class="form-control create createInput update" required>
+							<input type="text" id="IntroducerName" name="IntroducerName" class="form-control create createInput update">
 						</div>							
 						
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">是否啟動此帳號</label>
-							<select id="Enable" name="Enable" class="form-control create update" required>
+							<select id="Enable" name="Enable" class="form-control create update" >
 								<option value="1">啟用</option>
 								<option value="0">凍結</option>
 							</select>
