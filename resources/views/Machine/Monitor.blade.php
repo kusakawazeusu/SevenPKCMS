@@ -28,7 +28,6 @@
 <script>
 var operatorID = {{ Auth::user()->id }};
 </script>
-
 <div class="jumbotron">
     <div class="row">
         @for ($i = 0; $i < count($machines); $i++)
@@ -61,7 +60,7 @@ var operatorID = {{ Auth::user()->id }};
                 <div class="dropdown-menu" style="width:100%" id="{{$machines[$i]->ID}}">
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick ="CreditIn(this.id)">鍵入</a>
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick ="CreditOut(this.id)">鍵出</a>
-                    <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="GameReserved(this.id)">保留</a>
+                    <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="RemoveReserved(this.id)">解除保留</a>
                     <a class="dropdown-item">取消</a>
                 </div>
             </div>
