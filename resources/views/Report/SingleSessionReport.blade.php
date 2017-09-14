@@ -230,7 +230,7 @@
                         <th>得分</th>
                         <th>押得差額</th>
                         <th>操作</th>
-                    </tr>
+                    </tr>   
                 </thead>
             </table>
 </div>
