@@ -36,28 +36,16 @@ $(document).ready(function() {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-$('#createPlayerBtn').click(function(event) {
-	/* Act on the event */
-	$('.createInput').val('');
-	$('#PasswordLabel').text('密碼');
-	$('#Password').show();
-	$('#PasswordBtn').hide();
-	$('#playerModalTitle').text('新增會員');
-	ajaxUrl = 'Player/CreatePlayer';
-	$('#Account').attr('readonly', false);
-});
+	$('#createPlayerBtn').click(function(event) {
+		/* Act on the event */
+		$('.createInput').val('');
+		$('#PasswordLabel').text('密碼');
+		$('#Password').show();
+		$('#PasswordBtn').hide();
+		$('#playerModalTitle').text('新增會員');
+		ajaxUrl = 'Player/CreatePlayer';
+		$('#Account').attr('readonly', false);
+	});
 
 
 	////////////////////////////////////////
@@ -149,7 +137,57 @@ $('#createPlayerBtn').click(function(event) {
 
 	$('#playerSubmit').click(function(event) {
 		SubmitData();
-	});	
+	});
+
+	var PlayerForm = $("#PlayerForm");
+	var AccountDepulicatedFlag = 0;
+	PlayerForm.novalidate = false;
+
+	$("#Account").focusout(function(){
+
+		var checkAccountResponse = CheckAccount($(this).val());
+		if($(this).val()!= '' && ajaxUrl == 'Player/CreatePlayer')
+		{
+			console.log('check');
+			CheckAccountStyle(checkAccountResponse,checkAccountResponse.text);
+		}
+		console.log(checkAccountResponse);
+		if( $(this).val() != '' && ajaxUrl == 'Player/CreatePlayer' && checkAccountResponse.valid)
+		{
+			console.log('ajax');
+			$.ajax({
+				url: "Player/CheckDepulicatedAccount",
+				method: "POST",
+				data: { "Account": $(this).val() },
+			})
+			.done(function(response) {
+				CheckAccountStyle(response,'請取另外一個帳號名稱，此名稱重複了！');
+			})
+			.fail(function() {
+				console.log("error");
+			});
+		}
+	});
+
+	function CheckAccountStyle(response,text)
+	{
+		if(response.valid==false)
+		{
+			$("#Account").css('border','1px solid brown');
+			$('#DepulicatedAccountText').text(text);
+			$("#DepulicatedAccountText").show();
+			AccountDepulicatedFlag = 1;
+		}
+		else
+		{
+			$("#Account").css('border','1px solid green');
+			$("#DepulicatedAccountText").hide();
+			$('#Account').append('<i class="form-control fa fa-ok"></i>');
+			AccountDepulicatedFlag = 0;	
+		}
+	}
+
+
 });
 
 function SubmitData()
@@ -401,8 +439,6 @@ function ChangePassword()
 			})
 		}
 	}).then(function(){
-		
-
 		swal({
 			title: '輸入新密碼及確認',
 			html:
@@ -458,5 +494,34 @@ function ChangePassword()
 			title: '取消變更密碼'
 		})
 	});
+}
 
+function CheckIDCardNumber(IDCardNumber)
+{
+	var tab = 'ABCDEFGHJKLMNPQRSTUVXYWZIO',
+	A1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3],
+	A2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5],
+	Mx = [9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
+	if (IDCardNumber.length != 10) return false;
+	var i = tab.indexOf(IDCardNumber.toUpperCase().charAt(0));
+	if (i == -1) return false;
+	var sum = A1[i] + A2[i] * 9;
+	for (i = 1; i < 10; i++) {
+		var v = parseInt(IDCardNumber.charAt(i));
+		if (isNaN(v)) return false;
+		sum = sum + v * Mx[i];
+	}
+	if (sum % 10 != 0) return false;
+	return true;
+}
+
+function CheckAccount(Account)
+{
+	var regexNumber = /\D/;
+	var regexLength = /\d{10}/;
+	if(regexNumber.test(Account))
+		return {valid:false,text:'帳號僅能為數字！'};
+	if(!regexLength.test(Account))
+		return {valid:false,text:'長度為10！'};
+	return {valid:true,text:''};
 }

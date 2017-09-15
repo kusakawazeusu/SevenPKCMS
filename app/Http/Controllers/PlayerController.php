@@ -185,4 +185,12 @@ class PlayerController extends Controller
 		return '變更密碼成功！';
 	}
 
+	public function CheckDepulicatedAccount()
+	{
+		if( PlayerModel::where('Account', Input::get('Account'))->first())
+			return Response::json(['valid'=>false]);
+        else
+			return Response::json(['valid'=>true]);
+	}
+
 }

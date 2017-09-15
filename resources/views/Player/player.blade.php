@@ -11,9 +11,6 @@
 	
 	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
 </script>
-<script src="{{asset('js/test.js')}}"></script>
-
-
 <script src="{{asset('js/Player.js')}}"></script>
 <script src="{{asset('js/Deposit.js')}}"></script>
 <script src="{{asset('js/webcam.min.js')}}"></script>
@@ -26,6 +23,7 @@
 	<div class="row justify-content-between">
 		<div class="col-4">
 			<button id="createPlayerBtn" name="createPlayerBtn" class="btn btn-primary" data-toggle="modal" data-target="#playerModal"><i class="fa fa-user-plus"></i> 新增會員</button>
+			<button onclick=CheckAccount()>test</button>
 		</div>
 		<div class="col-6">
 			<div class="row">
@@ -99,14 +97,13 @@
 
 				<h5>必填資訊</h5>
 				<hr>
-
 				<form id="PlayerForm" method="POST" role="form" data-toggle="validator">
 					<input type="hidden" id="ID" name="ID">
 					<div class="row">
-						<div id="createAccountDiv" class="col-md-6 form-group">
+						<div id="createAccountDiv" class="col-md-6 form-group has-success">
 							<label class="FormLabel">帳號(行動電話)</label>
-							<input id="Account" type="text" name="Account" class="form-control create createInput update" required>
-							<small id="AccountText" style="display:none;color:brown !important" class="form-text text-muted">請取另外一個帳號名稱，此帳號重複了！</small>							
+							<input id="Account" type="text" name="Account" class="form-control form-control-success create createInput update" required>
+							<small id="DepulicatedAccountText" style="display:none;color:brown !important" class="form-text text-muted"></small>
 						</div>
 
 						<div class="col-md-6 form-group">

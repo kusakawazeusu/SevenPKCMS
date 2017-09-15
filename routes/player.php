@@ -12,6 +12,7 @@ Route::group(['prefix'=>'Player'], function () {
 	Route::post('/Deposit','PlayerController@Deposit');
 	Route::post('/CheckPassword','PlayerController@CheckPassword');
 	Route::post('/UpdatePassword','PlayerController@UpdatePassword');
+	Route::post('/CheckDepulicatedAccount','PlayerController@CheckDepulicatedAccount');
 });
 
 Route::group(['prefix'=>'PlayerLog'], function () {
