@@ -37,37 +37,55 @@ function CreditIn(id) {
         cancelButtonText: '取消',
         preConfirm: function() {
             return new Promise(function(resolve, reject) {
-                $.ajax({
-                        url: 'Machine/Monitor/CheckCreditIn',
-                        type: 'POST',
-                        data: {
-                            PlayerPhone: $('#PlayerPhone').val(),
-                            Credit: $('#Credit').val()
-                        },
-                    })
-                    .done(function(response) {
-                        if (response.valid == 'true')
-                            resolve();
-                        else if (response.errMsg == 'phone') {
-                            $('#PlayerPhone').addClass('swal2-inputerror');
-                            reject('查無此會員');
-                        } else if (response.errMsg == 'creditNoEnough') {
-                            $('#Credit').addClass('swal2-inputerror');
-                            reject('餘額不足')
-                        }
-                    })
-                    .fail(function() {
-                        console.log("CheckCreditIn Error");
-                    });
+                $('#Credit').removeClass('swal2-inputerror');
+                $('#PlayerPhone').removeClass('swal2-inputerror');
+                if($('#PlayerPhone').val() == ''){
+                    $('#PlayerPhone').addClass('swal2-inputerror');
+                    reject('請輸入會員');
+                } else if($('#Credit').val() == 0){
+                    $('#Credit').addClass('swal2-inputerror');
+                    reject('請輸入金額');
+                } else{
+                    $.ajax({
+                            url: 'Machine/Monitor/CheckCreditIn',
+                            type: 'POST',
+                            data: {
+                                PlayerPhone: $('#PlayerPhone').val(),
+                                Credit: $('#Credit').val(),
+                                machineID: id
+                            },
+                        })
+                        .done(function(response) {                            
+                            if (response.valid == 'true')
+                                resolve();
+                            else if (response.errMsg == 'phone') {
+                                $('#PlayerPhone').addClass('swal2-inputerror');
+                                reject('查無此會員');
+                            } else if (response.errMsg == 'creditNoEnough') {
+                                $('#Credit').addClass('swal2-inputerror');
+                                reject('餘額不足');
+                            } else if(response.errMsg == 'enable'){
+                                $('#PlayerPhone').addClass('swal2-inputerror');
+                                reject('會員未啟用');
+                            } else if(response.errMsg =='creditToMore'){
+                                $('#Credit').addClass('swal2-inputerror');
+                                reject('鍵入過多');
+                            }
+                        })
+                        .fail(function() {
+                            console.log("CheckCreditIn Error");
+                        });
+                }
             });
         }
     }).then(function() {
             $.ajax({
                 url: 'Machine/Monitor/CreditIn',
                 type: 'post',
+                async: false,
                 data: {
-                    PlayerPhone: $('#PlayerPhone').val(),
-                    Credit: $('CreditIn').val(),
+                    playerCellphone: $('#PlayerPhone').val(),
+                    credit: $('#Credit').val(),
                     machineID: id,
                     operatorID: operatorID //{{ Auth::user()->id }}
                 },
@@ -90,35 +108,9 @@ function CreditIn(id) {
                 title: '取消鍵入'
             })
         });
-
-
-    /*
-        $('.CreditInInputplayerCellphone #playerCellphone').val('');
-        $('.CreditInInputCreditIn #CreaditIn').val('');
-        $('.CreditInInputplayerCellphone #playerCellphone').prop('disabled', false);
-        $('#CreditInAccept').val(id);
-        var playerCellphone = 0;
-        $.ajax({
-            url: 'Machine/Monitor/GetCur',
-            type: 'post',
-            async: false,
-            data: {
-                id: id
-            },
-            success: function(data) {
-                playerCellphone = data.Cellphone;
-            }
-        })
-        if (playerCellphone != null) {
-            $('.CreditInInputplayerCellphone #playerCellphone').val(playerCellphone);
-            $('.CreditInInputplayerCellphone #playerCellphone').prop('disabled', true);
-        }
-        $('#CreditInModal').modal('show');
-    */
 }
 
 function CreditOut(id) {
-    console.log(id);
     $.ajax({
             url: 'Machine/Monitor/GetCur',
             type: 'POST',
@@ -127,7 +119,6 @@ function CreditOut(id) {
             },
         })
         .done(function(data) {
-            console.log(data);
             if (data.Status != 0) {
                 swal({
                     title: '確定要鍵出嗎?',
@@ -156,6 +147,7 @@ function CreditOut(id) {
                                 $.ajax({
                                         url: 'Machine/Monitor/CreditOut',
                                         type: 'POST',
+                                        async: false,
                                         data: {
                                             ID: id,
                                             type: 'ToCredit',
@@ -166,7 +158,8 @@ function CreditOut(id) {
                                         if (data.done == 'success') {
                                             swal('鍵出成功!', '會員餘額' + data.credit, 'success');
                                         } else
-                                            swal('I have no idea', '', 'error');
+                                            swal('I have no idea', '', 'error');    
+                                        RefreshStatus();
                                     })
                                     .fail(function() {
                                         console.log("error");
@@ -178,6 +171,7 @@ function CreditOut(id) {
                                 $.ajax({
                                         url: 'Machine/Monitor/CreditOut',
                                         type: 'POST',
+                                        async: false,
                                         data: {
                                             ID: id,
                                             type: 'ToCash',
@@ -185,11 +179,11 @@ function CreditOut(id) {
                                         },
                                     })
                                     .done(function(data) {
-                                        console.log(data);
                                         if (data.done == 'success') {
                                             swal('兌現', '應付金額' + data.credit, 'info');
                                         } else
-                                            swal('I have no idea', '', 'error');
+                                            swal('I have no idea', '', 'error');    
+                                        RefreshStatus();
                                     })
                                     .fail(function() {
                                         console.log("error");
@@ -202,11 +196,9 @@ function CreditOut(id) {
                     swal('取消!', '', 'error');
                 });
             } else {
-                console.log("a");
                 return false;
             }
         });
-    RefreshStatus();
 }
 
 function RemoveReserved(id) {
@@ -242,30 +234,6 @@ $(document).ready(function() {
                 console.log(data);
             },
         });
-    });
-
-    $('#CreditInAccept').click(function() {
-        $.ajax({
-            url: 'Machine/Monitor/CreditIn',
-            type: 'post',
-            data: {
-                playerCellphone: $('.CreditInInputplayerCellphone #playerCellphone').val(),
-                credit: $('.CreditInInputCreditIn #CreaditIn').val(),
-                machineID: $('#CreditInAccept').val(),
-                operatorID: operatorID //{{ Auth::user()->id }}
-            },
-            success: function(data) {
-                if (data.done == 'success') {
-                    swal("鍵入成功", "", "success");
-                } else {
-                    swal("鍵入失敗", data.errorMsg, "error");
-                }
-            },
-            error: function(data) {
-                console.log(data);
-            },
-        });
-        RefreshStatus();
     });
 });
 

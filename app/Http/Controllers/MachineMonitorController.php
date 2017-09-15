@@ -90,11 +90,16 @@ class MachineMonitorController extends Controller
     public function CheckCreditIn()
     {
         $player = PlayerModel::where('Cellphone', '=', Input::get('PlayerPhone'))->get();
+        $machine = Monitor::where('ID', '=', Input::get('machineID')) ->get()[0];
         if (sizeof($player)==0) {
             return Response::json(['valid'=>'false', 'errMsg'=>'phone']);
+        } elseif($player[0]->Enable == 0) {
+            return Response::json(['valid'=>'false', 'errMsg'=>'enable']);
+        }  elseif (Input::get('Credit') + $machine->CurCredit > $machine->MaxDepositCredit) {
+            return Response::json(['valid'=>'false', 'errMsg'=>'creditToMore']);
         } elseif ($player[0]->Balance < Input::get('Credit')) {
             return Response::json(['valid'=>'false', 'errMsg'=>'creditNoEnough']);
-        }
+        } 
         return Response::json(['valid'=>'true']);
     }
 }
