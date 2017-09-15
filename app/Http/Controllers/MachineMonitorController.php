@@ -45,8 +45,12 @@ class MachineMonitorController extends Controller
         } else {
             return Response::json(['done'=>'unsuccess', 'errorMsg'=>'餘額不足']);
         }
-            return Response::json(['done'=>'success','machineID'=>Monitor::where('Cellphone', '=', Input::get('playerCellphone'))->select('CurCredit',
-            'ID')->get()[0]->ID]);
+        $code = 0;
+        if (Input::get('needCode')=='true') {
+            $code = $this->VerificationCode(Input::get('machineID'));
+        }
+        return Response::json(['done'=>'success','machineID'=>Monitor::where('Cellphone', '=', Input::get('playerCellphone'))->select('CurCredit',
+            'ID')->get()[0]->ID, 'code'=>$code]);
     }
 
     public function CreditOut()
@@ -71,7 +75,6 @@ class MachineMonitorController extends Controller
             $machineCreditLog->save();
             return $response;
         }
-
             return Response::json(['done'=>'unsuccess', 'type'=>'ToCredit', 'credit'=>0]);
     }
     
@@ -93,13 +96,48 @@ class MachineMonitorController extends Controller
         $machine = Monitor::where('ID', '=', Input::get('machineID')) ->get()[0];
         if (sizeof($player)==0) {
             return Response::json(['valid'=>'false', 'errMsg'=>'phone']);
-        } elseif($player[0]->Enable == 0) {
+        } elseif ($player[0]->Enable == 0) {
             return Response::json(['valid'=>'false', 'errMsg'=>'enable']);
-        }  elseif (Input::get('Credit') + $machine->CurCredit > $machine->MaxDepositCredit) {
+        } elseif (Input::get('Credit') + $machine->CurCredit > $machine->MaxDepositCredit) {
             return Response::json(['valid'=>'false', 'errMsg'=>'creditToMore']);
         } elseif ($player[0]->Balance < Input::get('Credit')) {
             return Response::json(['valid'=>'false', 'errMsg'=>'creditNoEnough']);
-        } 
-        return Response::json(['valid'=>'true']);
+        }
+            return Response::json(['valid'=>'true']);
+    }
+
+    public function RemoveReserved()
+    {
+        $monitor = Monitor::where('ID', '=', Input::get('ID'))->get()[0];
+        $machineCreditLog = new MachineCreditLog;
+        $machineCreditLog->OperatorID = Input::get('operatorID');
+        $machineCreditLog->Credit = $monitor->CurCredit;
+        $machineCreditLog->MachineID = $monitor->ID;
+        $machineCreditLog->PlayerID = $monitor->CurPlayer;
+        if (Input::get('type') == 'FreeMachine') {
+            $machineCreditLog->Operation = 9;
+            $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $monitor->CurCredit + floor($monitor->CurCoinIn / $monitor->MinCoinOut) * $monitor->MinCoinOut;
+            PlayerModel::where('ID', '=', $monitor->CurPlayer)->update(['Balance' => $credit]);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0']);
+            $machineCreditLog->save();
+            return Response::json(['done'=>'success', 'type'=>'ToCredit', 'credit'=>$credit, 'machineID'=>$monitor->ID]);
+        } elseif (Input::get('type') == 'RemoveReserved') {
+            $machineCreditLog->Operation = 10;
+            $response = Response::json(['done'=>'success']);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '1']);
+            $machineCreditLog->save();
+            return $response;
+        }
+            return Response::json(['done'=>'unsuccess', 'type'=>'ToCredit', 'credit'=>0]);
+    }
+
+    private function VerificationCode($id)
+    {
+        $code = mt_rand (1000, 9999);
+        while (sizeof(MachineStatus::where('VerificationCode', '=', $code)->get()) != 0) {
+            $code = mt_rand(1000, 9999);
+        }
+        MachineStatus::where('MachineID', '=', $id)->update(['VerificationCode' => $code]);
+        return $code;
     }
 }
