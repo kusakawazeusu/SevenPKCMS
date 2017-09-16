@@ -13,6 +13,8 @@
     Route::get('/GetTableData', 'MachineController@GetTableData');
     Route::post('/Create', 'MachineController@Create');
     Route::get('/GetMachineByID', 'MachineController@GetMachineByID');
+    Route::post('/CheckExistAgentID', 'MachineController@CheckExistAgentID');
+    Route::post('/CheckDepulicatedMachineName', 'MachineController@CheckDepulicatedMachineName');
     Route::post('/Edit', 'MachineController@Update');
     Route::post('/Delete', 'MachineController@Delete');
     Route::get('/Probability', 'MachineProbabilityController@Index');
