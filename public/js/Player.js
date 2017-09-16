@@ -26,25 +26,27 @@ $(document).ready(function() {
 
 	$('#updatePicture').click(function(event) {
 		/* Act on the event */
-		console.log('update');
 		InitCamera();
 		$('#updatePicture').hide();
 		$('#takePictureConfirm').show();
 	});
 
 
-
+	TotalTest();
 
 
 	$('#createPlayerBtn').click(function(event) {
 		/* Act on the event */
 		$('.createInput').val('');
 		$('#PasswordLabel').text('密碼');
-		$('#Password').show();
-		$('#PasswordBtn').hide();
+		$('#PasswordDiv').show();
+		$('#PasswordBtnDiv').hide();
 		$('#playerModalTitle').text('新增會員');
 		ajaxUrl = 'Player/CreatePlayer';
 		$('#Account').attr('readonly', false);
+		$('#IntroducerName').attr('readonly', false);
+		$('.checkText').hide();
+		$('.checkInput').removeAttr('style');
 	});
 
 
@@ -63,8 +65,11 @@ $(document).ready(function() {
 		format: 'yyyy-mm-dd',
 		language: 'zh-TW',
 		startView: 'decades',
-		autoclose: 1,
-		defaultViewDate: {year: 1900}
+		defaultViewDate: {year: 1900},
+		onClose: function () {
+			console.log('close');
+		},
+		autoclose: 1
 	});
 	
 	$("#page").text('1');
@@ -136,56 +141,130 @@ $(document).ready(function() {
 
 
 	$('#playerSubmit').click(function(event) {
-		SubmitData();
+		var $inputs = $('#PlayerForm :input');
+		var valid = true;
+		$inputs.each(function () {
+			$(this).focusout();
+			if ($(this).hasClass('error')) {
+				valid = false;
+			}
+		});
+		if(valid)
+			SubmitData();
 	});
 
 	var PlayerForm = $("#PlayerForm");
 	var AccountDepulicatedFlag = 0;
 	PlayerForm.novalidate = false;
 
-	$("#Account").focusout(function(){
 
+	function CheckValid() {
+		var $inputs = $('#PlayerForm :input');
+		var valid = true;
+		$inputs.each(function () {
+			if ($(this).hasClass('error')) {
+				valid = false;
+			}
+		});
+		if (valid)
+			$('#playerSubmit').attr('disabled', false);
+		else
+			$('#playerSubmit').attr('disabled', true);
+	}
+
+
+	$("#Account").focusout(function(){
 		var checkAccountResponse = CheckAccount($(this).val());
 		if($(this).val()!= '' && ajaxUrl == 'Player/CreatePlayer')
 		{
-			console.log('check');
-			CheckAccountStyle(checkAccountResponse,checkAccountResponse.text);
+			CheckStyle($('#Account'),$('#ErrAccountText'),checkAccountResponse,checkAccountResponse.text);
 		}
-		console.log(checkAccountResponse);
-		if( $(this).val() != '' && ajaxUrl == 'Player/CreatePlayer' && checkAccountResponse.valid)
+		else if( $(this).val() != '' && ajaxUrl == 'Player/CreatePlayer' && checkAccountResponse.valid)
 		{
-			console.log('ajax');
 			$.ajax({
 				url: "Player/CheckDepulicatedAccount",
 				method: "POST",
 				data: { "Account": $(this).val() },
 			})
 			.done(function(response) {
-				CheckAccountStyle(response,'請取另外一個帳號名稱，此名稱重複了！');
+				CheckStyle($('#Account'),$('#ErrAccountText'),response,'請取另外一個帳號名稱，此名稱重複了！');
 			})
 			.fail(function() {
 				console.log("error");
 			});
 		}
+		else if($(this).val()=='')
+			CheckStyle($('#Account'),$('#ErrAccountText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+
 	});
 
-	function CheckAccountStyle(response,text)
-	{
-		if(response.valid==false)
+	$('#IDCardNumber').focusout(function(){
+		if($(this).val()!='')
 		{
-			$("#Account").css('border','1px solid brown');
-			$('#DepulicatedAccountText').text(text);
-			$("#DepulicatedAccountText").show();
-			AccountDepulicatedFlag = 1;
+			var checkIDCardNumberResponse = CheckIDCardNumber($(this).val());
+			CheckStyle($('#IDCardNumber'),$('#ErrIDCardNumberText'),checkIDCardNumberResponse,'請使用合法的身分證字號！');
+			if(checkIDCardNumberResponse.valid)
+			{
+				$('#Gender').val($(this).val().charAt(1)-1);
+			}
 		}
 		else
+			CheckStyle($('#IDCardNumber'),$('#ErrIDCardNumberText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+
+	});
+
+	$('#IntroducerName').focusout(function() {
+		if($(this).val()!='' && ajaxUrl == 'Player/CreatePlayer')
 		{
-			$("#Account").css('border','1px solid green');
-			$("#DepulicatedAccountText").hide();
-			$('#Account').append('<i class="form-control fa fa-ok"></i>');
-			AccountDepulicatedFlag = 0;	
+			$.ajax({
+				url: 'Player/CheckIntroducerName',
+				type: 'POST',
+				data: {IntroducerName: $(this).val()},
+			})
+			.done(function(response) {
+				CheckStyle($('#IntroducerName'),$('#ErrIntroducerNameText'),response,'錯誤介紹人！');
+			})
+			.fail(function() {
+				console.log("error");
+			});			
 		}
-	}
+		else if($(this).val()=='')
+			CheckStyle($('#IntroducerName'),$('#ErrIntroducerNameText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+	});
+
+	$('#Password').focusout(function() {
+		CheckStyle($('#Password'),$('#ErrPasswordText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+	});
+	$('#ConfirmPassword').focusout(function() {
+
+		if($(this).val()!='')
+		{
+			var response ={'valid':true};
+			if($(this).val() != $('#Password').val())
+				response.valid=false;
+			CheckStyle($('#ConfirmPassword'),$('#ErrPasswordText'),response,'請確認密碼相同！');
+			CheckStyle($('#Password'),$('#ErrPasswordText'),response,'請確認密碼相同！');
+		}
+		else
+			CheckStyle($('#ConfirmPassword'),$('#ErrPasswordText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+	});
+	
+	$('#Name').focusout(function() {
+		CheckStyle($('#Name'),$('#ErrNameText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+	});
+
+	$('#Birthday').focusout(function() {
+		CheckStyle($('#Birthday'),$('#ErrBirthdayText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+	});
+
+	$('#Birthday').datepicker().on('changeDate', function() {
+		CheckStyle($('#Birthday'),$('#ErrBirthdayText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+		CheckValid();
+	});
+
+	$('.checkInput').focusout(function() {
+		CheckValid();
+	});
 
 
 });
@@ -273,8 +352,8 @@ function GetData(page)
 function GetPlayerData(ID)
 {
 	$('#PasswordLabel').text('');
-	$('#Password').hide();
-	$('#PasswordBtn').show();
+	$('#PasswordDiv').hide();
+	$('#PasswordBtnDiv').show();
 	$('.createInput').val('');
 	$.ajax({
 		url: 'Player/PlayerData',
@@ -287,6 +366,7 @@ function GetPlayerData(ID)
 		for (var key in response) 
 			$('#'+key).val(response[key]);
 		$('#Account').attr('readonly', true);
+		$('#IntroducerName').attr('readonly', true);
 		$('#playerModal').modal('toggle');
 		ajaxUrl = 'Player/UpdatePlayer';
 
@@ -502,17 +582,17 @@ function CheckIDCardNumber(IDCardNumber)
 	A1 = [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3],
 	A2 = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5],
 	Mx = [9, 8, 7, 6, 5, 4, 3, 2, 1, 1];
-	if (IDCardNumber.length != 10) return false;
+	if (IDCardNumber.length != 10) return {valid:false};
 	var i = tab.indexOf(IDCardNumber.toUpperCase().charAt(0));
-	if (i == -1) return false;
+	if (i == -1) return {valid:false};
 	var sum = A1[i] + A2[i] * 9;
 	for (i = 1; i < 10; i++) {
 		var v = parseInt(IDCardNumber.charAt(i));
-		if (isNaN(v)) return false;
+		if (isNaN(v)) return {valid:false};
 		sum = sum + v * Mx[i];
 	}
-	if (sum % 10 != 0) return false;
-	return true;
+	if (sum % 10 != 0) return {valid:false};
+	return {valid:true};
 }
 
 function CheckAccount(Account)
@@ -524,4 +604,56 @@ function CheckAccount(Account)
 	if(!regexLength.test(Account))
 		return {valid:false,text:'長度為10！'};
 	return {valid:true,text:''};
+}
+
+function Test1(id)
+{
+	console.log(id);
+}
+function Test2()
+{
+	console.log('Test2');
+}
+function Test3()
+{
+	console.log('Test3');
+}
+function Test4()
+{
+	console.log('Test4');
+}
+
+function TotalTest()
+{
+	var arrayOfFunc=[Test1(123),Test2(),Test3(),Test4()];
+	for (var i =0; i<arrayOfFunc.length; ++i) {
+		arrayOfFunc[i];
+	}
+}
+
+function CheckStyle(element,elementText,response,errMsg)
+{
+	console.log(response);
+	if(response.valid==false)
+	{
+		element.css('border','1px solid brown');
+		element.addClass('error');
+		elementText.text(errMsg);
+		elementText.show();
+		AccountDepulicatedFlag = 1;
+	}
+	else
+	{
+		element.css('border','1px solid green');
+		element.removeClass('error');
+		elementText.hide();
+		AccountDepulicatedFlag = 0;	
+	}
+}
+
+function CheckNotEmpty(elementValue)
+{
+	if(elementValue=='')
+		return {'valid':false};
+	return {'valid':true};
 }

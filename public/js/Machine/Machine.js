@@ -108,6 +108,193 @@ $(document).ready(function () {
             });
         }
     });
+
+    function CheckValid() {
+        var $inputs = $('#MachineForm :input');
+        var valid = true;
+        $inputs.each(function () {
+            if ($(this).hasClass('error')) {
+                valid = false;
+            }
+        });
+        if (valid)
+            $('#MachineSubmit').attr('disabled', false);
+        else
+            $('#MachineSubmit').attr('disabled', true);
+    }
+
+    $('input[name="AgentID"]').focusout(function () {
+        CheckAgent($(this).val());
+        CheckValid();
+    });
+
+    $('input[name="MachineName"]').focusout(function () {
+        var checkMachineNameResponse = CheckNumeric($(this).val());
+        if (CheckAgent($('input[name="AgentID"]').val()).valid == false) {
+            checkMachineNameResponse = { valid: false, errMsg: '請先輸入經銷商編號' };
+        }
+        if (checkMachineNameResponse.valid) {
+            if (AjaxUrl == 'Machine/Create') {
+                $.ajax({
+                    url: "Machine/CheckDepulicatedMachineName",
+                    method: "POST",
+                    async: false,
+                    data: {
+                        "AgentID": $('input[name="AgentID"]').val(),
+                        "MachineName": $(this).val()
+                    },
+                })
+                    .done(function (response) {
+                        checkMachineNameResponse = response;
+                    })
+                    .fail(function () {
+                        console.log("error");
+                    });
+            } else if (AjaxUrl == 'Machine/Edit') {
+
+            }
+        }
+        CheckStyle(checkMachineNameResponse, 'MachineName');
+        CheckValid();
+    });
+
+    $('input[name="MaxDepositCredit"]').focusout(function () {
+        var checkMaxDepositCreditResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkMaxDepositCreditResponse, 'MaxDepositCredit');
+        CheckValid();
+    });
+
+    $('input[name="DepositCreditOnce"]').focusout(function () {
+        var checkDepositCreditOnceResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkDepositCreditOnceResponse, 'DepositCreditOnce');
+        CheckValid();
+    });
+
+    $('input[name="MinCoinOut"]').focusout(function () {
+        var checkMinCoinOutResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkMinCoinOutResponse, 'MinCoinOut');
+        CheckValid();
+    });
+
+    $('input[name="MaxCoinIn"]').focusout(function () {
+        var checkMaxCoinInResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkMaxCoinInResponse, 'MaxCoinIn');
+        CheckValid();
+    });
+
+    $('input[name="CoinInOnce"]').focusout(function () {
+        var checkCoinInOnceResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkCoinInOnceResponse, 'CoinInOnce');
+        CheckValid();
+    });
+
+    $('input[name="CoinInBonus"]').focusout(function () {
+        var checkCoinInBonusResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkCoinInBonusResponse, 'CoinInBonus');
+        CheckValid();
+    });
+
+    $('input[name="TwoPairsOdd"]').focusout(function () {
+        var checkTwoPairsOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkTwoPairsOddResponse, 'TwoPairsOdd');
+        CheckValid();
+    });
+
+    $('input[name="ThreeOfAKindOdd"]').focusout(function () {
+        var checkThreeOfAKindOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkThreeOfAKindOddResponse, 'ThreeOfAKindOdd');
+        CheckValid();
+    });
+
+    $('input[name="StraightOdd"]').focusout(function () {
+        var checkStraightOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkStraightOddResponse, 'StraightOdd');
+        CheckValid();
+    });
+
+    $('input[name="FlushOdd"]').focusout(function () {
+        var checkFlushOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkFlushOddResponse, 'FlushOdd');
+        CheckValid();
+    });
+
+    $('input[name="FullHouseOdd"]').focusout(function () {
+        var checkFullHouseOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkFullHouseOddResponse, 'FullHouseOdd');
+        CheckValid();
+    });
+
+    $('input[name="FourOfAKindOdd"]').focusout(function () {
+        var checkFourOfAKindOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkFourOfAKindOddResponse, 'FourOfAKindOdd');
+        CheckValid();
+    });
+
+    $('input[name="STRFlushOdd"]').focusout(function () {
+        var checkSTRFlushOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkSTRFlushOddResponse, 'STRFlushOdd');
+        CheckValid();
+    });
+
+    $('input[name="FiveOfAKindOdd"]').focusout(function () {
+        var checkFiveOfAKindOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkFiveOfAKindOddResponse, 'FiveOfAKindOdd');
+        CheckValid();
+    });
+
+    $('input[name="RoyalFlushOdd"]').focusout(function () {
+        var checkRoyalFlushOddResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkRoyalFlushOddResponse, 'RoyalFlushOdd');
+        CheckValid();
+    });
+
+    function CheckNumeric(data, min = 0, max = 0) {
+        if (data == '')
+            return { valid: false, errMsg: '不可為空!' }
+        var regexNumber = /\D/;
+        if (regexNumber.test(data))
+            return { valid: false, errMsg: '請輸入數字!' };
+        if (max != 0 && data > max)
+            return { valid: false, errMsg: '請輸入小於' + (max - 1) + '的值!' };
+        if (min != 0 && data < min)
+            return { valid: false, errMsg: '請輸入大於' + (min - 1) + '的值!' };
+        return { valid: true, errMsg: '' };
+    }
+
+    function CheckAgent(data) {
+        var checkAgentIDResponse = CheckNumeric(data);
+        if (checkAgentIDResponse.valid) {
+            $.ajax({
+                url: "Machine/CheckExistAgentID",
+                method: "POST",
+                async: false,
+                data: { "AgentID": data },
+            })
+                .done(function (response) {
+                    checkAgentIDResponse = response;
+                })
+                .fail(function () {
+                    console.log("error");
+                });
+        }
+        CheckStyle(checkAgentIDResponse, 'AgentID');
+        return checkAgentIDResponse;
+    }
+
+    function CheckStyle(response, filed) {
+        if (response.valid == false) {
+            $('input[name="' + filed + '"]').removeClass('correct');
+            $('input[name="' + filed + '"]').addClass('error');
+            $('#ErrorMsg' + filed).text(response.errMsg);
+            $('#ErrorMsg' + filed).show();
+        }
+        else {  //true
+            $('input[name="' + filed + '"]').removeClass('error');
+            $('input[name="' + filed + '"]').addClass('correct');
+            $('#ErrorMsg' + filed).hide();
+        }
+    }
+
 });
 
 /*
@@ -241,8 +428,12 @@ function OpenUpdateMachineModal(id) {
             $('input[name="FiveOfAKindOdd"]').val(data.FiveOfAKindOdd);
             $('input[name="RoyalFlushOdd"]').val(data.RoyalFlushOdd);
             $("#MachineForm").removeClass("was-validated");
-            $("#MachineModal").modal('show');
+            $('.errmsg').hide();
+            $('.check').removeClass('error');
+            $('.check').removeClass('correct');
+            $('#MachineSubmit').attr('disabled', false);
             AjaxUrl = 'Machine/Edit';
+            $("#MachineModal").modal('show');
         }
     });
 }
@@ -260,6 +451,10 @@ function OpenCreateMachineModal() {
     $('input[name="FiveOfAKindOdd"]').val('200');
     $('input[name="RoyalFlushOdd"]').val('500');
     $("#MachineForm").removeClass("was-validated");
-    $("#MachineModal").modal('show');
+    $('.errmsg').hide();
+    $('.check').removeClass('error');
+    $('.check').removeClass('correct');
+    $('#MachineSubmit').attr('disabled', false);
     AjaxUrl = 'Machine/Create';
+    $("#MachineModal").modal('show');
 }

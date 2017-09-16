@@ -28,6 +28,15 @@ class CardBuffController extends Controller
 		->offset($offset)
 		->limit($num)
 		->get();
+		for($i=0;$i<count($cardBuffs);++$i)
+		{
+			$cardTypeArr = explode(',',$cardBuffs[$i]->CardType);
+			$CardType='';
+			for($j = 0;$j<count($cardTypeArr);++$j)
+				$CardType = $CardType.$this->NumToChar($cardTypeArr[$j]).',';
+			$CardType = substr($CardType,0,-1);
+			$cardBuffs[$i]->CardType = $CardType;
+		}
 		return Response::json(['cardBuffs'=>$cardBuffs,'numOfEntries'=>$numOfEntries]);
 	}
 
@@ -57,5 +66,26 @@ class CardBuffController extends Controller
 			'EndTime'=>Input::get('EndTime').':59'	
 			]);
 		return 'UpdateSuccess';
+	}
+
+	private function NumToChar($number)
+	{
+		switch ($number) 
+		{
+			case 1:
+			return 'A';
+			case 11:
+			return 'J';
+			case 12:
+			return 'Q';
+			case 13:
+			return 'K';
+			case 14:
+			return '隨機';
+			case 15:
+			return '一般';
+			default:
+			return $number;
+		}
 	}
 }

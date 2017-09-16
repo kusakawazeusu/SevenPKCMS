@@ -100,37 +100,53 @@
 				<form id="PlayerForm" method="POST" role="form" data-toggle="validator">
 					<input type="hidden" id="ID" name="ID">
 					<div class="row">
-						<div id="createAccountDiv" class="col-md-6 form-group has-success">
+						<div id="createAccountDiv" class="col-md-6 form-group">
 							<label class="FormLabel">帳號(行動電話)</label>
-							<input id="Account" type="text" name="Account" class="form-control form-control-success create createInput update" required>
-							<small id="DepulicatedAccountText" style="display:none;color:brown !important" class="form-text text-muted"></small>
+							<input id="Account" type="text" name="Account" class="form-control createInput checkInput" required>
+							<small id="ErrAccountText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
 						</div>
 
-						<div class="col-md-6 form-group">
+						<div id="PasswordBtnDiv" class="col-md-6 form-group">
 							<label class="FormLabel" id="PasswordLabel"></label>
-							<input id="Password" type="password" name="Password" class="form-control create createInput update" >
 							<button type="button" id="PasswordBtn" name="PasswordBtn" class="form-control btn btn-warning mt-2" onclick=ChangePassword()>更改密碼</button>
+						</div>
+
+						<div id="PasswordDiv" class="col-md-6 form-group">
+							<div class="row">
+								<div class="col-md-6 form-group PasswordDiv">
+									<label class="FormLabel">密碼</label>
+									<input id="Password" type="password" name="Password" class="form-control createInput checkInput" >
+								</div>
+								<div class="col-md-6 form-group PasswordDiv">
+									<label class="FormLabel">確認密碼</label>
+									<input id="ConfirmPassword" type="password" name="ConfirmPassword" class="form-control createInput checkInput" >
+								</div>
+								<small id="ErrPasswordText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-3"></small>
+							</div>
 						</div>
 					</div>
 					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">姓名</label>
-							<input type="text" id="Name" name="Name" class="form-control create createInput update" >
+							<input type="text" id="Name" name="Name" class="form-control createInput checkInput" >
+							<small id="ErrNameText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-"></small>
 						</div>						
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">身分證字號</label>
-							<input type="text" id="IDCardNumber" name="IDCardNumber" class="form-control create createInput update" >
+							<input type="text" id="IDCardNumber" name="IDCardNumber" class="form-control createInput checkInput" >
+							<small id="ErrIDCardNumberText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">生日</label>
-							<input type="text" id="Birthday" name="Birthday" class="form-control create createInput update" >
+							<input type="text" id="Birthday" name="Birthday" class="form-control createInput checkInput" >
+							<small id="ErrBirthdayText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-"></small>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">性別</label>
-							<select id="Gender" name="Gender" class="form-control create update" >
+							<select id="Gender" name="Gender" class="form-control" >
 								<option value="0">男</option>
 								<option value="1">女</option>
 							</select>
@@ -141,12 +157,13 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">介紹人名稱</label>
-							<input type="text" id="IntroducerName" name="IntroducerName" class="form-control create createInput update">
+							<input type="text" id="IntroducerName" name="IntroducerName" class="form-control createInput checkInput">
+							<small id="ErrIntroducerNameText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
 						</div>							
 						
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">是否啟動此帳號</label>
-							<select id="Enable" name="Enable" class="form-control create update" >
+							<select id="Enable" name="Enable" class="form-control" >
 								<option value="1">啟用</option>
 								<option value="0">凍結</option>
 							</select>
@@ -158,29 +175,29 @@
 					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">暱稱</label>
-							<input type="text" id="NickName" name="NickName" class="form-control create createInput update">
+							<input type="text" id="NickName" name="NickName" class="form-control createInput">
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">職業</label>
-							<input type="text" id="Career" name="Career" class="form-control create createInput update">
+							<input type="text" id="Career" name="Career" class="form-control createInput">
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">住宅地址</label>
-							<input type="text" id="Address" name="Address" class="form-control create createInput update">
+							<input type="text" id="Address" name="Address" class="form-control createInput">
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">住宅電話</label>
-							<input type="text" id="Telephone" name="Telephone" class="form-control create createInput update">
+							<input type="text" id="Telephone" name="Telephone" class="form-control createInput">
 						</div>
 					</div>
 
 					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">婚姻狀況</label>
-							<select id="Marry" name="Marry" class="form-control create update">
+							<select id="Marry" name="Marry" class="form-control">
 								<option value="0">未婚</option>
 								<option value="1">已婚</option>
 							</select>
@@ -188,7 +205,7 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">來店方式</label>
-							<select id="Coming" name="Coming" class="form-control create update">
+							<select id="Coming" name="Coming" class="form-control">
 								<option value="0">自行開車</option>
 								<option value="1">交通車</option>
 								<option value="2">客運</option>
@@ -199,7 +216,7 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">廣告接收</label>
-							<select id="ReceiveAd" name="ReceiveAd" class="form-control create update">
+							<select id="ReceiveAd" name="ReceiveAd" class="form-control">
 								<option value="2">都不收廣告</option>
 								<option value="0">可電話通知</option>
 								<option value="1">手機簡訊</option>
@@ -208,7 +225,7 @@
 						
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">備註</label>
-							<textarea type="text" id="Memo" name="Memo" class="form-control create createInput update"></textarea>
+							<textarea type="text" id="Memo" name="Memo" class="form-control createInput"></textarea>
 						</div>
 					</div>
 				</div>

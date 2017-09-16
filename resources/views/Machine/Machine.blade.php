@@ -26,6 +26,18 @@
         background-color: #f1f1f1;
         height: 100%;
     }
+
+    .correct {
+        border-style: solid;
+        border-color: green;
+        border-width: 1px;
+    }
+
+    .error {
+        border-style: solid;
+        border-color: brown;
+        border-width: 1px;
+    }
 </style>
 
 <h1>機台分區管理</h1>
@@ -124,12 +136,14 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">經銷商編號</label>
-                            <input type="text" name="AgentID" class="form-control" required>
+                            <input type="text" name="AgentID" class="form-control check" required>
+							<small id="ErrorMsgAgentID" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">機台名稱(編號)</label>
-                            <input type="text" name="MachineName" class="form-control" required>
+                            <input type="text" name="MachineName" class="form-control check" required>
+							<small id="ErrorMsgMachineName" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
@@ -148,17 +162,20 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">開分最大金額</label>
-                            <input type="text" name="MaxDepositCredit" class="form-control" required>
+                            <input type="text" name="MaxDepositCredit" class="form-control check" required>
+							<small id="ErrorMsgMaxDepositCredit" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">開分一次加多少金額</label>
-                            <input type="text" name="DepositCreditOnce" class="form-control" required>
+                            <input type="text" name="DepositCreditOnce" class="form-control check" required>
+							<small id="ErrorMsgDepositCreditOnce" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">最少可以上分的金額</label>
-                            <input type="text" name="MinCoinOut" class="form-control" required>
+                            <input type="text" name="MinCoinOut" class="form-control check" required>
+							<small id="ErrorMsgMinCoinOut" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                     </div>                    
@@ -167,17 +184,20 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">最大下分金額</label>
-                            <input type="text" name="MaxCoinIn" class="form-control" required>
+                            <input type="text" name="MaxCoinIn" class="form-control check" required>
+							<small id="ErrorMsgMaxCoinIn" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">一次下分金額</label>
-                            <input type="text" name="CoinInOnce" class="form-control" required>
+                            <input type="text" name="CoinInOnce" class="form-control check" required>
+							<small id="ErrorMsgCoinInOnce" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">下分額外的贈分</label>
-                            <input type="text" name="CoinInBonus" class="form-control" required>
+                            <input type="text" name="CoinInBonus" class="form-control check" required>
+							<small id="ErrorMsgCoinInBonus" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                     </div>               
@@ -186,22 +206,26 @@
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">兩對賠率</label>
-                            <input type="text" name="TwoPairsOdd" class="form-control" required>
+                            <input type="text" name="TwoPairsOdd" class="form-control check" required>
+							<small id="ErrorMsgTwoPairsOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">三條賠率</label>
-                            <input type="text" name="ThreeOfAKindOdd" class="form-control" required>
+                            <input type="text" name="ThreeOfAKindOdd" class="form-control check" required>
+							<small id="ErrorMsgThreeOfAKindOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">順子賠率</label>
-                            <input type="text" name="StraightOdd" class="form-control" required>
+                            <input type="text" name="StraightOdd" class="form-control check" required>
+							<small id="ErrorMsgStraightOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">同花賠率</label>
-                            <input type="text" name="FlushOdd" class="form-control" required>
+                            <input type="text" name="FlushOdd" class="form-control check" required>
+							<small id="ErrorMsgFlushOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                     </div>               
@@ -211,21 +235,25 @@
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">葫蘆賠率</label>
                             <input type="text" name="FullHouseOdd" class="form-control" required>
+							<small id="ErrorMsgFullHouseOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">四枚賠率</label>
-                            <input type="text" name="FourOfAKindOdd" class="form-control" required>
+                            <input type="text" name="FourOfAKindOdd" class="form-control check" required>
+							<small id="ErrorMsgFourOfAKindOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">同花順賠率</label>
-                            <input type="text" name="STRFlushOdd" class="form-control" required>
+                            <input type="text" name="STRFlushOdd" class="form-control check" required>
+							<small id="ErrorMsgSTRFlushOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">五枚賠率</label>
-                            <input type="text" name="FiveOfAKindOdd" class="form-control" required>
+                            <input type="text" name="FiveOfAKindOdd" class="form-control check" required>
+							<small id="ErrorMsgFiveOfAKindOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                     </div>          
@@ -234,7 +262,8 @@
                     
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">同花大順賠率</label>
-                            <input type="text" name="RoyalFlushOdd" class="form-control" required>
+                            <input type="text" name="RoyalFlushOdd" class="form-control check" required>
+							<small id="ErrorMsgRoyalFlushOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                     </div>

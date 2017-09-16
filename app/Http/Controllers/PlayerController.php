@@ -189,8 +189,14 @@ class PlayerController extends Controller
 	{
 		if( PlayerModel::where('Account', Input::get('Account'))->first())
 			return Response::json(['valid'=>false]);
-        else
-			return Response::json(['valid'=>true]);
+		return Response::json(['valid'=>true]);
+	}
+
+	public function CheckIntroducerName()
+	{
+		if(DB::table('introducer')->where('IntroducerName','=',Input::get('IntroducerName'))->first())
+			return Response::json(['valid'=>true]);//有找到合法介紹人
+		return Response::json(['valid'=>false]);//沒找到介紹人
 	}
 
 }

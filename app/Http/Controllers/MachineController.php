@@ -11,6 +11,7 @@ use App\Machine;
 use App\MachineStatus;
 use App\MachineProbability;
 use App\MachineMeter;
+use App\AgentModel;
 
 class MachineController extends Controller
 {
@@ -109,5 +110,23 @@ class MachineController extends Controller
         MachineProbability::where('MachineID', Input::get('id'))->delete();
         MachineMeter::where('MachineID', Input::get('id'))->delete();
         return;
+    }
+
+    public function CheckExistAgentID()
+    {
+        $agent = AgentModel::where('ID', '=', Input::get('AgentID'))->get();
+        if (sizeof($agent)==0) {
+            return Response::json(['valid'=>false, 'errMsg'=>'查無此經銷商!']);
+        }
+        return Response::json(['valid'=>true, 'errMsg'=>'']);
+    }
+
+    public function CheckDepulicatedMachineName()
+    {
+        $machine = Machine::where('AgentID', '=', Input::get('AgentID'))->where('MachineName', '=', Input::get('MachineName'))->get();
+        if (sizeof($machine)!=0) {
+            return Response::json(['valid'=>false, 'errMsg'=>'此經銷商有相同機台名稱!']);
+        }
+        return Response::json(['valid'=>true, 'errMsg'=>'']);
     }
 }
