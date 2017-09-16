@@ -55,7 +55,7 @@ class MachineMonitorController extends Controller
 
     public function CreditOut()
     {
-        $monitor = Monitor::where('ID', '=', Input::get('ID'))->select('CurCredit', 'CurPlayer', 'ID', 'Name')->get()[0];
+        $monitor = Monitor::where('ID', '=', Input::get('ID'))->get()[0];
         $machineCreditLog = new MachineCreditLog;
         $machineCreditLog->OperatorID = Input::get('operatorID');
         $machineCreditLog->Credit = $monitor->CurCredit;
@@ -63,15 +63,16 @@ class MachineMonitorController extends Controller
         $machineCreditLog->PlayerID = $monitor->CurPlayer;
         if (Input::get('type') == 'ToCredit') {
             $machineCreditLog->Operation = 1;
-            $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $monitor->CurCredit;
+            $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $monitor->CurCredit + floor($monitor->CurCoinIn / $monitor->MinCoinOut) * $monitor->MinCoinOut;
             PlayerModel::where('ID', '=', $monitor->CurPlayer)->update(['Balance' => $credit]);
-            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0']);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0','CurCoinIn'=>'0']);
             $machineCreditLog->save();
             return Response::json(['done'=>'success', 'type'=>'ToCredit', 'credit'=>$credit, 'machineID'=>$monitor->ID]);
         } elseif (Input::get('type') == 'ToCash') {
             $machineCreditLog->Operation = 2;
-            $response = Response::json(['done'=>'success', 'type'=>'ToCash', 'credit'=>$monitor->CurCredit, 'playerName'=>$monitor->Name,'machineID'=>$monitor->ID]);
-            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0']);
+            $credit = $monitor->CurCredit + floor($monitor->CurCoinIn / $monitor->MinCoinOut) * $monitor->MinCoinOut;
+            $response = Response::json(['done'=>'success', 'type'=>'ToCash', 'credit'=>$credit, 'playerName'=>$monitor->Name,'machineID'=>$monitor->ID]);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0','CurCoinIn'=>'0']);
             $machineCreditLog->save();
             return $response;
         }
@@ -118,7 +119,7 @@ class MachineMonitorController extends Controller
             $machineCreditLog->Operation = 9;
             $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $monitor->CurCredit + floor($monitor->CurCoinIn / $monitor->MinCoinOut) * $monitor->MinCoinOut;
             PlayerModel::where('ID', '=', $monitor->CurPlayer)->update(['Balance' => $credit]);
-            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0']);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0','CurCoinIn'=>'0']);
             $machineCreditLog->save();
             return Response::json(['done'=>'success', 'type'=>'ToCredit', 'credit'=>$credit, 'machineID'=>$monitor->ID]);
         } elseif (Input::get('type') == 'RemoveReserved') {
