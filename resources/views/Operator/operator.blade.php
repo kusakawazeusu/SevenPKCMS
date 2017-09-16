@@ -15,6 +15,9 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
+var ChangePasswordFlag;
+var ChangeFormFlag;
+
 $(document).ready(function() {
     
     t = $('#OperatorTable').DataTable({
@@ -127,7 +130,7 @@ $(document).ready(function() {
             $.ajax({
                url: AjaxUrl,
                method: "POST",
-               data: $("#OperatorForm").serialize()+IntroToggle,
+               data: $("#OperatorForm").serialize()+IntroToggle+'&ChangePasswordFlag='+ChangePasswordFlag,
                success: function(result) {
                     console.log(result);
                     $("#OperatorSubmit").prop('disabled',false);
@@ -170,6 +173,43 @@ $(document).ready(function() {
         language: 'zh-TW',
         startView: 'decades',
         defaultViewDate: {year: 1900}
+    });
+
+    $("input[name='Password']").on('input',function(){
+        ChangePasswordFlag = 1
+    });
+
+    $("input[name='IDCardNumber']").on('input',function(){
+        $("select[name='Gender']").children().eq( parseInt($(this).val().charAt(1))-1 ).prop('selected',true);
+    });
+
+    $("input").on('input',function(){
+        ChangeFormFlag = 1;
+    });
+
+    $("select").change(function(){
+        ChangeFormFlag = 1;
+    });
+
+    $('#OperatorModal').on('hide.bs.modal',function(e){
+        
+        if(ChangeFormFlag == 1)
+        {
+            e.preventDefault();
+            swal({
+                title: '哈囉！',
+                text: '我們發現有些資料已經被編輯過了，你確定要離開這個視窗嗎？',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '放棄編輯',
+                cancelButtonText: '留在此視窗'
+            }).then(function(){
+                ChangeFormFlag = 0;
+                $('#OperatorModal').modal('toggle');
+            });
+        }
+        
+       
     });
 });
 
@@ -272,6 +312,8 @@ function DeleteOperator(id)
 
 function OpenUpdateOperatorModal(id)
 {
+    PasswordChangeFlag = 0;
+    ChangeFormFlag = 0;
     $.ajax({
         url: "{{ route('GetOperatorById') }}",
         data: { "id": id },
@@ -296,7 +338,9 @@ function OpenUpdateOperatorModal(id)
             {
                 $("#IntroCheck").prop('checked',true);
                 $("#IntroCheck").prop('disabled',true);
-                $("input[name*='Intro'").prop('readonly',false);
+                $("input[name='IntroBonus']").prop('readonly',false);
+                $("input[name='IntroBonusThreshold']").prop('readonly',false);
+                $("input[name='IntroBonusRate']").prop('readonly',false);
                 $("select[name='BonusPeriod']").prop('disabled',false);
 
                 $("input[name='IntroBonusThreshold']").val(data.ReturnThreshold);
@@ -309,8 +353,12 @@ function OpenUpdateOperatorModal(id)
             {
                 $("#IntroCheck").prop('checked',false);
                 $("#IntroCheck").prop('disabled',false);
-                $("input[name*='Intro'").prop('readonly',true);
-                $("input[name*='Intro'").val('');
+                $("input[name='IntroBonus']").prop('readonly',true);
+                $("input[name='IntroBonusThreshold']").prop('readonly',true);
+                $("input[name='IntroBonusRate']").prop('readonly',true);
+                $("input[name='IntroBonus']").val('');
+                $("input[name='IntroBonusThreshold']").val('');
+                $("input[name='IntroBonusRate']").val('');
                 $("select[name='BonusPeriod']").prop('disabled',true);
             }
 
@@ -327,6 +375,7 @@ function OpenUpdateOperatorModal(id)
 
 function OpenCreateOperatorModal()
 {
+    ChangeFormFlag = 0;
     AjaxUrl = "{{ route('CreateOperator') }}";
     $("#OperatorModalTitle").text('新增一名員工');
     $("input").val('');
@@ -455,13 +504,13 @@ function OpenCreateOperatorModal()
                 <div class="row">
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">身分證字號</label>
-                            <input type="text" name="IDCardNumber" class="form-control" required>
+                            <input type="text" name="IDCardNumber" class="form-control" style="text-transform:uppercase" required pattern="[A-Z]([1,2])([0-9]){8}">
 
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">行動電話</label>
-                            <input type="text" name="Cellphone" class="form-control" required>
+                            <input type="text" name="Cellphone" class="form-control" required pattern="^(09)[0-9]{8}">
 
                         </div>
 
@@ -470,6 +519,7 @@ function OpenCreateOperatorModal()
                             <select name="Gender" class="form-control" required>
                                 <option value="0">男</option>
                                 <option value="1">女</option>
+                                <option value="2">其他</option>
                             </select>
 
                         </div>

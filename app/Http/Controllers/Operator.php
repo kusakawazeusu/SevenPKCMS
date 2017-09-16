@@ -116,9 +116,14 @@ class Operator extends Controller
             ]);
         }
 
+        if( $request->input('ChangePasswordFlag') == 0 )
+            $Password = $request->input('Password');
+        else
+            $Password = Hash::make($request->input('Password'));
+
         DB::table('Operator')->where('Account',$request->input('Account'))->update([
             'Account' => $request->input('Account'),
-            'password' => Hash::make($request->input('Password')),
+            'password' => $Password,
             'Name' => $request->input('Name'),
             'Type' => $request->input('Type'),
             'Session' => $request->input('Session'),
