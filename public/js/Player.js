@@ -2,6 +2,7 @@ var playerTable;
 var ajaxUrl;
 var globalType;
 var globalID;
+var ChangeFormFlag;
 $(document).ready(function() {
 
 	$.ajaxSetup({
@@ -20,9 +21,37 @@ $(document).ready(function() {
 		Webcam.reset()
 	});
 
-	$('#playerModal').on('hide.bs.modal', function() {
-		// do something...
+
+	$("input").on('input',function(){
+		ChangeFormFlag = 1;
 	});
+
+	$("select").change(function(){
+		ChangeFormFlag = 1;
+	});
+
+
+	$('#playerModal').on('hide.bs.modal',function(e){
+		if(ChangeFormFlag == 1 && ajaxUrl=='Player/UpdatePlayer')
+		{
+			e.preventDefault();
+			swal({
+				title: '哈囉！',
+				text: '我們發現有些資料已經被編輯過了，你確定要離開這個視窗嗎？',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: '放棄編輯',
+				cancelButtonText: '留在此視窗'
+			}).then(function(){
+				ChangeFormFlag = 0;
+				$('#playerModal').modal('toggle');
+			});
+		}
+
+
+	});
+
+
 
 	$('#updatePicture').click(function(event) {
 		/* Act on the event */
@@ -32,11 +61,9 @@ $(document).ready(function() {
 	});
 
 
-	TotalTest();
-
-
 	$('#createPlayerBtn').click(function(event) {
 		/* Act on the event */
+		ChangeFormFlag = 0;
 		$('.createInput').val('');
 		$('#PasswordLabel').text('密碼');
 		$('#PasswordDiv').show();
@@ -47,6 +74,8 @@ $(document).ready(function() {
 		$('#IntroducerName').attr('readonly', false);
 		$('.checkText').hide();
 		$('.checkInput').removeAttr('style');
+		$('.checkInput').removeClass('error');
+		$('#playerSubmit').attr('disabled', false);
 	});
 
 
@@ -149,8 +178,24 @@ $(document).ready(function() {
 				valid = false;
 			}
 		});
-		if(valid)
+		if(valid && ajaxUrl=='Player/CreatePlayer')
 			SubmitData();
+		else if(valid && ajaxUrl=='Player/UpdatePlayer')
+		{
+			swal({
+				title: '哈囉！',
+				text: '我們發現有些資料已經被編輯過了，你確定要儲存嗎？',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonColor: '#3085d6',
+				cancelButtonColor: '#d33',
+				confirmButtonText: '確定儲存',
+				cancelButtonText: '放棄編輯'
+			}).then(function(){
+				ChangeFormFlag = 0;
+				SubmitData();
+			});
+		}
 	});
 
 	var PlayerForm = $("#PlayerForm");
@@ -175,12 +220,9 @@ $(document).ready(function() {
 
 	$("#Account").focusout(function(){
 		var checkAccountResponse = CheckAccount($(this).val());
-		if($(this).val()!= '' && ajaxUrl == 'Player/CreatePlayer')
+		if( $(this).val() != '' && ajaxUrl == 'Player/CreatePlayer' && checkAccountResponse.valid)
 		{
-			CheckStyle($('#Account'),$('#ErrAccountText'),checkAccountResponse,checkAccountResponse.text);
-		}
-		else if( $(this).val() != '' && ajaxUrl == 'Player/CreatePlayer' && checkAccountResponse.valid)
-		{
+			console.log(123);
 			$.ajax({
 				url: "Player/CheckDepulicatedAccount",
 				method: "POST",
@@ -192,6 +234,10 @@ $(document).ready(function() {
 			.fail(function() {
 				console.log("error");
 			});
+		}
+		else if($(this).val()!= '' && ajaxUrl == 'Player/CreatePlayer')
+		{
+			CheckStyle($('#Account'),$('#ErrAccountText'),checkAccountResponse,checkAccountResponse.text);
 		}
 		else if($(this).val()=='')
 			CheckStyle($('#Account'),$('#ErrAccountText'),CheckNotEmpty($(this).val()),'請填寫資料！');
@@ -306,14 +352,15 @@ function GetData(page)
 		playerTable.clear().draw();
 		for(i=0;i<response['players'].length;++i)
 		{
-			playerTable.row.add([
+			var rowNode = playerTable.row.add([
 				'<td style="text-align:center">'+
 				'<button class="btn btn-success mr-1 updateBtn" onclick=GetPlayerData("'+response['players'][i].ID+'")><i class="fa fa-pencil aria-hidden="true"></i></button>'+
 				'<button class="btn btn-danger deletePlayer mr-1" onclick=DeletePlayer("'+response['players'][i].ID+'")><i class="fa fa-trash" aria-hidden="true"></i></button>'+
 				'</td>',
 				response['players'][i].CardNumber,
 				response['players'][i].Name,
-				response['players'][i].Balance,
+				'<td class="text-right">'+response['players'][i].Balance.toLocaleString("en-US")+
+				'</td>',
 				response['players'][i].CardType,
 				response['players'][i].IDCardNumber,
 				response['players'][i].Cellphone,
@@ -333,7 +380,8 @@ function GetData(page)
 				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Photo",'+response['players'][i].ID+')'+
 				'>照片</button>'+
 				'</td>'
-				]).draw(false);
+				]).draw(false).node();
+			$( rowNode ).find('td').eq(3).addClass('text-right');
 		}
 
 		entries = response['numOfEntries'];
@@ -351,10 +399,15 @@ function GetData(page)
 
 function GetPlayerData(ID)
 {
+	ChangeFormFlag=0;
 	$('#PasswordLabel').text('');
 	$('#PasswordDiv').hide();
 	$('#PasswordBtnDiv').show();
 	$('.createInput').val('');
+	$('.checkInput').removeAttr('style');
+	$('.checkInput').removeClass('error');
+	$('.checkText').hide();
+	$('#playerSubmit').attr('disabled', false);
 	$.ajax({
 		url: 'Player/PlayerData',
 		type: 'GET',
@@ -365,6 +418,7 @@ function GetPlayerData(ID)
 		$('#playerModalTitle').text('正在編輯： ' +response.Name );
 		for (var key in response) 
 			$('#'+key).val(response[key]);
+		$('#ConfirmPassword').val(response['Password']);
 		$('#Account').attr('readonly', true);
 		$('#IntroducerName').attr('readonly', true);
 		$('#playerModal').modal('toggle');
@@ -606,30 +660,6 @@ function CheckAccount(Account)
 	return {valid:true,text:''};
 }
 
-function Test1(id)
-{
-	console.log(id);
-}
-function Test2()
-{
-	console.log('Test2');
-}
-function Test3()
-{
-	console.log('Test3');
-}
-function Test4()
-{
-	console.log('Test4');
-}
-
-function TotalTest()
-{
-	var arrayOfFunc=[Test1(123),Test2(),Test3(),Test4()];
-	for (var i =0; i<arrayOfFunc.length; ++i) {
-		arrayOfFunc[i];
-	}
-}
 
 function CheckStyle(element,elementText,response,errMsg)
 {

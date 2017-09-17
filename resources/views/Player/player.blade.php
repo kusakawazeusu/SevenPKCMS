@@ -23,7 +23,6 @@
 	<div class="row justify-content-between">
 		<div class="col-4">
 			<button id="createPlayerBtn" name="createPlayerBtn" class="btn btn-primary" data-toggle="modal" data-target="#playerModal"><i class="fa fa-user-plus"></i> 新增會員</button>
-			<button onclick=CheckAccount()>test</button>
 		</div>
 		<div class="col-6">
 			<div class="row">
@@ -54,15 +53,15 @@
 <div>
 	<table class="table display table-striped" id="playerListTable" style="text-align:center">
 		<thead>
-			<th>功能</th>
-			<th>卡號</th>
-			<th>名字</th>
-			<th>儲值金額</th>
-			<th>卡別</th>
-			<th>身分證號</th>
-			<th>行動電話</th>
-			<th>介紹人</th>
-			<th>操作</th>
+			<th class="text-center">功能</th>
+			<th class="text-center">卡號</th>
+			<th class="text-center">名字</th>
+			<th class="text-right">儲值金額</th>
+			<th class="text-center">卡別</th>
+			<th class="text-center">身分證號</th>
+			<th class="text-center">行動電話</th>
+			<th class="text-center">介紹人</th>
+			<th class="text-center">操作</th>
 		</thead>
 		<tbody>
 		</tbody>
@@ -87,7 +86,7 @@
 
 
 
-<div class="modal fade" id="playerModal" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal" id="playerModal" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
