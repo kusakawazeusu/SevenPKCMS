@@ -175,23 +175,11 @@ $(document).ready(function() {
 				valid = false;
 			}
 		});
-		if(valid && ajaxUrl=='Player/CreatePlayer')
-			SubmitData();
-		else if(valid && ajaxUrl=='Player/UpdatePlayer')
+		if(valid)
 		{
-			swal({
-				title: '哈囉！',
-				text: '我們發現有些資料已經被編輯過了，你確定要儲存嗎？',
-				type: 'warning',
-				showCancelButton: true,
-				confirmButtonColor: '#3085d6',
-				cancelButtonColor: '#d33',
-				confirmButtonText: '確定儲存',
-				cancelButtonText: '放棄編輯'
-			}).then(function(){
-				ChangeFormFlag = 0;
-				SubmitData();
-			});
+
+			ChangeFormFlag = 0;
+			SubmitData();
 		}
 	});
 
