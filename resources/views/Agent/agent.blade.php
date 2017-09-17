@@ -526,7 +526,7 @@ function DetailedCredit(id)
                 <div class="row">
                     <div class="col-md-6 form-group">
                         <label class="FormLabel">行動電話</label>
-                        <input type="text" name="Cellphone" class="form-control" required>
+                        <input type="text" name="Cellphone" class="form-control" required pattern="^(09)[0-9]{8}">
                     </div>
 
                     <div class="col-md-6 form-group">
