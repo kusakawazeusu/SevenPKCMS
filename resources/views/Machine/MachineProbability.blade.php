@@ -119,38 +119,68 @@
             <div class="modal-body">
 
                 <form id="MachineProbabilityForm">
-                    <input type="hidden" name="id" class="form-control" required>
+                    <input type="hidden" name="id" class="form-control">
 
                     <div class="row">
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">兩對機率</label>
-                            <input type="text" name="TwoPairs" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="TwoPairs" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="TwoPairsRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">三條機率</label>
-                            <input type="text" name="ThreeOfAKind" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="ThreeOfAKind" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="ThreeOfAKindRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">順子機率</label>
-                            <input type="text" name="Straight" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="Straight" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="StraightRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">同花機率</label>
-                            <input type="text" name="Flush" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="Flush" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="FlushRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">葫蘆機率</label>
-                            <input type="text" name="FullHouse" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="FullHouse" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="FullHouseRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">四枚機率</label>
-                            <input type="text" name="FourOfAKind" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="FourOfAKind" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="FourOfAKindRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                     </div>   
@@ -159,32 +189,62 @@
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">同花順機率</label>
-                            <input type="text" name="STRFlush" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="STRFlush" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="STRFlushRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">五枚機率</label>
-                            <input type="text" name="FiveOfAKind" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="FiveOfAKind" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="FiveOfAKindRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">同花大順機率</label>
-                            <input type="text" name="RoyalFlush" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="RoyalFlush" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="RoyalFlushRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">正四枚機率</label>
-                            <input type="text" name="RealFourOfAKind" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="RealFourOfAKind" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="RealFourOfAKindRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">正同花順機率</label>
-                            <input type="text" name="RealSTRFlush" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="RealSTRFlush" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="RealSTRFlushRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">正五枚機率</label>
-                            <input type="text" name="RealFiveOfAKind" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="RealFiveOfAKind" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="RealFiveOfAKindRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                     </div>   
@@ -193,32 +253,57 @@
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">正同花大順機率</label>
-                            <input type="text" name="RealRoyalFlush" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="RealRoyalFlush" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="RealRoyalFlushRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">小烏龜出現機率</label>
-                            <input type="text" name="Turtle" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="Turtle" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="TurtleRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">雙星出現機率</label>
-                            <input type="text" name="DoubleStar" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-10 form-group">
+                                <input type="range" name="DoubleStar" class="form-control range" min="1" max="10" value="10">
+                                </div>
+                                <label id="DoubleStarRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">比倍難易度(%)</label>
-                            <input type="text" name="BonusDifficulty" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-9 form-group">
+                                <input type="range" name="BonusDifficulty" class="form-control range" min="1" max="100" value="100">
+                                </div>
+                                <label id="BonusDifficultyRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">鬼牌出現率(%)</label>
-                            <input type="text" name="WildCard" class="form-control" required>
+                            <div class="row">
+                                <div class="col-md-9 form-group">
+                                <input type="range" name="WildCard" class="form-control range" min="1" max="100" value="100">
+                                </div>
+                                <label id="WildCardRangeText" class="text-center"/>
+                            </div>
                         </div>
 
                         <div class="col-md-2 form-group">
                             <label class="FormLabel">水位數值</label>
-                            <input type="text" name="Water" class="form-control" required>
+                            <input type="text" name="Water" class="form-control" disabled>
                         </div>
 
                     </div>     

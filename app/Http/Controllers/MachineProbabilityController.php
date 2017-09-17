@@ -61,8 +61,8 @@ class MachineProbabilityController extends Controller
             'Turtle' => Input::get('Turtle'),
             'DoubleStar' => Input::get('DoubleStar'),
             'BonusDifficulty' => Input::get('BonusDifficulty'),
-            'WildCard' => Input::get('WildCard'),
-            'Water' => Input::get('Water')
+            'WildCard' => Input::get('WildCard')//,
+            //'Water' => Input::get('Water')
             ]);
     }
 }
