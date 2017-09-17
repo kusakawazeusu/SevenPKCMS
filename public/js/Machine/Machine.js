@@ -5,6 +5,7 @@ var ShowEntries = 5;
 var SeachText = "%";
 var t;
 var AjaxUrl;
+var ChangeFormFlag;
 
 $(document).ready(function() {
 
@@ -19,6 +20,29 @@ $(document).ready(function() {
         "info": false,
         "searching": false,
         "bAutoWidth": false,
+        "columns": [
+            null,
+            null,
+            null,
+            null,
+            null,
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" },
+            { className: "text-right" }
+        ]
     });
 
     // Initialize the table
@@ -78,10 +102,17 @@ $(document).ready(function() {
     CreateForm.novalidate = false;
 
     $("#MachineSubmit").click(function() {
-        if (CreateForm.checkValidity() == false) {
-            $("#MachineForm").addClass("was-validated");
+        var $inputs = $('#MachineForm :input');
+        var valid = true;
+        $inputs.each(function() {
+            $(this).focusout();
+            if ($(this).hasClass('error')) {
+                valid = false;
+            }
+        });
+        if (valid == false) {
+            CheckValid();
         } else {
-            $("#MachineSubmit").prop('disabled', true);
             $.ajax({
                 url: AjaxUrl,
                 method: "POST",
@@ -102,6 +133,33 @@ $(document).ready(function() {
                         swal("操作失敗", "請確認欄位是否填寫正確！", "error");
                     }
                 }
+            });
+            ChangeFormFlag = 0;
+            $('#MachineModal').modal('toggle');
+        }
+    });
+
+    $("input").on('input', function() {
+        ChangeFormFlag = 1;
+    });
+
+    $("select").change(function() {
+        ChangeFormFlag = 1;
+    });
+
+    $('#MachineModal').on('hide.bs.modal', function(e) {
+        if (ChangeFormFlag == 1) {
+            e.preventDefault();
+            swal({
+                title: '哈囉！',
+                text: '我們發現有些資料已經被編輯過了，你確定要離開這個視窗嗎？',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '放棄編輯',
+                cancelButtonText: '留在此視窗'
+            }).then(function() {
+                ChangeFormFlag = 0;
+                $('#MachineModal').modal('toggle');
             });
         }
     });
@@ -131,32 +189,30 @@ $(document).ready(function() {
             checkMachineNameResponse = { valid: false, errMsg: '請先輸入經銷商編號' };
         }
         if (checkMachineNameResponse.valid) {
-            if (AjaxUrl == 'Machine/Create') {
-                $.ajax({
-                        url: "Machine/CheckDepulicatedMachineName",
-                        method: "POST",
-                        async: false,
-                        data: {
-                            "AgentID": $('input[name="AgentID"]').val(),
-                            "MachineName": $(this).val()
-                        },
-                    })
-                    .done(function(response) {
-                        checkMachineNameResponse = response;
-                    })
-                    .fail(function() {
-                        console.log("error");
-                    });
-            } else if (AjaxUrl == 'Machine/Edit') {
-
-            }
+            var type = AjaxUrl;
+            $.ajax({
+                    url: "Machine/CheckDepulicatedMachineName",
+                    method: "POST",
+                    async: false,
+                    data: {
+                        "AgentID": $('input[name="AgentID"]').val(),
+                        "MachineName": $(this).val(),
+                        "Type": type,
+                        "ID": $("input[name='id']").val()
+                    },
+                })
+                .done(function(response) {
+                    checkMachineNameResponse = response;
+                })
+                .fail(function() {
+                    console.log("error");
+                });
         }
         CheckStyle(checkMachineNameResponse, 'MachineName');
         CheckValid();
     });
 
     $('.numberic').focusout(function() {
-        console.log($(this).attr('name'));
         var checkResponse = CheckNumeric($(this).val(), 1);
         CheckStyle(checkResponse, $(this).attr('name'));
         CheckValid();
@@ -266,22 +322,22 @@ function GetData(ShowEntries, Page, SearchText) {
                     data[i].AgentID,
                     data[i].MachineName,
                     section,
-                    oneBet,
-                    data[i].MaxDepositCredit,
-                    data[i].DepositCreditOnce,
-                    data[i].MinCoinOut,
-                    data[i].MaxCoinIn,
-                    data[i].CoinInOnce,
-                    data[i].CoinInBonus,
-                    data[i].TwoPairsOdd,
-                    data[i].ThreeOfAKindOdd,
-                    data[i].StraightOdd,
-                    data[i].FlushOdd,
-                    data[i].FullHouseOdd,
-                    data[i].FourOfAKindOdd,
-                    data[i].STRFlushOdd,
-                    data[i].FiveOfAKindOdd,
-                    data[i].RoyalFlushOdd
+                    oneBet.toLocaleString("en-US"),
+                    data[i].MaxDepositCredit.toLocaleString("en-US"),
+                    data[i].DepositCreditOnce.toLocaleString("en-US"),
+                    data[i].MinCoinOut.toLocaleString("en-US"),
+                    data[i].MaxCoinIn.toLocaleString("en-US"),
+                    data[i].CoinInOnce.toLocaleString("en-US"),
+                    data[i].CoinInBonus.toLocaleString("en-US"),
+                    data[i].TwoPairsOdd.toLocaleString("en-US"),
+                    data[i].ThreeOfAKindOdd.toLocaleString("en-US"),
+                    data[i].StraightOdd.toLocaleString("en-US"),
+                    data[i].FlushOdd.toLocaleString("en-US"),
+                    data[i].FullHouseOdd.toLocaleString("en-US"),
+                    data[i].FourOfAKindOdd.toLocaleString("en-US"),
+                    data[i].STRFlushOdd.toLocaleString("en-US"),
+                    data[i].FiveOfAKindOdd.toLocaleString("en-US"),
+                    data[i].RoyalFlushOdd.toLocaleString("en-US")
                 ]).draw(false);
             }
         },
@@ -323,6 +379,7 @@ function DeleteMachine(id) {
 }
 
 function OpenUpdateMachineModal(id) {
+    ChangeFormFlag = 0;
     $.ajax({
         url: 'Machine/GetMachineByID',
         data: { "id": id },
@@ -360,6 +417,7 @@ function OpenUpdateMachineModal(id) {
 }
 
 function OpenCreateMachineModal() {
+    ChangeFormFlag = 0;
     $("#MachineModalTitle").text('新增一台機台');
     $("input").val('');
     $('input[name="TwoPairsOdd"]').val('1');

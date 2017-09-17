@@ -162,19 +162,19 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">開分最大金額</label>
-                            <input type="text" name="MaxDepositCredit" class="form-control check" required>
+                            <input type="text" name="MaxDepositCredit" class="form-control check numberic" required>
 							<small id="ErrorMsgMaxDepositCredit" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">開分一次加多少金額</label>
-                            <input type="text" name="DepositCreditOnce" class="form-control check" required>
+                            <input type="text" name="DepositCreditOnce" class="form-control check numberic" required>
 							<small id="ErrorMsgDepositCreditOnce" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">最少可以上分的金額</label>
-                            <input type="text" name="MinCoinOut" class="form-control check" required>
+                            <input type="text" name="MinCoinOut" class="form-control check numberic" required>
 							<small id="ErrorMsgMinCoinOut" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
@@ -184,19 +184,19 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">最大下分金額</label>
-                            <input type="text" name="MaxCoinIn" class="form-control check" required>
+                            <input type="text" name="MaxCoinIn" class="form-control check numberic" required>
 							<small id="ErrorMsgMaxCoinIn" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">一次下分金額</label>
-                            <input type="text" name="CoinInOnce" class="form-control check" required>
+                            <input type="text" name="CoinInOnce" class="form-control check numberic" required>
 							<small id="ErrorMsgCoinInOnce" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">下分額外的贈分</label>
-                            <input type="text" name="CoinInBonus" class="form-control check" required>
+                            <input type="text" name="CoinInBonus" class="form-control check numberic" required>
 							<small id="ErrorMsgCoinInBonus" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 

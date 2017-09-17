@@ -123,7 +123,11 @@ class MachineController extends Controller
 
     public function CheckDepulicatedMachineName()
     {
-        $machine = Machine::where('AgentID', '=', Input::get('AgentID'))->where('MachineName', '=', Input::get('MachineName'))->get();
+        if (Input::get('Type') =='Machine/Create') {
+            $machine = Machine::where('AgentID', '=', Input::get('AgentID'))->where('MachineName', '=', Input::get('MachineName'))->get();
+        } else {
+            $machine = Machine::where('AgentID', '=', Input::get('AgentID'))->where('MachineName', '=', Input::get('MachineName'))->where('ID', '<>', Input::get('ID'))->get();
+        }
         if (sizeof($machine)!=0) {
             return Response::json(['valid'=>false, 'errMsg'=>'此經銷商有相同機台名稱!']);
         }
