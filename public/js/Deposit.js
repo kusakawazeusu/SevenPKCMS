@@ -15,12 +15,22 @@ function Deposit(ID,Type=null)
 			confirmButtonText: '儲值',
 			cancelButtonColor:'#d33',
 			showLoaderOnConfirm: true,
-			allowOutsideClick: false
+			allowOutsideClick: false,			
+			preConfirm: function (number){
+				return new Promise(function(resolve,reject){
+					if(number<0)
+						reject('儲值金額不可為負！');
+					else if(number==0)
+						reject('儲值金額不可為零！');
+					resolve();
+
+				})
+			}
 		}).then(function (credit) {
 			$.ajax({
 				url: 'Player/Deposit',
 				type: 'POST',
-				data: {ID:ID,credit: credit},
+				data: {ID:ID,credit: credit}
 			})
 			.done(function(response) {
 				console.log(response);		
@@ -37,9 +47,9 @@ function Deposit(ID,Type=null)
 		},function(dismiss)
 		{
 			swal({
-					type: 'error',
-					title: '取消儲值!'
-				})
+				type: 'error',
+				title: '取消儲值!'
+			})
 		});
 	})
 	.fail(function() {
