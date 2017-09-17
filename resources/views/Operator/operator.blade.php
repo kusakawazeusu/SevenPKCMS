@@ -132,7 +132,7 @@ $(document).ready(function() {
                method: "POST",
                data: $("#OperatorForm").serialize()+IntroToggle+'&ChangePasswordFlag='+ChangePasswordFlag,
                success: function(result) {
-                    console.log(result);
+                    ChangeFormFlag = 0;
                     $("#OperatorSubmit").prop('disabled',false);
                     $("#OperatorModal").modal('hide');
                     swal({
@@ -209,7 +209,6 @@ $(document).ready(function() {
             });
         }
         
-       
     });
 });
 
@@ -337,7 +336,7 @@ function OpenUpdateOperatorModal(id)
             if(data.IntroducerID != 0)
             {
                 $("#IntroCheck").prop('checked',true);
-                $("#IntroCheck").prop('disabled',true);
+                $("#IntroCheckDiv").hide();
                 $("input[name='IntroBonus']").prop('readonly',false);
                 $("input[name='IntroBonusThreshold']").prop('readonly',false);
                 $("input[name='IntroBonusRate']").prop('readonly',false);
@@ -352,7 +351,7 @@ function OpenUpdateOperatorModal(id)
             else
             {
                 $("#IntroCheck").prop('checked',false);
-                $("#IntroCheck").prop('disabled',false);
+                $("#IntroCheckDiv").show();
                 $("input[name='IntroBonus']").prop('readonly',true);
                 $("input[name='IntroBonusThreshold']").prop('readonly',true);
                 $("input[name='IntroBonusRate']").prop('readonly',true);
@@ -381,6 +380,7 @@ function OpenCreateOperatorModal()
     $("input").val('');
     $("#Account").css('border','1px solid #ddd');
     $("#OperatorModal").modal('show');
+    $("#IntroCheckDiv").show();
 }
 </script>
 
@@ -533,7 +533,7 @@ function OpenCreateOperatorModal()
 
                     <h5 class="mt-4">額外資訊</h5>
                     <hr>
-                    <div class="form-check form-check-inline">
+                    <div id="IntroCheckDiv" class="form-check form-check-inline">
                         <label id="IntroLebel" class="form-check-label">
                             <input class="form-check-input" id="IntroCheck" type="checkbox"> 成為介紹人
                         </label>

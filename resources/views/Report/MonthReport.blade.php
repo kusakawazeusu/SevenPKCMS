@@ -26,6 +26,9 @@
                 "info":     false,
                 "searching": false,
                 "bAutoWidth": false,
+                "columnDefs": [
+                    {"render": function ( data, type, full, meta ) {return data.toLocaleString("en-US");}, "className": 'text-right', "targets": [1,2,3]}
+                ]
         });
         
         GetData(ShowEntries,Page,SearchBundle);

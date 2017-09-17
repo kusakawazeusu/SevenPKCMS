@@ -14,6 +14,8 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
+var ChangeFormFlag;
+
 $(document).ready(function() {
     
     t = $('#IntroducerTable').DataTable({
@@ -21,6 +23,10 @@ $(document).ready(function() {
                 "info":     false,
                 "searching": false,
                 "bAutoWidth": false,
+                "columnDefs": [
+                    {"render": function ( data, type, full, meta ) {return data.toLocaleString("en-US");}, "className": 'text-right', "targets": [4]},
+                    {"render": function ( data, type, full, meta ) {return +data+'%';}, "targets":[5] }
+                ]
     });
 
     // Initialize the table
@@ -96,6 +102,7 @@ $(document).ready(function() {
                method: "POST",
                data: $("#IntroducerForm").serialize(),
                success: function(result) {
+                    ChangeFormFlag = 0;
                     $("#IntroducerSubmit").prop('disabled',false);
                     $("#IntroducerModal").modal('hide');
                     swal({
@@ -114,8 +121,31 @@ $(document).ready(function() {
         }
     });
 
-    $("input[name='BonusThreshold']").on('input',function(){
-        $(this).val( Number($(this).val()).toLocaleString('en') );
+    $("input").on('input',function(){
+        ChangeFormFlag = 1;
+    });
+
+    $("select").change(function(){
+        ChangeFormFlag = 1;
+    });
+
+    $('#IntroducerModal').on('hide.bs.modal',function(e){
+        
+        if(ChangeFormFlag == 1)
+        {
+            e.preventDefault();
+            swal({
+                title: '哈囉！',
+                text: '我們發現有些資料已經被編輯過了，你確定要離開這個視窗嗎？',
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: '放棄編輯',
+                cancelButtonText: '留在此視窗'
+            }).then(function(){
+                ChangeFormFlag = 0;
+                $('#IntroducerModal').modal('toggle');
+            });
+        }
     });
 });
 
