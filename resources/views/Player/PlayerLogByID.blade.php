@@ -8,7 +8,7 @@
 <script>
 	
 	var showNum = 5;
-	var ID = {{$ID}};
+	var playerID = {{$playerID}};
 	var entries = 0;  // 紀錄總共有幾筆data
 </script>
 <script src="{{asset('js/PlayerLogByID.js')}}"></script>
@@ -20,7 +20,7 @@
 	<div class="row justify-content-between">
 
 		<div class="col-md-2">
-		<button id="exportExcel" name="exportExcel" class="btn btn-success" onclick=Test()><i class="fa fa-download"></i> 匯出EXCEL</button>
+		<button id="exportExcel" name="exportExcel" class="btn btn-success" onclick=Export()><i class="fa fa-download"></i> 匯出EXCEL</button>
 		</div>
 
 		<div class="col-md-6">

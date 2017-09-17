@@ -95,9 +95,6 @@ $(document).ready(function() {
 		language: 'zh-TW',
 		startView: 'decades',
 		defaultViewDate: {year: 1900},
-		onClose: function () {
-			console.log('close');
-		},
 		autoclose: 1
 	});
 	
@@ -236,9 +233,7 @@ $(document).ready(function() {
 			});
 		}
 		else if($(this).val()!= '' && ajaxUrl == 'Player/CreatePlayer')
-		{
 			CheckStyle($('#Account'),$('#ErrAccountText'),checkAccountResponse,checkAccountResponse.text);
-		}
 		else if($(this).val()=='')
 			CheckStyle($('#Account'),$('#ErrAccountText'),CheckNotEmpty($(this).val()),'請填寫資料！');
 

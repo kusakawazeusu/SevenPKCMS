@@ -117,7 +117,7 @@ function GetData(page)
 		url: 'PlayerLogData/'+page+'/'+showNum,
 		type: 'GET',
 		data:{
-			ID:ID,
+			playerID:playerID,
 			StartTime:$('#StartTime').val(),
 			EndTime:$('#EndTime').val()
 		}
@@ -171,4 +171,12 @@ function GetData(page)
 	.fail(function() {
 		console.log("error");
 	});
+}
+
+function Export()
+{
+	if($('#StartTime').val()=='' && $('#EndTime').val()=='')
+		location.href='PlayerLogData/Export'+'/'+playerID;
+	else if($('#StartTime').val()!='' && $('#EndTime').val()!='')
+		location.href='PlayerLogData/Export'+'/'+playerID+'/'+$('#StartTime').val()+'/'+$('#EndTime').val();
 }

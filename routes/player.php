@@ -18,8 +18,15 @@ Route::group(['prefix'=>'Player'], function () {
 
 Route::group(['prefix'=>'PlayerLog'], function () {
 	Route::get('/', 'PlayerLogController@Index');
+	Route::get('/PlayerLogData/Export/{playerID}','PlayerLogController@Export');
+	Route::get('/PlayerLogData/Export/{playerID}/{StartTime}/{EndTime}','PlayerLogController@ExportByTime');
 	Route::get('/{page}/{num}','PlayerLogController@GetPlayerLog');
-	Route::get('/{ID}','PlayerLogController@GetPlayerLogByID');
+	Route::get('/{playerID}','PlayerLogController@GetPlayerLogByID');
 	Route::get('/PlayerLogData/{page}/{num}','PlayerLogController@GetPlayerLogDataByID');
 
+
+	// Route::get('/PlayerLogData/Export/{ID}/{StartTime}/{EndTime}',function()
+	// {
+	// 	return 'test';
+	// });
 });
