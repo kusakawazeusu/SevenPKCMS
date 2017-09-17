@@ -6,7 +6,7 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     $.ajaxSetup({
         headers: {
@@ -28,12 +28,12 @@ $(document).ready(function () {
         對表格進行的操作。
     */
 
-    $("#AgentID").keyup(function (event) {
+    $("#AgentID").keyup(function(event) {
         SeachText = $(this).val();
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $(".ShowEntries").change(function () {
+    $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -45,28 +45,26 @@ $(document).ready(function () {
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $("#nextPage").click(function (event) {
+    $("#nextPage").click(function(event) {
 
         if (Page >= totalPage - 1) {
             swal({
                 title: "已到最後一頁！",
                 type: 'warning'
             });
-        }
-        else {
+        } else {
             Page += 1;
             GetData(ShowEntries, Page, SeachText);
         }
     });
 
-    $("#previousPage").click(function () {
+    $("#previousPage").click(function() {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
                 type: 'warning'
             });
-        }
-        else {
+        } else {
             Page -= 1;
             GetData(ShowEntries, Page, SeachText);
         }
@@ -79,17 +77,16 @@ $(document).ready(function () {
     var CreateForm = document.getElementById("MachineForm");
     CreateForm.novalidate = false;
 
-    $("#MachineSubmit").click(function () {
+    $("#MachineSubmit").click(function() {
         if (CreateForm.checkValidity() == false) {
             $("#MachineForm").addClass("was-validated");
-        }
-        else {
+        } else {
             $("#MachineSubmit").prop('disabled', true);
             $.ajax({
                 url: AjaxUrl,
                 method: "POST",
                 data: $("#MachineForm").serialize(),
-                success: function (result) {
+                success: function(result) {
                     $("#MachineSubmit").prop('disabled', false);
                     $("#MachineModal").modal('hide');
                     swal({
@@ -101,7 +98,7 @@ $(document).ready(function () {
                     GetData(ShowEntries, Page, SeachText);
                 },
                 statusCode: {
-                    500: function () {
+                    500: function() {
                         swal("操作失敗", "請確認欄位是否填寫正確！", "error");
                     }
                 }
@@ -112,7 +109,7 @@ $(document).ready(function () {
     function CheckValid() {
         var $inputs = $('#MachineForm :input');
         var valid = true;
-        $inputs.each(function () {
+        $inputs.each(function() {
             if ($(this).hasClass('error')) {
                 valid = false;
             }
@@ -123,12 +120,12 @@ $(document).ready(function () {
             $('#MachineSubmit').attr('disabled', true);
     }
 
-    $('input[name="AgentID"]').focusout(function () {
+    $('input[name="AgentID"]').focusout(function() {
         CheckAgent($(this).val());
         CheckValid();
     });
 
-    $('input[name="MachineName"]').focusout(function () {
+    $('input[name="MachineName"]').focusout(function() {
         var checkMachineNameResponse = CheckNumeric($(this).val());
         if (CheckAgent($('input[name="AgentID"]').val()).valid == false) {
             checkMachineNameResponse = { valid: false, errMsg: '請先輸入經銷商編號' };
@@ -136,18 +133,18 @@ $(document).ready(function () {
         if (checkMachineNameResponse.valid) {
             if (AjaxUrl == 'Machine/Create') {
                 $.ajax({
-                    url: "Machine/CheckDepulicatedMachineName",
-                    method: "POST",
-                    async: false,
-                    data: {
-                        "AgentID": $('input[name="AgentID"]').val(),
-                        "MachineName": $(this).val()
-                    },
-                })
-                    .done(function (response) {
+                        url: "Machine/CheckDepulicatedMachineName",
+                        method: "POST",
+                        async: false,
+                        data: {
+                            "AgentID": $('input[name="AgentID"]').val(),
+                            "MachineName": $(this).val()
+                        },
+                    })
+                    .done(function(response) {
                         checkMachineNameResponse = response;
                     })
-                    .fail(function () {
+                    .fail(function() {
                         console.log("error");
                     });
             } else if (AjaxUrl == 'Machine/Edit') {
@@ -158,93 +155,10 @@ $(document).ready(function () {
         CheckValid();
     });
 
-    $('input[name="MaxDepositCredit"]').focusout(function () {
-        var checkMaxDepositCreditResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkMaxDepositCreditResponse, 'MaxDepositCredit');
-        CheckValid();
-    });
-
-    $('input[name="DepositCreditOnce"]').focusout(function () {
-        var checkDepositCreditOnceResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkDepositCreditOnceResponse, 'DepositCreditOnce');
-        CheckValid();
-    });
-
-    $('input[name="MinCoinOut"]').focusout(function () {
-        var checkMinCoinOutResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkMinCoinOutResponse, 'MinCoinOut');
-        CheckValid();
-    });
-
-    $('input[name="MaxCoinIn"]').focusout(function () {
-        var checkMaxCoinInResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkMaxCoinInResponse, 'MaxCoinIn');
-        CheckValid();
-    });
-
-    $('input[name="CoinInOnce"]').focusout(function () {
-        var checkCoinInOnceResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkCoinInOnceResponse, 'CoinInOnce');
-        CheckValid();
-    });
-
-    $('input[name="CoinInBonus"]').focusout(function () {
-        var checkCoinInBonusResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkCoinInBonusResponse, 'CoinInBonus');
-        CheckValid();
-    });
-
-    $('input[name="TwoPairsOdd"]').focusout(function () {
-        var checkTwoPairsOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkTwoPairsOddResponse, 'TwoPairsOdd');
-        CheckValid();
-    });
-
-    $('input[name="ThreeOfAKindOdd"]').focusout(function () {
-        var checkThreeOfAKindOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkThreeOfAKindOddResponse, 'ThreeOfAKindOdd');
-        CheckValid();
-    });
-
-    $('input[name="StraightOdd"]').focusout(function () {
-        var checkStraightOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkStraightOddResponse, 'StraightOdd');
-        CheckValid();
-    });
-
-    $('input[name="FlushOdd"]').focusout(function () {
-        var checkFlushOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkFlushOddResponse, 'FlushOdd');
-        CheckValid();
-    });
-
-    $('input[name="FullHouseOdd"]').focusout(function () {
-        var checkFullHouseOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkFullHouseOddResponse, 'FullHouseOdd');
-        CheckValid();
-    });
-
-    $('input[name="FourOfAKindOdd"]').focusout(function () {
-        var checkFourOfAKindOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkFourOfAKindOddResponse, 'FourOfAKindOdd');
-        CheckValid();
-    });
-
-    $('input[name="STRFlushOdd"]').focusout(function () {
-        var checkSTRFlushOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkSTRFlushOddResponse, 'STRFlushOdd');
-        CheckValid();
-    });
-
-    $('input[name="FiveOfAKindOdd"]').focusout(function () {
-        var checkFiveOfAKindOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkFiveOfAKindOddResponse, 'FiveOfAKindOdd');
-        CheckValid();
-    });
-
-    $('input[name="RoyalFlushOdd"]').focusout(function () {
-        var checkRoyalFlushOddResponse = CheckNumeric($(this).val(), 1);
-        CheckStyle(checkRoyalFlushOddResponse, 'RoyalFlushOdd');
+    $('.numberic').focusout(function() {
+        console.log($(this).attr('name'));
+        var checkResponse = CheckNumeric($(this).val(), 1);
+        CheckStyle(checkResponse, $(this).attr('name'));
         CheckValid();
     });
 
@@ -265,15 +179,15 @@ $(document).ready(function () {
         var checkAgentIDResponse = CheckNumeric(data);
         if (checkAgentIDResponse.valid) {
             $.ajax({
-                url: "Machine/CheckExistAgentID",
-                method: "POST",
-                async: false,
-                data: { "AgentID": data },
-            })
-                .done(function (response) {
+                    url: "Machine/CheckExistAgentID",
+                    method: "POST",
+                    async: false,
+                    data: { "AgentID": data },
+                })
+                .done(function(response) {
                     checkAgentIDResponse = response;
                 })
-                .fail(function () {
+                .fail(function() {
                     console.log("error");
                 });
         }
@@ -287,8 +201,7 @@ $(document).ready(function () {
             $('input[name="' + filed + '"]').addClass('error');
             $('#ErrorMsg' + filed).text(response.errMsg);
             $('#ErrorMsg' + filed).show();
-        }
-        else {  //true
+        } else { //true
             $('input[name="' + filed + '"]').removeClass('error');
             $('input[name="' + filed + '"]').addClass('correct');
             $('#ErrorMsg' + filed).hide();
@@ -313,7 +226,7 @@ function GetData(ShowEntries, Page, SearchText) {
         url: 'Machine/GetTableData',
         method: "GET",
         data: SendingData,
-        success: function (data) {
+        success: function(data) {
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
@@ -327,13 +240,21 @@ function GetData(ShowEntries, Page, SearchText) {
 
                 var oneBet, section;
                 switch (data[i].SectionID) {
-                    case 0: oneBet = 20; section = 2;
+                    case 0:
+                        oneBet = 20;
+                        section = 2;
                         break;
-                    case 1: oneBet = 30; section = 3;
+                    case 1:
+                        oneBet = 30;
+                        section = 3;
                         break;
-                    case 2: oneBet = 50; section = 5;
+                    case 2:
+                        oneBet = 50;
+                        section = 5;
                         break;
-                    case 3: oneBet = 100; section = 10;
+                    case 3:
+                        oneBet = 100;
+                        section = 10;
                         break;
                     default:
                         break;
@@ -381,13 +302,13 @@ function DeleteMachine(id) {
         allowEscapeKey: false,
         allowOutsideClick: false,
         allowEnterKey: false
-    }).then(function () {
+    }).then(function() {
         $.ajax({
             url: 'Machine/Delete',
             data: { "id": id },
             method: "post",
             statusCode: {
-                200: function () {
+                200: function() {
                     swal({
                         title: "刪除成功！",
                         type: "success"
@@ -396,7 +317,7 @@ function DeleteMachine(id) {
                 }
             }
         });
-    }, function (dismiss) {
+    }, function(dismiss) {
         swal('取消!', '', 'error');
     });
 }
@@ -406,7 +327,7 @@ function OpenUpdateMachineModal(id) {
         url: 'Machine/GetMachineByID',
         data: { "id": id },
         method: "GET",
-        success: function (data) {
+        success: function(data) {
             $("#MachineModalTitle").text('正在編輯： 第' + data.ID + '台');
             $("input[name='id']").val(data.ID);
             $("input[name='AgentID']").val(data.AgentID);

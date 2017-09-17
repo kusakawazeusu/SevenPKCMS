@@ -206,25 +206,25 @@
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">兩對賠率</label>
-                            <input type="text" name="TwoPairsOdd" class="form-control check" required>
+                            <input type="text" name="TwoPairsOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgTwoPairsOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">三條賠率</label>
-                            <input type="text" name="ThreeOfAKindOdd" class="form-control check" required>
+                            <input type="text" name="ThreeOfAKindOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgThreeOfAKindOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">順子賠率</label>
-                            <input type="text" name="StraightOdd" class="form-control check" required>
+                            <input type="text" name="StraightOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgStraightOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">同花賠率</label>
-                            <input type="text" name="FlushOdd" class="form-control check" required>
+                            <input type="text" name="FlushOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgFlushOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
@@ -234,25 +234,25 @@
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">葫蘆賠率</label>
-                            <input type="text" name="FullHouseOdd" class="form-control" required>
+                            <input type="text" name="FullHouseOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgFullHouseOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">四枚賠率</label>
-                            <input type="text" name="FourOfAKindOdd" class="form-control check" required>
+                            <input type="text" name="FourOfAKindOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgFourOfAKindOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">同花順賠率</label>
-                            <input type="text" name="STRFlushOdd" class="form-control check" required>
+                            <input type="text" name="STRFlushOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgSTRFlushOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">五枚賠率</label>
-                            <input type="text" name="FiveOfAKindOdd" class="form-control check" required>
+                            <input type="text" name="FiveOfAKindOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgFiveOfAKindOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
@@ -262,7 +262,7 @@
                     
                         <div class="col-md-3 form-group">
                             <label class="FormLabel">同花大順賠率</label>
-                            <input type="text" name="RoyalFlushOdd" class="form-control check" required>
+                            <input type="text" name="RoyalFlushOdd" class="form-control check numberic" required>
 							<small id="ErrorMsgRoyalFlushOdd" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 
