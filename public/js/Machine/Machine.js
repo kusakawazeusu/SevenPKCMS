@@ -51,11 +51,12 @@ $(document).ready(function() {
     /*
         對表格進行的操作。
     */
-
-    $("#AgentID").keyup(function(event) {
-        SeachText = $(this).val();
+    $("#AgentID").change(function(event) {
+        SeachText = $(this).val() != -1 ? $(this).val() : "%";
         GetData(ShowEntries, Page, SeachText);
     });
+
+    GetAgent('AgentID');
 
     $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
@@ -319,7 +320,7 @@ function GetData(ShowEntries, Page, SearchText) {
                 t.row.add([
                     "<button onclick='OpenUpdateMachineModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteMachine(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>",
                     data[i].ID,
-                    data[i].AgentID,
+                    data[i].Name,
                     data[i].MachineName,
                     section,
                     oneBet.toLocaleString("en-US"),
@@ -379,7 +380,7 @@ function DeleteMachine(id) {
 }
 
 function OpenUpdateMachineModal(id) {
-    GetAgent();
+    GetAgent('AgentIDSelect');
     ChangeFormFlag = 0;
     $.ajax({
         url: 'Machine/GetMachineByID',
@@ -418,7 +419,7 @@ function OpenUpdateMachineModal(id) {
 }
 
 function OpenCreateMachineModal() {
-    GetAgent();
+    GetAgent('AgentIDSelect');
     ChangeFormFlag = 0;
     $("#MachineModalTitle").text('新增一台機台');
     $("input").val('');
@@ -440,14 +441,13 @@ function OpenCreateMachineModal() {
     $("#MachineModal").modal('show');
 }
 
-function GetAgent() {
+function GetAgent(appenTo) {
     $.ajax({
         url: 'Machine/GetAgent',
         method: "GET",
         success: function(data) {
-            console.log(data);
             for (var field in data) {
-                $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#AgentIDSelect');
+                $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#' + appenTo);
             }
         }
     });

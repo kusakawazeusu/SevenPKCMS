@@ -66,7 +66,7 @@ class MachineController extends Controller
             $ShowEntries = $count;
         }
 
-        $machines = Machine::where('AgentID', 'like', '%'.$SearchText.'%')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
+        $machines = Machine::where('AgentID', 'like', '%'.$SearchText.'%')->join('agent', 'machine.AgentID', '=', 'agent.ID')->select('machine.*', 'agent.Name')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
         $machines['count'] = $count;
 
         return Response::json($machines);
