@@ -136,8 +136,7 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">經銷商編號</label>
-                            <input type="text" name="AgentID" class="form-control check" required>
-							<small id="ErrorMsgAgentID" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
+                            <select id="AgentIDSelect" class="form-control" name="AgentID"></select>
                         </div>
 
                         <div class="col-md-4 form-group">

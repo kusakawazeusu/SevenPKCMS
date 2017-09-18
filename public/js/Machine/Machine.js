@@ -178,14 +178,14 @@ $(document).ready(function() {
             $('#MachineSubmit').attr('disabled', true);
     }
 
-    $('input[name="AgentID"]').focusout(function() {
+    $('select[name="AgentID"]').focusout(function() {
         CheckAgent($(this).val());
         CheckValid();
     });
 
     $('input[name="MachineName"]').focusout(function() {
         var checkMachineNameResponse = CheckNumeric($(this).val());
-        if (CheckAgent($('input[name="AgentID"]').val()).valid == false) {
+        if (CheckAgent($('select[name="AgentID"]').val()).valid == false) {
             checkMachineNameResponse = { valid: false, errMsg: '請先輸入經銷商編號' };
         }
         if (checkMachineNameResponse.valid) {
@@ -195,7 +195,7 @@ $(document).ready(function() {
                     method: "POST",
                     async: false,
                     data: {
-                        "AgentID": $('input[name="AgentID"]').val(),
+                        "AgentID": $('select[name="AgentID"]').val(),
                         "MachineName": $(this).val(),
                         "Type": type,
                         "ID": $("input[name='id']").val()
@@ -379,6 +379,7 @@ function DeleteMachine(id) {
 }
 
 function OpenUpdateMachineModal(id) {
+    GetAgent();
     ChangeFormFlag = 0;
     $.ajax({
         url: 'Machine/GetMachineByID',
@@ -417,6 +418,7 @@ function OpenUpdateMachineModal(id) {
 }
 
 function OpenCreateMachineModal() {
+    GetAgent();
     ChangeFormFlag = 0;
     $("#MachineModalTitle").text('新增一台機台');
     $("input").val('');
@@ -436,4 +438,17 @@ function OpenCreateMachineModal() {
     $('#MachineSubmit').attr('disabled', false);
     AjaxUrl = 'Machine/Create';
     $("#MachineModal").modal('show');
+}
+
+function GetAgent() {
+    $.ajax({
+        url: 'Machine/GetAgent',
+        method: "GET",
+        success: function(data) {
+            console.log(data);
+            for (var field in data) {
+                $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#AgentIDSelect');
+            }
+        }
+    });
 }

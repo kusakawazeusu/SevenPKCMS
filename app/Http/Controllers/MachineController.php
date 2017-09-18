@@ -133,4 +133,9 @@ class MachineController extends Controller
         }
         return Response::json(['valid'=>true, 'errMsg'=>'']);
     }
+
+    public function GetAgent()
+    {
+        return AgentModel::All();
+    }
 }
