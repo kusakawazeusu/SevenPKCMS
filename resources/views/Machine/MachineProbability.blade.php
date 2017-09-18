@@ -53,7 +53,9 @@
             <div class="col-md-6">
                 <div class="input-group mb-2">
                     <div class="input-group-addon">廠商編號</div>
-                    <input type="text" class="form-control" id="AgentID" placeholder="要搜尋的廠商編號...">
+                    <select id="AgentID" class="form-control">
+                        <option value="-1"> -- 選擇經銷商 -- </option>
+                    </select>
                 </div>
             </div>
             

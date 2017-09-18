@@ -29,7 +29,7 @@ class MachineProbabilityController extends Controller
             $ShowEntries = $count;
         }
 
-        $machines = MachineProbability::join('machine', 'machineprobability.MachineID', '=', 'machine.ID')->where('AgentID', 'like', '%'.$SearchText.'%')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
+        $machines = MachineProbability::join('machine', 'machineprobability.MachineID', '=', 'machine.ID')->join('agent', 'machine.AgentID', '=', 'agent.ID')->where('AgentID', 'like', '%'.$SearchText.'%')->select('machine.*', 'agent.Name', 'machineprobability.*')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
         $machines['count'] = $count;
 
         return Response::json($machines);

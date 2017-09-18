@@ -29,10 +29,12 @@ $(document).ready(function() {
         對表格進行的操作。
     */
 
-    $("#AgentID").keyup(function(event) {
-        SeachText = $(this).val();
+    $("#AgentID").change(function(event) {
+        SeachText = $(this).val() != -1 ? $(this).val() : "%";
         GetData(ShowEntries, Page, SeachText);
     });
+
+    GetAgent('AgentID');
 
     $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
@@ -175,7 +177,7 @@ function GetData(ShowEntries, Page, SearchText) {
                 t.row.add([
                     "<button onclick='OpenUpdateProbabilityModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i>",
                     data[i].ID,
-                    data[i].AgentID,
+                    data[i].Name,
                     data[i].MachineName,
                     section,
                     data[i].TwoPairs,
@@ -272,6 +274,18 @@ function OpenUpdateProbabilityModal(id) {
             $("#MachineProbabilityForm").removeClass("was-validated");
             $("#MachineProbabilityModal").modal('show');
             AjaxUrl = 'Probability/Edit';
+        }
+    });
+}
+
+function GetAgent(appenTo) {
+    $.ajax({
+        url: 'GetAgent',
+        method: "GET",
+        success: function(data) {
+            for (var field in data) {
+                $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#' + appenTo);
+            }
         }
     });
 }
