@@ -13,6 +13,7 @@ function Deposit(ID,Type=null)
 			inputAttributes:{min:1},
 			showCancelButton: true,
 			confirmButtonText: '儲值',
+			cancelButtonText:'取消儲值',
 			cancelButtonColor:'#d33',
 			showLoaderOnConfirm: true,
 			allowOutsideClick: false,			
@@ -20,6 +21,8 @@ function Deposit(ID,Type=null)
 				return new Promise(function(resolve,reject){
 					if(number<0)
 						reject('儲值金額不可為負！');
+					else if(number=='')
+						reject('儲值金額不可為空！');
 					else if(number==0)
 						reject('儲值金額不可為零！');
 					resolve();

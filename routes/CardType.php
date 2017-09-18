@@ -9,4 +9,7 @@ Route::group(['prefix'=>'CardType'], function () {
 	Route::get('/{page}/{num}','CardTypeController@GetCardType');//抓取批量的資料
 	Route::get('/CardTypeDatas','CardTypeController@CardTypeDatas');
 
+	Route::get('/CheckDuplicateCardType','CardTypeController@CheckDuplicateCardType');
+	
+
 });
