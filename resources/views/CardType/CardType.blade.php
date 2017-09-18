@@ -61,7 +61,7 @@
 	
 </div>
 
-<div class="modal fade" id="cardTypeModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal" id="cardTypeModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -76,94 +76,98 @@
 					<input type="hidden" id="ID" name="ID">
 					<div class="row">
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="1" value="1" name="A">
+							<input type="checkbox" class="custom-control-input card checkbox checkInput" id="1" value="1" name="A">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">A</span>
 						</label>
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="2" value="2" name="2">
+							<input type="checkbox" class="custom-control-input card checkbox checkInput" id="2" value="2" name="2">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">2</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="3" value="3" name="3">
+							<input type="checkbox" class="custom-control-input card checkbox checkInput" id="3" value="3" name="3">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">3</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="4" value="4" name="4">
+							<input type="checkbox" class="custom-control-input card checkbox checkInput" id="4" value="4" name="4">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">4</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="5" value="5" name="5">
+							<input type="checkbox" class="custom-control-input card checkbox checkInput" id="5" value="5" name="5">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">5</span>
 						</label>
 					</div>
 					<div class="row">
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="6" value="6" name="6">
+							<input type="checkbox" class="custom-control-input card checkbox checkInput" id="6" value="6" name="6">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">6</span>
 						</label>
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="7" value="7" name="7">
+							<input type="checkbox" class="custom-control-input card checkbox checkInput" id="7" value="7" name="7">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">7</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="8" value="8" name="8">
+							<input type="checkbox" class="custom-control-input card checkbox  checkInput" id="8" value="8" name="8">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">8</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="9" value="9" name="9">
+							<input type="checkbox" class="custom-control-input card checkbox  checkInput" id="9" value="9" name="9">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">9</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="10" value="10" name="10">
+							<input type="checkbox" class="custom-control-input card checkbox  checkInput" id="10" value="10" name="10">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">10</span>
 						</label>
 					</div>
 					<div class="row">
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="11" value="11" name="J">
+							<input type="checkbox" class="custom-control-input card checkbox  checkInput" id="11" value="11" name="J">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">J</span>
 						</label>
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="12" value="12" name="Q">
+							<input type="checkbox" class="custom-control-input card checkbox  checkInput" id="12" value="12" name="Q">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">Q</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-checkbox ml-2">
-							<input type="checkbox" class="custom-control-input card checkbox" id="13" value="13" name="K">
+							<input type="checkbox" class="custom-control-input card checkbox  checkInput" id="13" value="13" name="K">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">K</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-radio ml-2">
-							<input type="radio" class="custom-control-input card radio" id="14" value="14" name="radio">
+							<input type="radio" class="custom-control-input card radio checkInput" id="14" value="14" name="radio">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">隨機</span>
 						</label>
 
 						<label class="col-md-2 form-group custom-control custom-radio ml-2">
-							<input type="radio" class="custom-control-input card radio" id="15" value="15" name="radio">
+							<input type="radio" class="custom-control-input card radio checkInput" id="15" value="15" name="radio">
 							<span class="custom-control-indicator"></span>
 							<span class="custom-control-description">一般</span>
 						</label>
 					</div>
+					<div>
+						<small id="ErrCardTypeText" style="text-align:center;display:none;color:brown !important" class="form-text text-muted checkText"></small>
+					</div>
+
 				</div>
 				<div class="modal-footer">
 					<button type="button" id="cardTypeSubmit" class="btn btn-primary btn-lg">送出</button>

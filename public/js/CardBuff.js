@@ -2,6 +2,7 @@ var CardBuffTable;
 var page=0;
 var pagesNum = Math.ceil(entries / showNum);  // 記錄總共有幾頁
 var ajaxUrl;
+var ChangeFormFlag;
 $(document).ready(function() 
 {
 	$.ajaxSetup({
@@ -14,6 +15,27 @@ $(document).ready(function()
 		/* Act on the event */
 		$('#cardBuffModalTitle').text('新增時間牌型');
 		ajaxUrl = 'CardBuff/CreateCardBuff';
+		$('.createInput').val('');
+		$('.checkInput').removeAttr('style');
+		$('.checkInput').removeClass('error');
+	});
+
+	$('#cardBuffModal').on('hide.bs.modal',function(e){
+		if(ChangeFormFlag == 1 && ajaxUrl=='CardBuff/UpdateCardBuff')
+		{
+			e.preventDefault();
+			swal({
+				title: '哈囉！',
+				text: '我們發現有些資料已經被編輯過了，你確定要離開這個視窗嗎？',
+				type: 'warning',
+				showCancelButton: true,
+				confirmButtonText: '放棄編輯',
+				cancelButtonText: '留在此視窗'
+			}).then(function(){
+				ChangeFormFlag = 0;
+				$('#cardBuffModal').modal('toggle');
+			});
+		}
 	});
 
 	CardBuffTable = $('#CardBuffTable').DataTable({
@@ -80,29 +102,116 @@ $(document).ready(function()
 		}
 	});
 
+	$("input").on('input',function(){
+		ChangeFormFlag = 1;
+	});
+
+	$("select").change(function(){
+		ChangeFormFlag = 1;
+	});
+
+
+
+	$("#StartTime").focusout(function(){
+		if($(this).val()!='')
+		{
+			$.ajax({
+				url: 'CardBuff/CheckStartTime',
+				type: 'GET',
+				data: {
+					ID:$('#ID').val(),
+					StartTime: $(this).val()},
+				})
+			.done(function(response) {
+				console.log("success");
+				CheckStyle($('#StartTime'),$('#ErrStartTimeText'),response,'時間衝突！');
+			})
+			.fail(function() {
+				console.log("error");
+			});
+		}
+		else if($(this).val()=='')
+			CheckStyle($('#StartTime'),$('#ErrStartTimeText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+
+	});
+
+	$("#EndTime").focusout(function(){
+		if($(this).val()=='')
+		{
+			CheckStyle($('#EndTime'),$('#ErrEndTimeText'),CheckNotEmpty($(this).val()),'請填寫資料！');
+		}
+		else if($(this).val!='' && ajaxUrl=='CardBuff/UpdateCardBuff')
+		{
+			$.ajax({
+				url: 'CardBuff/CheckEndTime',
+				type: 'GET',
+				async:false,
+				data: {
+					ID:$('#ID').val(),
+					EndTime: $(this).val()},
+				})
+			.done(function(response) {
+				console.log("success");
+				console.log(response);
+				CheckStyle($('#EndTime'),$('#ErrEndTimeText'),response,'時間衝突！');
+			})
+			.fail(function() {
+				console.log("error");
+			});
+		}		
+		else if($(this).val()!='')
+		{
+			var response = {'valid':true};
+			if( $(this).val()<$('#StartTime').val())
+				response.valid=false;
+			CheckStyle($('#EndTime'),$('#ErrEndTimeText'),response,'時間衝突！');
+		}
+	});
+
+	$('.checkInput').focusout(function() {
+		CheckValid();
+	});
+
 	$('#cardBuffSubmit').click(function(event) {
-		$.ajax({
-			url: ajaxUrl,
-			type: 'POST',
-			data:$('#cardBuffForm').serialize(),
-		})
-		.done(function(response) {
-			console.log(response);
-			console.log("success");
-			if(ajaxUrl=='CardBuff/CreateCardBuff')
-				swal("新增時間成功","列表將自動更新。","success");
-			else
-				swal("更新時間成功","列表將自動更新。","success");
-			GetData(page);
-			$('#cardBuffModal').modal('toggle');
-			$('.createInput').val('');
-			
-		})
-		.fail(function() {
-			console.log("error");
-		});		
-	});	
+		var $inputs = $('#cardBuffForm :input');
+		var valid = true;
+		$inputs.each(function () {
+			$(this).focusout();
+			if ($(this).hasClass('error')) {
+				valid = false;
+			}
+		});
+		if(valid)
+		{
+			ChangeFormFlag = 0;
+			SubmitData();
+		}
+	});
 });
+
+function SubmitData()
+{
+	$.ajax({
+		url: ajaxUrl,
+		type: 'POST',
+		data:$('#cardBuffForm').serialize(),
+	})
+	.done(function(response) {
+		console.log(response);
+		console.log("success");
+		if(ajaxUrl=='CardBuff/CreateCardBuff')
+			swal("新增時間成功","列表將自動更新。","success");
+		else
+			swal("更新時間成功","列表將自動更新。","success");
+		GetData(page);
+		$('#cardBuffModal').modal('toggle');
+		$('.createInput').val('');
+
+	})
+	.fail(function() {
+		console.log("error");
+	});	
+}
 
 function GetCardType()
 {
@@ -158,6 +267,10 @@ function GetData(page)
 
 function GetCardBuffData(ID)
 {
+	$('.checkInput').removeAttr('style');
+	$('.checkInput').removeClass('error');
+	$('.checkText').hide();
+	$('#cardBuffSubmit').attr('disabled', false);
 	$.ajax({
 		url: 'CardBuff/CardBuffData',
 		type: 'GET',
@@ -175,4 +288,43 @@ function GetCardBuffData(ID)
 	.fail(function() {
 		console.log("error");
 	});
+}
+
+function CheckStyle(element,elementText,response,errMsg)
+{
+	if(response.valid==false)
+	{
+		element.css('border','1px solid brown');
+		element.addClass('error');
+		elementText.text(errMsg);
+		elementText.show();
+	}
+	else
+	{
+		element.css('border','1px solid green');
+		element.removeClass('error');
+		elementText.hide();
+	}
+}
+
+function CheckNotEmpty(elementValue)
+{
+	if(elementValue=='')
+		return {'valid':false};
+	return {'valid':true};
+}
+function CheckValid() {
+	var $inputs = $('#cardBuffForm :input');
+	var valid = true;
+	$inputs.each(function () {
+		if ($(this).hasClass('error')) 
+		{
+			valid = false;
+		}
+	});
+	console.log(valid);
+	if (valid)
+		$('#cardBuffSubmit').attr('disabled', false);
+	else
+		$('#cardBuffSubmit').attr('disabled', true);
 }

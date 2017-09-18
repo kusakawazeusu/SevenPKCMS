@@ -47,8 +47,6 @@ $(document).ready(function() {
 				$('#playerModal').modal('toggle');
 			});
 		}
-
-
 	});
 
 
@@ -353,15 +351,15 @@ function GetData(page)
 
 				'<button class="btn btn-primary mr-1" id="IDCardPhoto"' + response['players'][i].ID+'"'+
 				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Front",'+response['players'][i].ID+')'+
-				'>證件</button>'+
+				'><i class="fa fa-camera" aria-hidden="true"></i> 證件</button>'+
 
 				'<button class="btn btn-primary mr-1" id="IDCardBackPhoto"' + response['players'][i].ID+'"'+
 				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Back",'+response['players'][i].ID+')'+
-				'>證件反面</button>'+
+				'><i class="fa fa-camera" aria-hidden="true"></i> 證件反面</button>'+
 
 				'<button class="btn btn-primary mr-1" id="Photo"' + response['players'][i].ID+'"'+
 				'data-id="'+response['players'][i].ID+'" onclick=CheckPhoto("Photo",'+response['players'][i].ID+')'+
-				'>照片</button>'+
+				'><i class="fa fa-camera" aria-hidden="true"></i> 照片</button>'+
 				'</td>'
 				]).draw(false).node();
 			$( rowNode ).find('td').eq(3).addClass('text-right');
@@ -559,8 +557,10 @@ function ChangePassword()
 		swal({
 			title: '輸入新密碼及確認',
 			html:
-			'<input type="password" id="NewPasswrod" class="swal2-input">' +
-			'<input type="password" id="ConfirmNewPasswrod" class="swal2-input">',
+			'<input type="password" id="NewPasswrod" class="swal2-input" placeholder="新密碼" aria-label="新密碼">' +
+			'<input type="password" id="ConfirmNewPasswrod" class="swal2-input" placeholder="確認新密碼" aria-label="確認新密碼">',
+			allowOutsideClick: false,
+			allowEscapeKey:false,
 			preConfirm: function () {
 				return new Promise(function (resolve,reject) {
 					if($('#NewPasswrod').val()!=$('#ConfirmNewPasswrod').val())
@@ -636,10 +636,13 @@ function CheckAccount(Account)
 {
 	var regexNumber = /\D/;
 	var regexLength = /\d{10}/;
+	var regexPhone = /^(09)[0-9]{8}/;
 	if(regexNumber.test(Account))
 		return {valid:false,text:'帳號僅能為數字！'};
 	if(!regexLength.test(Account))
 		return {valid:false,text:'長度為10！'};
+	if(!regexPhone.test(Account))
+		return {valid:false,text:'請打電話號碼'};
 	return {valid:true,text:''};
 }
 
@@ -653,14 +656,12 @@ function CheckStyle(element,elementText,response,errMsg)
 		element.addClass('error');
 		elementText.text(errMsg);
 		elementText.show();
-		AccountDepulicatedFlag = 1;
 	}
 	else
 	{
 		element.css('border','1px solid green');
 		element.removeClass('error');
 		elementText.hide();
-		AccountDepulicatedFlag = 0;	
 	}
 }
 
