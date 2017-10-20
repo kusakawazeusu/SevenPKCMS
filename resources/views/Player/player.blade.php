@@ -128,7 +128,7 @@
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">姓名</label>
 							<input type="text" id="Name" name="Name" class="form-control createInput checkInput" >
-							<small id="ErrNameText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-"></small>
+							<small id="ErrNameText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-3"></small>
 						</div>						
 
 						<div class="col-md-3 form-group">
@@ -140,7 +140,7 @@
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">生日</label>
 							<input type="text" id="Birthday" name="Birthday" class="form-control createInput checkInput" >
-							<small id="ErrBirthdayText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-"></small>
+							<small id="ErrBirthdayText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-3"></small>
 						</div>
 
 						<div class="col-md-3 form-group">

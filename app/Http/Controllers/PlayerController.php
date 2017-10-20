@@ -10,6 +10,7 @@ use App\PlayerAccModel;
 use DB;
 use Response;
 use Hash;
+use Carbon\Carbon;
 
 class PlayerController extends Controller
 {
@@ -63,7 +64,8 @@ class PlayerController extends Controller
 			'Coming'=>Input::get('Coming'),
 			'ReceiveAd'=>Input::get('ReceiveAd'),
 			'CardType'=>'會員',
-			'Memo'=>Input::get('Memo')])->ID;
+			'Memo'=>Input::get('Memo'),
+			'LastLoginTime'=>Carbon::now()])->ID;
 		PlayerModel::where('ID','=',$newID)->update(['CardNumber'=>$newID]);
 		PlayerAccModel::create([
 			'PlayerID'=>$newID]);
@@ -99,7 +101,6 @@ class PlayerController extends Controller
 	{
 		PlayerModel::where('ID','=',Input::get('ID'))->update([
 			'Account'=>Input::get('Account'),
-			'Password'=>Hash::make(Input::get('Password')),
 			'Name'=>Input::get('Name'),
 			'IDCardNumber'=>Input::get('IDCardNumber'),
 			'Birthday'=>Input::get('Birthday'),
