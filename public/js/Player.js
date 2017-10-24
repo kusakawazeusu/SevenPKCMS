@@ -1,6 +1,6 @@
 var playerTable;
 var ajaxUrl;
-var globalType;
+var globalPhotoType;
 var globalID;
 var ChangeFormFlag;
 $(document).ready(function() {
@@ -13,7 +13,7 @@ $(document).ready(function() {
 
 	$('#takePictureConfirm').click(function() {
 		/* Act on the event */
-		TakePhoto(globalType,globalID);
+		TakePhoto(globalPhotoType,globalID);
 	});
 
 	$('#TakePictureModal').on('hide.bs.modal', function() { //當一個modal關閉時，要把所以有的值恢復起始
@@ -472,7 +472,6 @@ function CheckPhoto(Type,ID)
 	$.ajax({
 		url: 'Player/CheckPhoto',
 		type: 'POST',
-		dataType: 'json',
 		data: {ID:ID,Type:Type},
 	})
 	.done(function(response) {
@@ -483,11 +482,13 @@ function CheckPhoto(Type,ID)
 			$('#takePictureConfirm').show();
 			$('#updatePicture').hide();
 			$('#TakePictureModal').modal('toggle');
-			globalType = Type;
+			globalPhotoType = Type;
 			globalID = ID;
 		}
 		else
-		{			
+		{
+			globalPhotoType = Type;
+			globalID = ID;
 			document.getElementById('my_camera').innerHTML = '<img id="Photo" src="'+response['Photo']+'"/>';
 			$('#TakePictureModal').modal('toggle');
 			$('#takePictureConfirm').hide();			

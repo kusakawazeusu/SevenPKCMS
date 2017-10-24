@@ -251,7 +251,7 @@
 				<div class="modal-footer">
 					<button id="takePictureConfirm" type="button" class="btn btn-success">拍照</button>
 					<button id="updatePicture" type="button" class="btn btn-success">編輯</button>
-					<button type="button" class="btn btn-danger" data-dismiss="modal">取消</button>
+					<button type="button" class="btn btn-danger" data-dismiss="modal">關閉</button>
 				</div>
 			</div>
 		</div>
