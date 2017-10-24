@@ -11,8 +11,8 @@
 	
 	var entries = {{ $numOfEntries }};  // 紀錄總共有幾筆data
 </script>
-<script src="{{asset('js/Player.js')}}"></script>
 <script src="{{asset('js/Deposit.js')}}"></script>
+<script src="{{asset('js/Player.js')}}"></script>
 <script src="{{asset('js/webcam.min.js')}}"></script>
 <script src="{{asset('js/webcam.swf')}}"></script>
 
