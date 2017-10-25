@@ -10,6 +10,7 @@ use Response;
 use App\Machine;
 use App\MachineMeter;
 use App\Playlog;
+use DateTime;
 
 class MachineMeterController extends Controller
 {
@@ -60,7 +61,8 @@ class MachineMeterController extends Controller
         'RTP' => 0,
         'TotalCreditIn' => 0,
         'TotalCreditOut' => 0,
-        'Throughput' => 0
+        'Throughput' => 0,
+        'cleantime' => new DateTime()
         ]);
     }
 
@@ -75,7 +77,7 @@ class MachineMeterController extends Controller
         $ShowEntries = Input::get('ShowEntries');
         $SearchText = Input::get('SearchText');
 
-        $time = MachineMeter::where('MachineID', '=', Input::get('ID'))->get()[0]->updated_at;
+        $time = MachineMeter::where('MachineID', '=', Input::get('ID'))->get()[0]->cleantime;
 
         $query = Playlog::join('machine', 'playlog.MachineID', '=', 'machine.ID')->where('MachineID', '=', Input::get('ID'))->where('Created_at', '>=', $time);
 
