@@ -15,7 +15,8 @@ $(document).ready(function()
 		"paging":   false,
 		"info":     false,
 		"searching": false,
-		"bAutoWidth": false
+		"bAutoWidth": false,
+		"order": [[ 11, "desc" ]]
 	});
 	GetData(page);
 
@@ -210,8 +211,12 @@ function GetData(page)
 				}
 				break;
 			}
+			if(response['playerLogDatasByID'][i].DoubleStar==1)
+			{
+				CardResultRate*=2;
+			}
 			PlayerLogByIDTable.row.add([
-				response['playerLogDatasByID'][i].ID,
+				i+1,
 				response['playerLogDatasByID'][i].Name,
 				response['playerLogDatasByID'][i].MachineName,
 				section,
