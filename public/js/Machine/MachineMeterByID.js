@@ -6,7 +6,7 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     $.ajaxSetup({
         headers: {
@@ -28,7 +28,7 @@ $(document).ready(function () {
         對表格進行的操作。
     */
 
-    $(".ShowEntries").change(function () {
+    $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -40,7 +40,7 @@ $(document).ready(function () {
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $("#nextPage").click(function (event) {
+    $("#nextPage").click(function(event) {
 
         if (Page >= totalPage - 1) {
             swal({
@@ -53,7 +53,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#previousPage").click(function () {
+    $("#previousPage").click(function() {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
@@ -79,20 +79,20 @@ $(document).ready(function () {
         todayHighlight: true
     });
 
-    $("#StartTime").keypress(function (e) {
+    $("#StartTime").keypress(function(e) {
         e.preventDefault();
     });
 
-    $("#EndTime").keypress(function (e) {
+    $("#EndTime").keypress(function(e) {
         e.preventDefault();
     });
 
-    $('#StartTime').datepicker().on('changeDate', function (event) {
+    $('#StartTime').datepicker().on('changeDate', function(event) {
         var startTime = $('#StartTime').datepicker().val();
         $('#EndTime').datepicker('setStartDate', startTime);
     });
 
-    $('#EndTime').datepicker().on('changeDate', function (event) {
+    $('#EndTime').datepicker().on('changeDate', function(event) {
         GetData(ShowEntries, Page, SeachText);
     });
 });
@@ -120,7 +120,7 @@ function GetData(ShowEntries, Page, SearchText) {
             StartTime: $('#StartTime').val(),
             EndTime: $('#EndTime').val()
         },
-        success: function (data) {
+        success: function(data) {
             console.log(data);
             t.clear().draw();
             NumberOfEntries = data['count'];
@@ -153,7 +153,7 @@ function GetData(ShowEntries, Page, SearchText) {
 
                 var CardResultRate;
                 var CardResult;
-                switch (response['playerLogDatasByID'][i].GameResult) {
+                switch (data[i].GameResult) {
                     case 0:
                         {
                             CardResult = '沒中';
@@ -223,8 +223,8 @@ function GetData(ShowEntries, Page, SearchText) {
                     data[i].MachineName,
                     section,
                     data[i].Credit,
+                    CardResult,
                     CardResultRate,
-                    'NaN',
                     DoubleStar,
                     'NaN',
                     data[i].BonusRate,
