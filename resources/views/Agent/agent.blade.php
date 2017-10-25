@@ -34,7 +34,7 @@ $(document).ready(function() {
         "searching": false,
         "bAutoWidth": false,
         "columnDefs": [
-            {"render": function ( data, type, full, meta ) {return data.toLocaleString("en-US");}, "className": 'text-right', "targets": [4,5]}
+            {"render": function ( data, type, full, meta ) {if(data) return data.toLocaleString("en-US"); else return data;}, "className": 'text-right', "targets": [4,5]}
         ]
     });
 
@@ -44,7 +44,7 @@ $(document).ready(function() {
         "searching": false,
         "bAutoWidth": false,
         "columnDefs": [
-            {"render": function ( data, type, full, meta ) {return data.toLocaleString("en-US");}, "className": 'text-right', "targets": [2]}
+            {"render": function ( data, type, full, meta ) {if(data) return data.toLocaleString("en-US"); else return data;}, "className": 'text-right', "targets": [2]}
         ]
     });
 
