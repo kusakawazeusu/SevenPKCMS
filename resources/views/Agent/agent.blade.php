@@ -187,7 +187,7 @@ function GetData(ShowEntries, Page, SearchText)
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
-            Page = 0;
+            //Page = 0;
             $("#NumberOfEntries").text(NumberOfEntries);
             $("#totalPage").text( totalPage );
             $("#page").text(Page+1);

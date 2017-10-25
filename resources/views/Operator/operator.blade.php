@@ -175,6 +175,10 @@ $(document).ready(function() {
         defaultViewDate: {year: 1900}
     });
 
+
+
+
+
     $("input[name='Password']").on('input',function(){
         ChangePasswordFlag = 1
     });
@@ -191,8 +195,13 @@ $(document).ready(function() {
         ChangeFormFlag = 1;
     });
 
+    $("input[name='Birthday']").click(function(){
+        ChangeFormFlag = 0;
+    })
+
     $('#OperatorModal').on('hide.bs.modal',function(e){
         
+
         if(ChangeFormFlag == 1)
         {
             e.preventDefault();
