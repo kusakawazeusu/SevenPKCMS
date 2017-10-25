@@ -79,7 +79,7 @@ class MachineMeterController extends Controller
 
         $time = MachineMeter::where('MachineID', '=', Input::get('ID'))->get()[0]->cleantime;
 
-        $query = Playlog::join('machine', 'playlog.MachineID', '=', 'machine.ID')->where('MachineID', '=', Input::get('ID'))->where('Created_at', '>=', $time);
+        $query = Playlog::join('machine', 'playlog.MachineID', '=', 'machine.ID')->where('MachineID', '=', Input::get('ID'))->where('Created_at', '>=', $time)->orderBy('Created_at', 'desc');
 
         if (Input::get('StartTime')!=null && Input::get('EndTime')!=null) {
             $query = $query->where([

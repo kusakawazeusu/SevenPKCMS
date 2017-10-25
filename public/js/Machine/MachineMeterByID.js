@@ -217,6 +217,7 @@ function GetData(ShowEntries, Page, SearchText) {
                 }
 
                 var DoubleStar = data[i].DoubleStar == '1' ? 'Yes' : 'No';
+                CardResultRate += CardResultRate * data[i].DoubleStar;
 
                 t.row.add([
                     data[i].ID,
