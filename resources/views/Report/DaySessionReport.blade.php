@@ -27,7 +27,7 @@
                 "searching": false,
                 "bAutoWidth": false,
                 "columnDefs": [
-                    {"render": function ( data, type, full, meta ) {return data.toLocaleString("en-US");}, "className": 'text-right', "targets": [1,2,3]}
+                    {"render": function ( data, type, full, meta ) {if(data) return data.toLocaleString("en-US"); else return data;}, "className": 'text-right', "targets": [1,2,3]}
                 ]
         });
         
