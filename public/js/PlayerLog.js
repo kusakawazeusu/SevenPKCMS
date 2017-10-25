@@ -99,7 +99,7 @@ function GetData(page)
 				response['playerLogs'][i].DoubleStar,
 				response['playerLogs'][i].TotalCoinIn,
 				response['playerLogs'][i].TotalWin,
-				response['playerLogs'][i].TotalWin/response['playerLogs'][i].TotalCoinIn+'%',
+				response['playerLogs'][i].TotalWin/response['playerLogs'][i].TotalCoinIn*100+'%',
 				response['playerLogs'][i].Updated_at,
 				'<td style="text-align:center">'+
 				'<a class="btn btn-success mr-1 searchBtn" href="PlayerLog/'+response['playerLogs'][i].PlayerID+'"><i class="fa fa-search aria-hidden="true"></i></a>'+ 
