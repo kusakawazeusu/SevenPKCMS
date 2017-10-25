@@ -19,6 +19,9 @@ $(document).ready(function() {
         "info": false,
         "searching": false,
         "bAutoWidth": false,
+        "order": [
+            [10, "desc"]
+        ]
     });
 
     // Initialize the table
