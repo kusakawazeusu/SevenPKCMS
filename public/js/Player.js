@@ -69,7 +69,9 @@ $(document).ready(function() {
 		$('#playerModalTitle').text('新增會員');
 		ajaxUrl = 'Player/CreatePlayer';
 		$('#Account').attr('readonly', false);
-		$('#IntroducerName').attr('readonly', false);
+		//$('#IntroducerName').attr('readonly', false);
+
+		$('#IntroducerName').prop('disabled', false);
 		$('.checkText').hide();
 		$('.checkInput').removeAttr('style');
 		$('.checkInput').removeClass('error');
@@ -283,10 +285,13 @@ $(document).ready(function() {
 
 function SubmitData()
 {
+	//$('#IntroducerName').prop('disabled', false);
+	var IntroducerNameopt = $('#IntroducerName option:selected').val(); 
+	//console.log($('#PlayerForm').serialize()+ '&=IntroducerName=' + IntroducerNameopt);
 	$.ajax({
 		url: ajaxUrl,
 		type: 'POST',
-		data:$('#PlayerForm').serialize(),
+		data: $('#PlayerForm').serialize()+ '&IntroducerName=' + IntroducerNameopt,
 	})
 	.done(function(response) {
 		console.log(response);
@@ -297,7 +302,10 @@ function SubmitData()
 
 	})
 	.fail(function() {
-		console.log("error");
+		swal({
+			type: 'error',
+			title: '更新會員失敗！'
+		})
 	});	
 }
 
@@ -402,7 +410,8 @@ function GetPlayerData(ID)
 			$('#'+key).val(response[key]);
 		$('#ConfirmPassword').val(response['Password']);
 		$('#Account').attr('readonly', true);
-		$('#IntroducerName').attr('readonly', true);
+		//$('#IntroducerName').attr('readonly', true);
+		$('#IntroducerName').prop('disabled', 'disabled');
 		$('#playerModal').modal('toggle');
 		ajaxUrl = 'Player/UpdatePlayer';
 
@@ -601,7 +610,10 @@ function ChangePassword()
 				})
 			})
 			.fail(function() {
-				console.log("error");
+				swal({
+					type: 'error',
+					title: '更新密碼失敗！'
+				})
 			});
 			
 

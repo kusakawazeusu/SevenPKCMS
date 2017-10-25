@@ -105,7 +105,7 @@ class PlayerController extends Controller
 			'IDCardNumber'=>Input::get('IDCardNumber'),
 			'Birthday'=>Input::get('Birthday'),
 			'Gender'=>Input::get('Gender'),
-			'IntroducerID'=>DB::table('introducer')->where('IntroducerName','=',Input::get('IntroducerName'))->value('ID'),
+			'IntroducerID'=>Input::get('IntroducerName'),
 			'Enable'=>Input::get('Enable'),
 			'NickName'=>Input::get('NickName'),
 			'Career'=>Input::get('Career'),
