@@ -10,6 +10,7 @@ use Response;
 use App\Machine;
 use App\MachineStatus;
 use App\MachineProbability;
+use App\MachineProbabilityLogModel;
 use App\MachineMeter;
 use App\AgentModel;
 
@@ -52,6 +53,9 @@ class MachineController extends Controller
         $machineMeter = new MachineMeter;
         $machineMeter->MachineID = $newMachineID;
         $machineMeter->save();
+        $machineProbabilityLogModel = new MachineProbabilityLogModel;
+        $machineProbabilityLogModel->MachineID = $newMachineID;
+        $machineProbabilityLogModel->save();
     }
 
     public function GetTableData()

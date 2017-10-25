@@ -9,6 +9,7 @@ use Response;
 
 use App\Machine;
 use App\MachineProbability;
+use App\MachineProbabilityLogModel;
 
 class MachineProbabilityController extends Controller
 {
@@ -45,6 +46,28 @@ class MachineProbabilityController extends Controller
     {
         MachineProbability::where('MachineID', '=', Input::get('id'))
             ->update([
+            'TwoPairs' => Input::get('TwoPairs'),
+            'ThreeOfAKind' => Input::get('ThreeOfAKind'),
+            'Straight' => Input::get('Straight'),
+            'Flush' => Input::get('Flush'),
+            'FullHouse' => Input::get('FullHouse'),
+            'FourOfAKind' => Input::get('FourOfAKind'),
+            'STRFlush' => Input::get('STRFlush'),
+            'FiveOfAKind' => Input::get('FiveOfAKind'),
+            'RoyalFlush' => Input::get('RoyalFlush'),
+            'RealFourOfAKind' => Input::get('RealFourOfAKind'),
+            'RealSTRFlush' => Input::get('RealSTRFlush'),
+            'RealFiveOfAKind' => Input::get('RealFiveOfAKind'),
+            'RealRoyalFlush' => Input::get('RealRoyalFlush'),
+            'Turtle' => Input::get('Turtle'),
+            'DoubleStar' => Input::get('DoubleStar'),
+            'BonusDifficulty' => Input::get('BonusDifficulty'),
+            'WildCard' => Input::get('WildCard')//,
+            //'Water' => Input::get('Water')
+            ]);
+            
+            MachineProbabilityLogModel::create([
+            'MachineID' => Input::get('id'),
             'TwoPairs' => Input::get('TwoPairs'),
             'ThreeOfAKind' => Input::get('ThreeOfAKind'),
             'Straight' => Input::get('Straight'),
