@@ -8,9 +8,8 @@ $(function() {
 })
 
 function CreditIn(id) {
-
-    var maxDepositCredit, depositCreditOnce, playerPhone = 'null',
-        needCode = 'true';
+    var maxDepositCredit, depositCreditOnce, needCode = 'true',
+        playerPhone;
 
     $.ajax({
         url: 'Machine/Monitor/GetDepositCredit',
@@ -26,7 +25,6 @@ function CreditIn(id) {
             if (playerPhone != null) needCode = 'false';
         },
     });
-
     var htmlCode = playerPhone != null ?
         '<input type="text" id="PlayerPhone" class="swal2-input" value ="' + playerPhone + '" disabled>' + '<input type="number" id="Credit" class="swal2-input" min="0" max="' + maxDepositCredit + '" step="' + depositCreditOnce + '" value="0">' : '<input type="text" id="PlayerPhone" class="swal2-input" placeholder="會員電話">' + '<input type="number" id="Credit" class="swal2-input" min="0" max="' + maxDepositCredit + '" step="' + depositCreditOnce + '" value="0">';
 
@@ -71,6 +69,13 @@ function CreditIn(id) {
                             } else if (response.errMsg == 'creditNoEnough') {
                                 $('#Credit').addClass('swal2-inputerror');
                                 reject('餘額不足');
+                                DepositSweetAlert(response.id, id, {
+                                    'PlayerPhone': $('#PlayerPhone').val(),
+                                    'Credit': $('#Credit').val(),
+                                    'id': id,
+                                    'needCode': needCode,
+                                    'operatorID': operatorID
+                                });
                             } else if (response.errMsg == 'enable') {
                                 $('#PlayerPhone').addClass('swal2-inputerror');
                                 reject('會員未啟用');
@@ -119,6 +124,20 @@ function CreditIn(id) {
         });
 }
 
+function DepositSweetAlert(playerID, machineid, data) {
+    swal({
+        title: '是否需要儲值',
+        type: 'question',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: '是',
+        cancelButtontext: '否'
+    }).then(function() {
+        Deposit(playerID, 'CoinIn', data);
+    })
+}
+
 function CreditOut(id) {
     $.ajax({
             url: 'Machine/Monitor/GetCur',
@@ -165,7 +184,7 @@ function CreditOut(id) {
                                     })
                                     .done(function(data) {
                                         if (data.done == 'success') {
-                                            swal('鍵出成功!', '會員餘額' + data.credit, 'success');
+                                            swal('鍵出成功!', '會員餘額 ' + data.credit.toLocaleString("en-US"), 'success');
                                         } else
                                             swal('I have no idea', '', 'error');
                                         RefreshStatus();
@@ -189,7 +208,7 @@ function CreditOut(id) {
                                     })
                                     .done(function(data) {
                                         if (data.done == 'success') {
-                                            swal('兌現', '應付金額' + data.credit, 'info');
+                                            swal('兌現', '應付金額 ' + data.credit.toLocaleString("en-US"), 'info');
                                         } else
                                             swal('I have no idea', '', 'error');
                                         RefreshStatus();

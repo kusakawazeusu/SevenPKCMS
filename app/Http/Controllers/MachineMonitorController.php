@@ -102,7 +102,7 @@ class MachineMonitorController extends Controller
         } elseif (Input::get('Credit') + $machine->CurCredit > $machine->MaxDepositCredit) {
             return Response::json(['valid'=>'false', 'errMsg'=>'creditToMore']);
         } elseif ($player[0]->Balance < Input::get('Credit')) {
-            return Response::json(['valid'=>'false', 'errMsg'=>'creditNoEnough']);
+            return Response::json(['valid'=>'false', 'errMsg'=>'creditNoEnough', 'id'=>$player[0]->ID]);
         }
             return Response::json(['valid'=>'true']);
     }

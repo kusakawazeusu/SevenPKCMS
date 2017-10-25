@@ -12,5 +12,5 @@ class PlayerModel extends Model
     public $primaryKey = 'ID';
     
 
-    protected $fillable = ['Account','Password','Name', 'CardNumber', 'Balance', 'CardType', 'IDCardNumber', 'Cellphone', 'IntroducerID', 'DocumentFront', 'DocumentBack', 'Photo', 'Gender', 'NickName', 'Career', 'Coming', 'ReceiveAd','Telephone','Enable','Birthday','Memo','Marry','Address'];
+    protected $fillable = ['Account','Password','Name', 'CardNumber', 'Balance', 'CardType', 'IDCardNumber', 'Cellphone', 'IntroducerID', 'DocumentFront', 'DocumentBack', 'Photo', 'Gender', 'NickName', 'Career', 'Coming', 'ReceiveAd','Telephone','Enable','Birthday','Memo','Marry','Address','LastLoginTime'];
 }

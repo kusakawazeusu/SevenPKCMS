@@ -145,16 +145,80 @@ function GetData(page)
 				default:
 				break;
 			}
-
+			var CardResultRate;
+			var CardResult;
+			switch(response['playerLogDatasByID'][i].GameResult)
+			{
+				case 0:
+				{
+					CardResult = '沒中';
+					CardResultRate=0;
+				}
+				break;
+				case 1:
+				{
+					CardResult = '同花大順';
+					CardResultRate=500;
+				}
+				break;
+				case 2:
+				{
+					CardResult = '五梅';
+					CardResultRate=200;
+				}
+				break;
+				case 3:
+				{
+					CardResult = '同花順';
+					CardResultRate=120;
+				}
+				break;
+				case 4:
+				{
+					CardResult = '四梅';
+					CardResultRate=50;
+				}
+				break;
+				case 5:
+				{
+					CardResult = '葫蘆';
+					CardResultRate=7;
+				}
+				break;
+				case 6:
+				{
+					CardResult = '同花';
+					CardResultRate=5;
+				}
+				break;
+				case 7:
+				{
+					CardResult = '順子';
+					CardResultRate=3;
+				}
+				break;
+				case 8:
+				{
+					CardResult = '三條';
+					CardResultRate=2;
+				}
+				break;
+				case 9:
+				{
+					CardResult = '大兩對';
+					CardResultRate=1
+				}
+				break;
+			}
 			PlayerLogByIDTable.row.add([
 				response['playerLogDatasByID'][i].ID,
 				response['playerLogDatasByID'][i].Name,
 				response['playerLogDatasByID'][i].MachineName,
 				section,
-				response['playerLogDatasByID'][i].Credit,
-				response['playerLogDatasByID'][i].DealID,
-				'牌型倍率',
-				'比倍次數',
+				response['playerLogDatasByID'][i].Credit.toLocaleString("en-US"),
+				CardResult,
+				CardResultRate.toLocaleString("en-US"),
+				'0',
 				response['playerLogDatasByID'][i].BonusRate,
 				response['playerLogDatasByID'][i].Jackpot,
 				response['playerLogDatasByID'][i].WinCredit,

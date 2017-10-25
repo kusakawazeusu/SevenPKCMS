@@ -46,7 +46,7 @@ class CardBuffController extends Controller
 			'CardTypeID'=>Input::get('CardTypeID'),
 			'StartTime'=>Input::get('StartTime').':00',
 			'EndTime'=>Input::get('EndTime').':59'
-			]);
+		]);
 		return 'CreateSuccess';
 	}
 
@@ -64,7 +64,7 @@ class CardBuffController extends Controller
 			'CardTypeID'=>Input::get('CardTypeID'),
 			'StartTime'=>Input::get('StartTime').':00',
 			'EndTime'=>Input::get('EndTime').':59'	
-			]);
+		]);
 		return 'UpdateSuccess';
 	}
 
@@ -86,6 +86,33 @@ class CardBuffController extends Controller
 			return '一般';
 			default:
 			return $number;
+		}
+	}
+
+	public function CheckStartTime()
+	{
+		if(Input::get('ID')!=null)
+			{
+				$query = CardBuff::where('ID','!=',Input::get('ID'));
+				if($query->where('StartTime','<=',Input::get('StartTime').':00')->first())
+					return Response::json(['valid'=>false]);//時間衝突
+			return Response::json(['valid'=>true]);//時間不衝突
+
+		}
+		if(CardBuff::where('EndTime','>=',Input::get('StartTime').':00')->first())
+			return Response::json(['valid'=>false]);//時間衝突
+		return Response::json(['valid'=>true]);//時間不衝突
+	}
+
+	public function CheckEndTime()
+	{
+		if(Input::get('ID')!=null)
+			{
+				$query = CardBuff::where('ID','!=',Input::get('ID'));
+				if($query->where('StartTime','<=',Input::get('EndTime').':00')->first())
+					return Response::json(['valid'=>false]);//時間衝突
+			return Response::json(['valid'=>true]);//時間不衝突
+
 		}
 	}
 }

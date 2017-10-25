@@ -10,6 +10,7 @@ use Response;
 use App\Machine;
 use App\MachineStatus;
 use App\MachineProbability;
+use App\MachineProbabilityLogModel;
 use App\MachineMeter;
 use App\AgentModel;
 
@@ -52,6 +53,9 @@ class MachineController extends Controller
         $machineMeter = new MachineMeter;
         $machineMeter->MachineID = $newMachineID;
         $machineMeter->save();
+        $machineProbabilityLogModel = new MachineProbabilityLogModel;
+        $machineProbabilityLogModel->MachineID = $newMachineID;
+        $machineProbabilityLogModel->save();
     }
 
     public function GetTableData()
@@ -66,7 +70,7 @@ class MachineController extends Controller
             $ShowEntries = $count;
         }
 
-        $machines = Machine::where('AgentID', 'like', '%'.$SearchText.'%')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
+        $machines = Machine::where('AgentID', 'like', '%'.$SearchText.'%')->join('agent', 'machine.AgentID', '=', 'agent.ID')->select('machine.*', 'agent.Name')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
         $machines['count'] = $count;
 
         return Response::json($machines);
@@ -132,5 +136,10 @@ class MachineController extends Controller
             return Response::json(['valid'=>false, 'errMsg'=>'此經銷商有相同機台名稱!']);
         }
         return Response::json(['valid'=>true, 'errMsg'=>'']);
+    }
+
+    public function GetAgent()
+    {
+        return AgentModel::All();
     }
 }

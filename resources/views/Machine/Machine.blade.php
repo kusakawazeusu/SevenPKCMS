@@ -66,7 +66,9 @@
             <div class="col-md-6">
                 <div class="input-group mb-2">
                     <div class="input-group-addon">廠商編號</div>
-                    <input type="text" class="form-control" id="AgentID" placeholder="要搜尋的廠商編號...">
+                    <select id="AgentID" class="form-control">
+                        <option value="-1"> -- 選擇經銷商 -- </option>
+                    </select>
                 </div>
             </div>
             
@@ -136,8 +138,7 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">經銷商編號</label>
-                            <input type="text" name="AgentID" class="form-control check" required>
-							<small id="ErrorMsgAgentID" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
+                            <select id="AgentIDSelect" class="form-control" name="AgentID"></select>
                         </div>
 
                         <div class="col-md-4 form-group">

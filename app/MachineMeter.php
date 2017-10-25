@@ -8,5 +8,5 @@ class MachineMeter extends Model
 {
     protected $table = 'machinemeter';
 
-    public $timestamps = false;
+    const CREATED_AT = null;
 }

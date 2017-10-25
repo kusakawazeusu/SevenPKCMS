@@ -10,6 +10,7 @@ use Response;
 use App\Machine;
 use App\MachineMeter;
 use App\Playlog;
+use DateTime;
 
 class MachineMeterController extends Controller
 {
@@ -39,29 +40,30 @@ class MachineMeterController extends Controller
     public function Clean()
     {
         MachineMeter::where('MachineID', '=', Input::get('id'))
-            ->update([
-            'Games' => 0,
-            'DoubleStar' => 0,
-            'HighCard' => 0,
-            'TwoPairs' => 0,
-            'ThreeOfAKind' => 0,
-            'Straight' => 0,
-            'Flush' => 0,
-            'FullHouse' => 0,
-            'FourOfAKind' => 0,
-            'RealFourOfAKind' => 0,
-            'STRFlush' => 0,
-            'RealSTRFlush' => 0,
-            'FiveOfAKind' => 0,
-            'RoyalFlush' => 0,
-            'RealRoyalFlush' => 0,
-            'BetCredit' => 0,
-            'Credit' => 0,
-            'RTP' => 0,
-            'TotalCreditIn' => 0,
-            'TotalCreditOut' => 0,
-            'Throughput' => 0
-            ]);
+        ->update([
+        'Games' => 0,
+        'DoubleStar' => 0,
+        'HighCard' => 0,
+        'TwoPairs' => 0,
+        'ThreeOfAKind' => 0,
+        'Straight' => 0,
+        'Flush' => 0,
+        'FullHouse' => 0,
+        'FourOfAKind' => 0,
+        'RealFourOfAKind' => 0,
+        'STRFlush' => 0,
+        'RealSTRFlush' => 0,
+        'FiveOfAKind' => 0,
+        'RoyalFlush' => 0,
+        'RealRoyalFlush' => 0,
+        'BetCredit' => 0,
+        'Credit' => 0,
+        'RTP' => 0,
+        'TotalCreditIn' => 0,
+        'TotalCreditOut' => 0,
+        'Throughput' => 0,
+        'cleantime' => new DateTime()
+        ]);
     }
 
     public function GetMachineMeterByID($id)
@@ -75,7 +77,9 @@ class MachineMeterController extends Controller
         $ShowEntries = Input::get('ShowEntries');
         $SearchText = Input::get('SearchText');
 
-        $query = Playlog::join('machine', 'playlog.MachineID', '=', 'machine.ID')->where('MachineID', '=', Input::get('ID'));
+        $time = MachineMeter::where('MachineID', '=', Input::get('ID'))->get()[0]->cleantime;
+
+        $query = Playlog::join('machine', 'playlog.MachineID', '=', 'machine.ID')->where('MachineID', '=', Input::get('ID'))->where('Created_at', '>=', $time);
 
         if (Input::get('StartTime')!=null && Input::get('EndTime')!=null) {
             $query = $query->where([

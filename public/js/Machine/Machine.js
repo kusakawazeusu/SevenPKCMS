@@ -51,11 +51,12 @@ $(document).ready(function() {
     /*
         對表格進行的操作。
     */
-
-    $("#AgentID").keyup(function(event) {
-        SeachText = $(this).val();
+    $("#AgentID").change(function(event) {
+        SeachText = $(this).val() != -1 ? $(this).val() : "%";
         GetData(ShowEntries, Page, SeachText);
     });
+
+    GetAgent('AgentID');
 
     $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
@@ -178,14 +179,14 @@ $(document).ready(function() {
             $('#MachineSubmit').attr('disabled', true);
     }
 
-    $('input[name="AgentID"]').focusout(function() {
+    $('select[name="AgentID"]').focusout(function() {
         CheckAgent($(this).val());
         CheckValid();
     });
 
     $('input[name="MachineName"]').focusout(function() {
         var checkMachineNameResponse = CheckNumeric($(this).val());
-        if (CheckAgent($('input[name="AgentID"]').val()).valid == false) {
+        if (CheckAgent($('select[name="AgentID"]').val()).valid == false) {
             checkMachineNameResponse = { valid: false, errMsg: '請先輸入經銷商編號' };
         }
         if (checkMachineNameResponse.valid) {
@@ -195,7 +196,7 @@ $(document).ready(function() {
                     method: "POST",
                     async: false,
                     data: {
-                        "AgentID": $('input[name="AgentID"]').val(),
+                        "AgentID": $('select[name="AgentID"]').val(),
                         "MachineName": $(this).val(),
                         "Type": type,
                         "ID": $("input[name='id']").val()
@@ -319,7 +320,7 @@ function GetData(ShowEntries, Page, SearchText) {
                 t.row.add([
                     "<button onclick='OpenUpdateMachineModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteMachine(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>",
                     data[i].ID,
-                    data[i].AgentID,
+                    data[i].Name,
                     data[i].MachineName,
                     section,
                     oneBet.toLocaleString("en-US"),
@@ -379,6 +380,7 @@ function DeleteMachine(id) {
 }
 
 function OpenUpdateMachineModal(id) {
+    GetAgent('AgentIDSelect');
     ChangeFormFlag = 0;
     $.ajax({
         url: 'Machine/GetMachineByID',
@@ -417,6 +419,7 @@ function OpenUpdateMachineModal(id) {
 }
 
 function OpenCreateMachineModal() {
+    GetAgent('AgentIDSelect');
     ChangeFormFlag = 0;
     $("#MachineModalTitle").text('新增一台機台');
     $("input").val('');
@@ -436,4 +439,16 @@ function OpenCreateMachineModal() {
     $('#MachineSubmit').attr('disabled', false);
     AjaxUrl = 'Machine/Create';
     $("#MachineModal").modal('show');
+}
+
+function GetAgent(appenTo) {
+    $.ajax({
+        url: 'Machine/GetAgent',
+        method: "GET",
+        success: function(data) {
+            for (var field in data) {
+                $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#' + appenTo);
+            }
+        }
+    });
 }

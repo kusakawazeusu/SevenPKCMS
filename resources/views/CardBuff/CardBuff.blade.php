@@ -16,7 +16,7 @@
 
 
 <div>
-	<h1>時間牌型時間控制系統</h1>
+	<h1>時間牌型控制系統</h1>
 	<hr>
 	<br>
 	<div class="row justify-content-between">
@@ -65,7 +65,7 @@
 	</div>
 </div>
 
-<div class="modal fade" id="cardBuffModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
+<div class="modal" id="cardBuffModal" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-hidden="true">
 	<div class="modal-dialog modal-lg" role="document">
 		<div class="modal-content">
 			<div class="modal-header">
@@ -81,18 +81,20 @@
 					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">牌型總類</label>
-							<select id="CardTypeID" name="CardTypeID" class="form-control create update" required>
+							<select id="CardTypeID" name="CardTypeID" class="form-control">
 							</select>
 						</div>						
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">開始時間</label>
-							<input type="time" id="StartTime" name="StartTime" class="form-control create createInput update" required>
+							<input type="time" id="StartTime" name="StartTime" class="form-control createInput checkInput">
+							<small id="ErrStartTimeText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">結束時間</label>
-							<input type="time" id="EndTime" name="EndTime" class="form-control create createInput update" required>
+							<input type="time" id="EndTime" name="EndTime" class="form-control createInput checkInput">
+							<small id="ErrEndTimeText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
 						</div>						
 					</div>
 				</div>

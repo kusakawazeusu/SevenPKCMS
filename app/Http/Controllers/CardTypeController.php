@@ -98,4 +98,11 @@ class CardTypeController extends Controller
 		}
 	}
 
+	public function CheckDuplicateCardType()
+	{
+		if( CardType::where('CardType', Input::get('CardType'))->first())
+			return Response::json(['valid'=>false]);
+		return Response::json(['valid'=>true]);
+	}
+
 }
