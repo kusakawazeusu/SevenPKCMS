@@ -92,6 +92,9 @@ function GetData(page)
 		PlayerLogTable.clear().draw();
 		for(i=0;i<response['playerLogs'].length;++i)
 		{
+			var waterRate = 0+'%';
+			if(response['playerLogs'][i].TotalCoinIn!=0)
+				waterRate = (response['playerLogs'][i].TotalWin/response['playerLogs'][i].TotalCoinIn*100).toFixed(4)+'%';
 			PlayerLogTable.row.add([
 				response['playerLogs'][i].PlayerID,
 				response['playerLogs'][i].Name,
@@ -99,7 +102,7 @@ function GetData(page)
 				response['playerLogs'][i].DoubleStar,
 				response['playerLogs'][i].TotalCoinIn,
 				response['playerLogs'][i].TotalWin,
-				response['playerLogs'][i].TotalWin/response['playerLogs'][i].TotalCoinIn*100+'%',
+				waterRate,
 				response['playerLogs'][i].Updated_at,
 				'<td style="text-align:center">'+
 				'<a class="btn btn-success mr-1 searchBtn" href="PlayerLog/'+response['playerLogs'][i].PlayerID+'"><i class="fa fa-search aria-hidden="true"></i></a>'+ 

@@ -156,8 +156,8 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">介紹人名稱</label>
-							<input type="text" id="IntroducerName" name="IntroducerName" class="form-control createInput checkInput">
-							<small id="ErrIntroducerNameText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
+							<select id="IntroducerName" name="IntroducerName" class="form-control" >
+							</select>
 						</div>							
 						
 						<div class="col-md-3 form-group">

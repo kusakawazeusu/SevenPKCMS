@@ -99,8 +99,11 @@ $(document).ready(function() {
 	$("#page").text('1');
 	$("#totalPage").text(pagesNum);
 
-
+	//---------------------------------------------------------------------------------
+	//Init Page
+	//---------------------------------------------------------------------------------
 	GetData(page);
+	InitIntroducerName();
 
 	$('.deletePlayer').click(function(event) {
 		/* Act on the event */
@@ -240,24 +243,6 @@ $(document).ready(function() {
 
 	});
 
-	$('#IntroducerName').focusout(function() {
-		if($(this).val()!='' && ajaxUrl == 'Player/CreatePlayer')
-		{
-			$.ajax({
-				url: 'Player/CheckIntroducerName',
-				type: 'POST',
-				data: {IntroducerName: $(this).val()},
-			})
-			.done(function(response) {
-				CheckStyle($('#IntroducerName'),$('#ErrIntroducerNameText'),response,'錯誤介紹人！');
-			})
-			.fail(function() {
-				console.log("error");
-			});			
-		}
-		else if($(this).val()=='')
-			CheckStyle($('#IntroducerName'),$('#ErrIntroducerNameText'),CheckNotEmpty($(this).val()),'請填寫資料！');
-	});
 
 	$('#Password').focusout(function() {
 		CheckStyle($('#Password'),$('#ErrPasswordText'),CheckNotEmpty($(this).val()),'請填寫資料！');
@@ -314,6 +299,22 @@ function SubmitData()
 	.fail(function() {
 		console.log("error");
 	});	
+}
+
+function InitIntroducerName()
+{
+	$.ajax({
+		url: 'Player/GetIntroducerName',
+		type: 'GET',
+	})
+	.done(function(response) {
+		for(i=0;i<response.length;++i)
+			$("#IntroducerName").append($("<option></option>").attr("value", response[i].ID).text(response[i].IntroducerName));
+	})
+	.fail(function() {
+		console.log("error");
+	});
+	
 }
 
 var page=0;

@@ -54,7 +54,7 @@ class PlayerController extends Controller
 			'Birthday'=>Input::get('Birthday'), 
 			'Gender'=>Input::get('Gender'), 
 			'Cellphone'=>Input::get('Account'),
-			'IntroducerID'=>DB::table('introducer')->where('IntroducerName','=',Input::get('IntroducerName'))->value('ID'), 
+			'IntroducerID'=>Input::get('IntroducerName'),//這裡的introducerName已經是ID 
 			'Enable'=>Input::get('Enable'),
 			'NickName'=>Input::get('NickName'),
 			'Career'=>Input::get('Career'),
@@ -93,7 +93,7 @@ class PlayerController extends Controller
 			'Coming',
 			'ReceiveAd',
 			'Memo')->get()[0];
-		$data['IntroducerName'] = DB::table('introducer')->where('ID','=',$data['IntroducerID'])->value('IntroducerName');
+		$data['IntroducerName'] = DB::table('introducer')->where('ID','=',$data['IntroducerID'])->value('ID');
 		return $data;
 	}
 
@@ -193,11 +193,10 @@ class PlayerController extends Controller
 		return Response::json(['valid'=>true]);
 	}
 
-	public function CheckIntroducerName()
+	public function GetIntroducerName()
 	{
-		if(DB::table('introducer')->where('IntroducerName','=',Input::get('IntroducerName'))->first())
-			return Response::json(['valid'=>true]);//有找到合法介紹人
-		return Response::json(['valid'=>false]);//沒找到介紹人
+		$introducerName = DB::table('introducer')->select('ID','IntroducerName')->get();
+		return $introducerName;
 	}
 
 }

@@ -8,7 +8,7 @@ function Deposit(ID, Type = null, Data = null) {
         .done(function(PlayerData) {
 
             swal({
-                title: '儲值帳戶：' + PlayerData.Account,
+                title: '儲值帳戶：' + PlayerData.Name,
                 html: '<input type="text" id="DepositNum" class="swal2-input" placeholder="金額" aria-label="金額" >',
                 showCancelButton: true,
                 confirmButtonText: '儲值',
