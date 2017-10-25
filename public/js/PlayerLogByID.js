@@ -124,6 +124,11 @@ function GetData(page)
 		}
 	})
 	.done(function(response) {
+		entries = response['numOfEntries'];
+		pagesNum = Math.ceil(entries / showNum);  // 記錄總共有幾頁
+		$('#NumberOfEntries').text(entries);
+		$("#totalPage").text(pagesNum);
+		$("#page").text(page+1);
 		console.log(response);
 		PlayerLogByIDTable.clear().draw();
 		for(i=0;i<response['playerLogDatasByID'].length;++i)
@@ -211,12 +216,12 @@ function GetData(page)
 				}
 				break;
 			}
-			if(response['playerLogDatasByID'][i].DoubleStar==1)
+			if(response['playerLogDatasByID'][i].DoubleStar=='1')
 			{
-				CardResultRate*=2;
+				CardResultRate *= 2;
 			}
 			PlayerLogByIDTable.row.add([
-				i+1,
+				entries - i  - (showNum * page),
 				response['playerLogDatasByID'][i].Name,
 				response['playerLogDatasByID'][i].MachineName,
 				section,
@@ -231,11 +236,7 @@ function GetData(page)
 				]).draw(false);
 		}
 
-		entries = response['numOfEntries'];
-		pagesNum = Math.ceil(entries / showNum);  // 記錄總共有幾頁
-		$('#NumberOfEntries').text(entries);
-		$("#totalPage").text(pagesNum);
-		$("#page").text(page+1);
+		
 	})
 	.fail(function() {
 		console.log("error");
