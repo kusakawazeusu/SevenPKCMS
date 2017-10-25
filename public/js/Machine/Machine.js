@@ -389,7 +389,7 @@ function OpenUpdateMachineModal(id) {
         success: function(data) {
             $("#MachineModalTitle").text('正在編輯： 第' + data.ID + '台');
             $("input[name='id']").val(data.ID);
-            $("input[name='AgentID']").val(data.AgentID);
+            $("select[name='AgentID']").val(data.AgentID);
             $("input[name='MachineName']").val(data.MachineName);
             $("select[name='SectionID']").val(data.SectionID);
             $("input[name='MaxDepositCredit']").val(data.MaxDepositCredit);
