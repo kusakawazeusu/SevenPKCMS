@@ -56,7 +56,7 @@ class PlayerLogController extends Controller
 		}
 		$offset = $num * $page;
 		$numOfEntries = $query->count();
-		$playerLogDatasByID = $query->orderby('ID')
+		$playerLogDatasByID = $query->orderby('Created_at','desc')
 		->offset($offset)
 		->limit($num)
 		->get();
