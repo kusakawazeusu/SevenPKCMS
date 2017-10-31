@@ -115,7 +115,7 @@ class Agent extends Controller
 
     function getCreditLog(Request $request)
     {
-        $data = DB::table('agentcreditlog')->where('AgentID',$request->input('id'))->join('operator','agentcreditlog.operatorid','=','operator.id')->get();
+        $data = DB::table('agentcreditlog')->where('AgentID',$request->input('id'))->join('operator','agentcreditlog.operatorid','=','operator.id')->orderBy('Create_at')->get();
         return Response::json($data);
     }
 }

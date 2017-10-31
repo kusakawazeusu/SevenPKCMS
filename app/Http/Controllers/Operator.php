@@ -169,4 +169,20 @@ class Operator extends Controller
         
         return Response::json($data);
     }
+
+    function changePassword(Request $request)
+    {
+        if( DB::table('Operator')->where('id',$request->input('ID'))->first() )
+        {
+            DB::table('Operator')->where('id',$request->input('ID'))->update([
+                'password' => Hash::make($request->input('Password'))
+            ]);
+            
+            return Response::json(['valid'=>true]);
+        }
+        else
+        {
+            return Response::json(['valid'=>false]);
+        }
+    }
 }

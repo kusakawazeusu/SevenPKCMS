@@ -171,8 +171,15 @@ function GetData(ShowEntries, Page, SearchText)
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
             $("#NumberOfEntries").text(NumberOfEntries);
-            $("#totalPage").text( totalPage );
+            
             $("#page").text(Page+1);
+
+            if( ShowEntries == 'ALL' )
+            {
+                totalPage = 1;
+            }
+
+            $("#totalPage").text( totalPage );
 
             var NumOfData = Object.keys(data).length - 1;
 

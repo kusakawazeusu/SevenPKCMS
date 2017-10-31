@@ -217,6 +217,9 @@ $(document).ready(function() {
                 $('#OperatorModal').modal('toggle');
             });
         }
+
+        $("#OperatorForm").removeClass("was-validated");
+        $("#DepulicatedAccountText").hide();
         
     });
 });
@@ -243,6 +246,12 @@ function GetData(ShowEntries, Page, SearchText)
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
+
+            if( ShowEntries == 'ALL' )
+            {
+                totalPage = 1;
+            }
+
             Page = 0;
             $("#NumberOfEntries").text(NumberOfEntries);
             $("#totalPage").text( totalPage );
@@ -320,6 +329,11 @@ function DeleteOperator(id)
 
 function OpenUpdateOperatorModal(id)
 {
+    $("#CreatePassword").hide();
+    $("#ChangePassword").show();
+
+    $("#changePasswordBtn").attr('name',id);
+
     PasswordChangeFlag = 0;
     ChangeFormFlag = 0;
     $.ajax({
@@ -389,7 +403,81 @@ function OpenCreateOperatorModal()
     $("input").val('');
     $("#Account").css('border','1px solid #ddd');
     $("#OperatorModal").modal('show');
+    $("#CreatePassword").show();
+    $("#ChangePassword").hide();
     $("#IntroCheckDiv").show();
+}
+
+function ChangePassword()
+{
+    
+    fixBootstrapModal();
+
+    console.log($("#changePasswordBtn").attr('name'));
+
+    swal({
+		title: '變更使用者密碼',
+		input: 'text',  
+		showCancelButton: true,
+		cancelButtonColor: '#d33',
+		showLoaderOnConfirm: true,
+		cancelButtonText: '取消變更',
+        allowOutsideClick:false,
+        preConfirm: function(password)
+        {
+            return new Promise(function(resolve,reject){
+                $.ajax({
+                    url: "{{ route('ChangePasswordOperator') }}",
+                    type: "patch",
+                    data: {
+                        ID: $("#changePasswordBtn").attr('name'),
+                        Password: password},
+                    })
+                    .done(function(response){
+                        if(response.valid == true)
+                            resolve();
+                        else
+                            reject('操作錯誤');
+                    })
+                    .fail(function() {
+					    console.log("CheckPassword Error");
+				    });
+                })
+        } 
+    }).then(function(){
+        swal({
+            title: "密碼變更完成",
+            text: "請使用新密碼登入。",
+            type: "success"
+        })
+
+        restoreBootstrapModal();
+
+    },function(dismiss){
+		swal({
+			type: 'error',
+			title: '取消變更密碼'
+        })
+        
+        restoreBootstrapModal();
+	});
+}
+
+function fixBootstrapModal() {
+  var modalNode = document.querySelector('.modal[tabindex="-1"]');
+  if (!modalNode) return;
+
+  modalNode.removeAttribute('tabindex');
+  modalNode.classList.add('js-swal-fixed');
+}
+
+// call this before hiding SweetAlert (inside done callback):
+function restoreBootstrapModal() {
+  var modalNode = document.querySelector('.modal.js-swal-fixed');
+  if (!modalNode) return;
+
+  modalNode.setAttribute('tabindex', '-1');
+  modalNode.classList.remove('js-swal-fixed');
 }
 </script>
 
@@ -475,11 +563,16 @@ function OpenCreateOperatorModal()
                         <small id="DepulicatedAccountText" style="display:none;color:brown !important" class="form-text text-muted">請取另外一個帳號名稱，此名稱重複了！</small>
                     </div>
 
-                    <div class="col-md-6 form-group">
+                    <div id="CreatePassword" style="display:none" class="col-md-6 form-group">
                         <label class="FormLabel">密碼</label>
                         <input type="password" name="Password" class="form-control" required>
-
                     </div>
+
+                    <div id="ChangePassword" style="display:none" class="col-md-6 form-group">
+                        <label class="FormLabel">密碼</label>
+                        <button name="0" id="changePasswordBtn" type="button" class="form-control btn btn-warning" onclick=ChangePassword()>更改密碼</button>
+                    </div>     
+
                 </div>
 
                 <div class="row">

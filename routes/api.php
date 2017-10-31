@@ -25,6 +25,8 @@ Route::post('operator/checkDepulicatedAccount','Operator@checkDepulicatedAccount
 Route::post('operator/update','Operator@updateOperator')->name('UpdateOperator');
 Route::delete('operator/delete','Operator@deleteOperator')->name('DeleteOperator');
 
+Route::patch('operator/changepassword','Operator@changePassword')->name('ChangePasswordOperator');
+
 // Introducer API
 Route::get('introducer/get', 'Introducer@getIntroducer')->name('GetIntroducers');
 Route::get('introducer/getbyid','Introducer@getIntroducerData')->name('GetIntroducerById');
