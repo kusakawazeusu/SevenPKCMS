@@ -265,6 +265,9 @@ function ManipulateCredit(id,manipulation)
         text: "請輸入你要"+Verb+"給 "+ AgentName +" 的額度。",
         showCancelButton: true,
         input: 'number',
+        inputAttributes: {
+            min: 0
+        },
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
         confirmButtonText: '計算',
