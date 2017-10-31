@@ -40,6 +40,11 @@ class PlayerController extends Controller
 		->offset($offset)
 		->limit($num)
 		->get();
+
+		for($i=0;$i<count($players);++$i)
+		{
+			$players[$i]->IDCardNumber = substr($players[$i]->IDCardNumber, 0, -4).'****';
+		}
 		return Response::json(['players'=>$players,'numOfEntries'=>$numOfEntries]);
 	}
 
