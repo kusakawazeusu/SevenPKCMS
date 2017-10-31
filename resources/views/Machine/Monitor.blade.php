@@ -62,6 +62,7 @@ var operatorID = {{ Auth::user()->id }};
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick ="CreditIn(this.id)">鍵入</a>
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick ="CreditOut(this.id)">鍵出</a>
                     <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="RemoveReserved(this.id)">解除保留</a>
+                    <a class="dropdown-item" id="{{$machines[$i]->ID}}" onclick="VerificationCode(this.id)">查詢驗證碼</a>
                     <a class="dropdown-item">取消</a>
                 </div>
             </div>

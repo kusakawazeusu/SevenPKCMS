@@ -5,6 +5,7 @@
     Route::post('/Monitor/GetCur', 'MachineMonitorController@GetCur');
     Route::post('/Monitor/CreditIn', 'MachineMonitorController@CreditIn');
     Route::post('/Monitor/CreditOut', 'MachineMonitorController@CreditOut');
+    Route::post('/Monitor/GetVerificationCode', 'MachineMonitorController@GetVerificationCode');
     Route::post('/Monitor/RemoveReserved', 'MachineMonitorController@RemoveReserved');
     Route::post('/Monitor/RefreshMachineStatus', 'MachineMonitorController@RefreshMachineStatus');
     Route::post('/Monitor/GetDepositCredit', 'MachineMonitorController@GetDepositCredit');

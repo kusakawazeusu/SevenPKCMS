@@ -78,6 +78,12 @@ class MachineMonitorController extends Controller
         }
             return Response::json(['done'=>'unsuccess', 'type'=>'ToCredit', 'credit'=>0]);
     }
+
+    public function GetVerificationCode()
+    {
+        $MachineStatus = MachineStatus::where('MachineID', '=', Input::get('id'))->get()[0];
+        return $MachineStatus;
+    }
     
     public function RefreshMachineStatus()
     {
