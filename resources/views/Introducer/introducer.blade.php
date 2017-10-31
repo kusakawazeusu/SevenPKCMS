@@ -219,7 +219,7 @@ function GetData(ShowEntries, Page, SearchText)
                     data[i].ReturnCreditRate,
                     CalcMethod,
                     data[i].Create_at,
-                    "<button onclick='OpenUpdateIntroducerModal("+data[i].ID+")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button><button onclick='DeleteIntroducer("+data[i].ID+")' class='btn btn-danger'><i class='fa fa-trash'></i></button>"
+                    "<button onclick='OpenUpdateIntroducerModal("+data[i].ID+")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i></button>"
                 ]).draw(false);
             }
         },

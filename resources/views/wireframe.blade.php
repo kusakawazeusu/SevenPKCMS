@@ -65,9 +65,9 @@
         
             <div class="row mt-4">
                 <div class="col-md-2">
-
+                
                     <div class="jumbotron SideMenu">
-                    
+                        @if( !Auth::guest() && Auth::user()->Type == 2 )
                         <h5 class="display-5">櫃控系統</h5>
                         <hr>
                         <p class="SideBarTitle">帳號</p>
@@ -96,6 +96,38 @@
                         <p class="SideBarTitle">時間控制系統</p>
                         <a href="{{ url('/CardBuff') }}">時間牌型選擇</a><br>
                         <a href="{{ url('/CardType') }}">控制牌型調整</a><br><br>
+                        @endif
+
+                        @if( !Auth::guest() &&  Auth::user()->Type == 1 )
+                        <h5 class="display-5">櫃控系統</h5>
+                        <hr>
+                        <p class="SideBarTitle">通路</p>
+                        <a href="{{ url('/introducer') }}">介紹人</a><br>
+
+                        <p class="SideBarTitle">報表</p>
+                        <a href="{{ url('/report') }}">報表管理</a><br>
+                        <a href="{{url('/PlayerLog')}}">會員遊玩紀錄</a><br><br>
+
+                        <p class="SideBarTitle">業務</p>
+                        <a href="">交班管理</a><br><br>
+
+                        <p class="SideBarTitle">會員</p>
+                        <a href="{{ url('/Player') }}">會員管理</a><br><br>
+
+                        @endif
+
+                        @if( !Auth::guest() &&  Auth::user()->Type == 0 )
+                        <h5 class="display-5">櫃控系統</h5>
+                        <hr>
+                        <p class="SideBarTitle">通路</p>
+                        <a href="{{ url('/introducer') }}">介紹人</a><br>
+
+                        <p class="SideBarTitle">業務</p>
+                        <a href="">交班管理</a><br><br>
+
+                        <p class="SideBarTitle">會員</p>
+                        <a href="{{ url('/Player') }}">會員管理</a><br><br>
+                        @endif
                     </div>
 
                 </div>

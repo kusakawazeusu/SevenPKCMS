@@ -99,11 +99,13 @@ class Agent extends Controller
         }
         else if($request->input('manipulation') == 'clear')
         {
+            $originalCredit = DB::table('Agent')->where('ID',$request->input('id'))->first()->OweCredit;
+
             DB::table('Agent')->where('ID',$request->input('id'))->update(['OweCredit'=>0]);
             DB::table('AgentCreditLog')->insert([
                 'AgentID' => $request->input('id'),
                 'Operate' => 2,
-                'Credit' => 0,
+                'Credit' => $originalCredit,
                 'Status' => 1,
                 'Create_at' => date("Y-m-d H:i:s"),
                 'OperatorID' => $request->input('operatorID')
@@ -115,7 +117,7 @@ class Agent extends Controller
 
     function getCreditLog(Request $request)
     {
-        $data = DB::table('agentcreditlog')->where('AgentID',$request->input('id'))->join('operator','agentcreditlog.operatorid','=','operator.id')->orderBy('Create_at')->get();
+        $data = DB::table('agentcreditlog')->where('AgentID',$request->input('id'))->join('operator','agentcreditlog.operatorid','=','operator.id')->orderBy('Create_at','DESC')->get();
         return Response::json($data);
     }
 }
