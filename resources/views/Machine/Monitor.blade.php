@@ -1,5 +1,5 @@
 @extends('wireframe')
-
+@Section('title','監控系統')
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" /><!-- 切記這兩行伊定要放在body最下面 -->
 <script src="{{asset('js/Deposit.js')}}"></script>
