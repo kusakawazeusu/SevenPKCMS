@@ -28,7 +28,8 @@
                 "bAutoWidth": false,
                 "columnDefs": [
                     {"render": function ( data, type, full, meta ) {if(data) return data.toLocaleString("en-US"); else return data;}, "className": 'text-right', "targets": [3,4,5,6,7,8]}
-                ]
+                ],
+                "order": [[0,'desc']]
         });
         
         GetData(ShowEntries,Page,SearchBundle);

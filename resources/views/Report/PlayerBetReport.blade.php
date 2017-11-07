@@ -31,7 +31,8 @@
                 "bAutoWidth": false,
                 "columnDefs": [
                     {"render": function ( data, type, full, meta ) {if(data) return data.toLocaleString("en-US"); else return data;}, "className": 'text-right', "targets": [2,3,4]}
-                ]
+                ],
+                "order": [[0,'desc']]
         });
         
         GetData(ShowEntries,Page,SearchBundle);
@@ -106,10 +107,10 @@
 
                 for(let i=0;i<NumOfData;i++)
                 {
-                    if(response[i].CreditType == 0)
+                    if(response[i].Operation == 0)
                     {
                         PlayerBetTable.row.add([
-                            response[i].Created_at,
+                            response[i].created_at,
                             response[i].PlayerName,
                             response[i].Credit,
                             '0',
@@ -117,10 +118,10 @@
                             response[i].IntroducerName
                         ]).draw(false);
                     }
-                    else if(response[i].CreditType == 1)
+                    else if(response[i].Operation > 0)
                     {
                         PlayerBetTable.row.add([
-                            response[i].Created_at,
+                            response[i].created_at,
                             response[i].PlayerName,
                             '0',
                             response[i].Credit,

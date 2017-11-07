@@ -36,8 +36,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/monthreport','Report@MonthReport');
     Route::get('/regeneratemonthreport','Report@RegenerateMonthReport');
     Route::get('/syncmonthreport','Report@SyncMonthReport');
-
     Route::get('/playerbetreport','Report@PlayerBetReport');
+
+    Route::get('/BroadcastMsg','BroadcastMsg@MsgSetting');
+    Route::post('/BroadcastMsg','BroadcastMsg@SetMsg')->name('SetMsg');
 });
 Route::get('/login','Login@ShowLoginForm')->name('login');
 Route::post('/login','Login@LoginAttempt');

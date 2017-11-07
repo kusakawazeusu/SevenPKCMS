@@ -14,11 +14,11 @@ class Shift extends Controller
     {
         $StartTime = DB::table('session')->where('id',Auth::user()->SessionID)->first()->StartTime;
 
-        $CreditIn = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',0)->sum('Credit');
-        $CreditOut = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',1)->sum('Credit');
+        $CreditIn = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',0)->where('OperatorID', Auth::id())->sum('Credit');
+        $CreditOut = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',1)->where('OperatorID', Auth::id())->sum('Credit');
 
-        $CoinIn = DB::table('playlog')->where('created_at','>',$StartTime)->where('CreditType',0)->sum('Credit');
-        $CoinOut = DB::table('playlog')->where('created_at','>',$StartTime)->where('CreditType',2)->sum('Credit');
+        $CoinIn = DB::table('playlog')->where('created_at','>',$StartTime)->sum('Credit');
+        $CoinOut = DB::table('playlog')->where('created_at','>',$StartTime)->sum('WinCredit');
 
         return view('Shift.knockoff',['CreditIn'=>$CreditIn,'CreditOut'=>$CreditOut,'CoinIn'=>$CoinIn,'CoinOut'=>$CoinOut]);
     }
@@ -38,7 +38,8 @@ class Shift extends Controller
                 'Throughput' => $request->input('Throughput'),
                 'TotalCoinIn' => $request->input('CoinIn'),
                 'TotalCoinOut' => $request->input('CoinOut'),
-                'CoinDiff' => $request->input('CoinDiff')
+                'CoinDiff' => $request->input('CoinDiff'),
+                'EndTime' => $request->input('KnockOffTime')
             ]);
     
             Auth::logout();
@@ -54,12 +55,12 @@ class Shift extends Controller
     public function ShiftCount()
     {
         $StartTime = DB::table('session')->where('id',Auth::user()->SessionID)->first()->StartTime;
-
-        $CreditIn = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',0)->sum('Credit');
-        $CreditOut = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',1)->sum('Credit');
-
-        $CoinIn = DB::table('playlog')->where('created_at','>',$StartTime)->where('CreditType',0)->sum('Credit');
-        $CoinOut = DB::table('playlog')->where('created_at','>',$StartTime)->where('CreditType',2)->sum('Credit');
+        
+        $CreditIn = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',0)->where('OperatorID', Auth::id())->sum('Credit');
+        $CreditOut = DB::table('machinecreditlog')->where('created_at','>',$StartTime)->where('Operation',1)->where('OperatorID', Auth::id())->sum('Credit');
+        
+        $CoinIn = DB::table('playlog')->where('created_at','>',$StartTime)->sum('Credit');
+        $CoinOut = DB::table('playlog')->where('created_at','>',$StartTime)->sum('WinCredit');
 
         return view('Shift.shift',['CreditIn'=>$CreditIn,'CreditOut'=>$CreditOut,'CoinIn'=>$CoinIn,'CoinOut'=>$CoinOut]);
     }

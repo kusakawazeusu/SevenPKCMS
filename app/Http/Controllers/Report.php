@@ -341,8 +341,8 @@ class Report extends Controller
     {
         if( $request->input('EndTime') )
         {
-            $count = DB::table('playlog')
-            ->join('player','playlog.PlayerID','=','player.id')
+            $count = DB::table('machinecreditlog')
+            ->join('player','machinecreditlog.PlayerID','=','player.id')
             ->join('introducer','player.IntroducerID','=','introducer.id')
             ->whereDate('Create_at','>=',$request->input('StartTime') ? $request->input('StartTime') : '%')
             ->whereDate('Create_at','<=',$request->input('EndTime'))
@@ -354,10 +354,10 @@ class Report extends Controller
             else
                 $ShowEntries = $count;      
 
-            $data = DB::table('playlog')
-            ->join('player','playlog.PlayerID','=','player.id')
+            $data = DB::table('machinecreditlog')
+            ->join('player','machinecreditlog.PlayerID','=','player.id')
             ->join('introducer','player.IntroducerID','=','introducer.id')
-            ->select('playlog.*','player.Name as PlayerName','introducer.IntroducerName as IntroducerName')
+            ->select('machinecreditlog.*','player.Name as PlayerName','introducer.IntroducerName as IntroducerName')
             ->where('Create_at','>=',$request->input('StartTime') ? $request->input('StartTime').' 00:00:00' : '%')
             ->where('Create_at','<=',$request->input('EndTime').' 23:59:59')
             ->where('player.Name','like','%'.$request->input('SearchName').'%')
@@ -369,8 +369,8 @@ class Report extends Controller
         }
         else
         {
-            $count = DB::table('playlog')
-            ->join('player','playlog.PlayerID','=','player.id')
+            $count = DB::table('machinecreditlog')
+            ->join('player','machinecreditlog.PlayerID','=','player.id')
             ->join('introducer','player.IntroducerID','=','introducer.id')
             ->whereDate('Create_at','>=',$request->input('StartTime') ? $request->input('StartTime') : '%')
             ->where('player.Name','like','%'.$request->input('SearchName').'%')
@@ -381,10 +381,10 @@ class Report extends Controller
             else
                 $ShowEntries = $count;      
 
-            $data = DB::table('playlog')
-            ->join('player','playlog.PlayerID','=','player.id')
+            $data = DB::table('machinecreditlog')
+            ->join('player','machinecreditlog.PlayerID','=','player.id')
             ->join('introducer','player.IntroducerID','=','introducer.id')
-            ->select('playlog.*','player.Name as PlayerName','introducer.IntroducerName as IntroducerName')
+            ->select('machinecreditlog.*','player.Name as PlayerName','introducer.IntroducerName as IntroducerName')
             ->where('Create_at','>=',$request->input('StartTime') ? $request->input('StartTime').' 00:00:00' : '%')
             ->where('player.Name','like','%'.$request->input('SearchName').'%')
             ->orderBy('Create_at','desc')

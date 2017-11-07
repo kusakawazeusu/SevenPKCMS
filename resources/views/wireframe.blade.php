@@ -88,14 +88,15 @@
                         <a href="{{url('/PlayerLog')}}">會員遊玩紀錄</a><br><br>
 
                         <p class="SideBarTitle">業務</p>
-                        <a href="">交班管理</a><br><br>
+                        <a href="{{ url('/report') }}">交班管理</a><br><br>
 
                         <p class="SideBarTitle">會員</p>
                         <a href="{{ url('/Player') }}">會員管理</a><br><br>
 
                         <p class="SideBarTitle">時間控制系統</p>
                         <a href="{{ url('/CardBuff') }}">時間牌型選擇</a><br>
-                        <a href="{{ url('/CardType') }}">控制牌型調整</a><br><br>
+                        <a href="{{ url('/CardType') }}">控制牌型調整</a><br>
+                        <a href="{{ url('/BroadcastMsg') }}">活動廣播訊息設定</a><br><br>
                         @endif
 
                         @if( !Auth::guest() &&  Auth::user()->Type == 1 )
