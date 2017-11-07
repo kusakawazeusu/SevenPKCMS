@@ -9,7 +9,7 @@ Route::group(['prefix'=>'CardBuff'], function () {
 	Route::post('/UpdateCardBuff','CardBuffController@UpdateCardBuff');
 	Route::get('/CheckStartTime','CardBuffController@CheckStartTime');
 	Route::get('/CheckEndTime','CardBuffController@CheckEndTime');
-
+	
 	/*Route::post('/DeletePlayer', 'PlayerController@DeletePlayer');
 	Route::post('/CheckPhoto','PlayerController@CheckPhoto');
 	Route::post('/CreatePhoto','PlayerController@CreatePhoto');

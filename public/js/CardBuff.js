@@ -16,8 +16,10 @@ $(document).ready(function()
 		$('#cardBuffModalTitle').text('新增時間牌型');
 		ajaxUrl = 'CardBuff/CreateCardBuff';
 		$('.createInput').val('');
+		$('.checkText').hide();
 		$('.checkInput').removeAttr('style');
 		$('.checkInput').removeClass('error');
+		$('#cardBuffSubmit').attr('disabled', false);
 	});
 
 	$('#cardBuffModal').on('hide.bs.modal',function(e){

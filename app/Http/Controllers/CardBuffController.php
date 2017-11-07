@@ -91,10 +91,11 @@ class CardBuffController extends Controller
 
 	public function CheckStartTime()
 	{
+
 		if(Input::get('ID')!=null)
 			{
 				$query = CardBuff::where('ID','!=',Input::get('ID'));
-				if($query->where('StartTime','<=',Input::get('StartTime').':00')->first())
+				if($query->where([['StartTime','<=',Input::get('StartTime').':00'],['EndTime','>=',Input::get('StartTime').':00']])->first())
 					return Response::json(['valid'=>false]);//時間衝突
 			return Response::json(['valid'=>true]);//時間不衝突
 
@@ -109,10 +110,11 @@ class CardBuffController extends Controller
 		if(Input::get('ID')!=null)
 			{
 				$query = CardBuff::where('ID','!=',Input::get('ID'));
-				if($query->where('StartTime','<=',Input::get('EndTime').':00')->first())
+				if($query->where([['StartTime','<=',Input::get('EndTime').':00'],['EndTime','>=',Input::get('EndTime').':59']])->first())
 					return Response::json(['valid'=>false]);//時間衝突
 			return Response::json(['valid'=>true]);//時間不衝突
 
 		}
 	}
+
 }

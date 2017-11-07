@@ -188,6 +188,7 @@ function CreditOut(id) {
                                     } else
                                         swal('I have no idea', '', 'error');
                                     RefreshStatus();
+                                    console.log(data.t);
                                 })
                                 .fail(function () {
                                     console.log("error");

@@ -1,4 +1,6 @@
-@extends('wireframe') @section('content')
+@extends('wireframe')
+@Section('title','機台紀錄')
+@section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}" />
 <!-- 切記這兩行伊定要放在body最下面---->
 <script src="{{asset('js/Machine/MachineMeterByID.js')}}"></script>

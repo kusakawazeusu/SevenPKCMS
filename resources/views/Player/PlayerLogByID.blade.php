@@ -50,7 +50,7 @@
 	<br>
 	<table class="table display table-striped" id="PlayerLogByIDTable" style="text-align:center">
 		<thead>
-			<th>編號</th>
+			<th>項次</th>
 			<th>會員名稱</th>
 			<th>機台編號</th>
 			<th>分區編號</th>
