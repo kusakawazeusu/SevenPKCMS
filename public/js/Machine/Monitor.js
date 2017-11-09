@@ -1,3 +1,14 @@
+function FastCreate(){
+    $.ajax({
+        url: 'Machine/Monitor/FastCreate',
+        type: 'POST',
+        success: function(data){
+            swal("Create Success");
+        }
+    })
+}
+
+
 $(function () {
     $('[data-toggle="dropdown"]').dropdown();
     $('.machineCardTooltip').tooltip({

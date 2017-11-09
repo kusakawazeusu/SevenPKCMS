@@ -29,6 +29,8 @@
 <script>
 var operatorID = {{ Auth::user()->id }};
 </script>
+<!-- <button onclick = FastCreate()>fast create</button> -->
+
 <div class="jumbotron">
     <div class="row">
         @for ($i = 0; $i < count($machines); $i++)

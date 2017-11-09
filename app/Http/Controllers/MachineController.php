@@ -142,4 +142,42 @@ class MachineController extends Controller
     {
         return AgentModel::All();
     }
+    
+    public function FastCreate(){
+        for($i = 60; $i < 100; $i++) {
+            
+        $newMachineID = Machine::create([
+            'AgentID' => 2,
+            'MachineName' => 1000+$i + 1,
+            'SectionID' => 3,
+            'MaxDepositCredit' => 10000000,
+            'DepositCreditOnce' => 100000,
+            'MinCoinOut' => 1000,
+            'MaxCoinIn' => 10000,
+            'CoinInOnce' => 1000,
+            'CoinInBonus' => 200,
+            'TwoPairsOdd' => 1,
+            'ThreeOfAKindOdd' => 2,
+            'StraightOdd' => 3,
+            'FlushOdd' => 5,
+            'FullHouseOdd' => 7,
+            'FourOfAKindOdd' => 50,
+            'STRFlushOdd' => 120,
+            'FiveOfAKindOdd' => 200,
+            'RoyalFlushOdd' => 500
+        ])->ID;
+        $machineStatus = new MachineStatus;
+        $machineStatus->MachineID = $newMachineID;
+        $machineStatus->save();
+        $machineProbability = new MachineProbability;
+        $machineProbability->MachineID = $newMachineID;
+        $machineProbability->save();
+        $machineMeter = new MachineMeter;
+        $machineMeter->MachineID = $newMachineID;
+        $machineMeter->save();
+        $machineProbabilityLogModel = new MachineProbabilityLogModel;
+        $machineProbabilityLogModel->MachineID = $newMachineID;
+        $machineProbabilityLogModel->save();
+        }
+    }
 }
