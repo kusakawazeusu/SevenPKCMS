@@ -58,19 +58,19 @@ class MachineMonitorController extends Controller
         $monitor = Monitor::where('ID', '=', Input::get('ID'))->get()[0];
         $machineCreditLog = new MachineCreditLog;
         $machineCreditLog->OperatorID = Input::get('operatorID');
-        $machineCreditLog->Credit = $monitor->CurCredit;
+        $machineCreditLog->Credit = $monitor->CurCredit + ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
         $machineCreditLog->MachineID = $monitor->ID;
         $machineCreditLog->PlayerID = $monitor->CurPlayer;
         if (Input::get('type') == 'ToCredit') {
             $machineCreditLog->Operation = 1;
-            $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $monitor->CurCredit + ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
+            $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $machineCreditLog->Credit;
             PlayerModel::where('ID', '=', $monitor->CurPlayer)->update(['Balance' => $credit]);
             $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0','CurCoinIn'=>'0', 'CurBet'=>'0']);
             $machineCreditLog->save();
             return Response::json(['done'=>'success', 'type'=>'ToCredit', 'credit'=>$credit, 'machineID'=>$monitor->ID, 't'=>floor($monitor->CurCoinIn / 100) * 100]);
         } elseif (Input::get('type') == 'ToCash') {
             $machineCreditLog->Operation = 2;
-            $credit =  $monitor->CurCredit + ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
+            $credit =  $machineCreditLog->Credit;
             $response = Response::json(['done'=>'success', 'type'=>'ToCash', 'credit'=>$credit, 'playerName'=>$monitor->Name,'machineID'=>$monitor->ID]);
             $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0','CurCoinIn'=>'0', 'CurBet'=>'0']);
             $machineCreditLog->save();
