@@ -14,6 +14,8 @@ Route::group(['prefix'=>'Player'], function () {
 	Route::post('/UpdatePassword','PlayerController@UpdatePassword');
 	Route::post('/CheckDepulicatedAccount','PlayerController@CheckDepulicatedAccount');
 	Route::get('/GetIntroducerName','PlayerController@GetIntroducerName');
+
+	//Route::get('/CreatePlayerLoop','PlayerController@CreatePlayerLoop');
 });
 
 Route::group(['prefix'=>'PlayerLog'], function () {

@@ -20,7 +20,6 @@ $(document).ready(function()
 	});
 	GetData(page);
 
-
 	$("#page").text('1');
 	$("#totalPage").text(pagesNum);
 
@@ -114,6 +113,15 @@ $(document).ready(function()
 
 function GetData(page)
 {
+	swal({
+			html:'<strong id="progressText">0%</strong>',
+			imageUrl: '../img/waiting.gif',
+			showConfirmButton: false,
+			allowOutsideClick:false,
+			allowEscapeKey:false,
+			allowEnterKey:false,
+
+		})
 	$.ajax({
 		url: 'PlayerLogData/'+page+'/'+showNum,
 		type: 'GET',
@@ -121,15 +129,30 @@ function GetData(page)
 			playerID:playerID,
 			StartTime:$('#StartTime').val(),
 			EndTime:$('#EndTime').val()
-		}
-	})
+		},
+		xhr: function () {
+				var xhr = $.ajaxSettings.xhr();
+				
+					xhr.addEventListener('progress', function(event) {
+						var percent = 0;
+						var position = event.loaded || event.position;
+						var total = event.total;
+						if (event.lengthComputable) {
+							percent = Math.ceil(position / total * 100);
+							$('#progressText').html(Math.round(percent)+'<i>%</i>');
+						}
+					}, false);
+				return xhr;
+			},
+		})
 	.done(function(response) {
+		swal.close();
 		entries = response['numOfEntries'];
 		pagesNum = Math.ceil(entries / showNum);  // 記錄總共有幾頁
 		$('#NumberOfEntries').text(entries);
 		$("#totalPage").text(pagesNum);
 		$("#page").text(page+1);
-		console.log(response);
+		//console.log(response);
 		PlayerLogByIDTable.clear().draw();
 		for(i=0;i<response['playerLogDatasByID'].length;++i)
 		{

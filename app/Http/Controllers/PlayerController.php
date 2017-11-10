@@ -75,7 +75,6 @@ class PlayerController extends Controller
 		PlayerAccModel::create([
 			'PlayerID'=>$newID]);
 		return '新增會員成功！';
-
 	}
 
 	public function GetPlayerData()
@@ -204,4 +203,37 @@ class PlayerController extends Controller
 		return $introducerName;
 	}
 
+
+	public function CreatePlayerLoop()
+	{
+		for($i=1;$i<=100;++$i)
+		{
+			echo str_pad($i, 3, '0', STR_PAD_LEFT).'會員新增成功'.'<br>';
+			$newID = PlayerModel::create([
+				'Account'=>'0912345'.str_pad($i, 3, '0', STR_PAD_LEFT),
+				'Password'=>Hash::make('1'),
+				'Name'=>'Auto'.str_pad($i, 3, '0', STR_PAD_LEFT), 
+				'IDCardNumber'=>'A123456789', 
+				'Birthday'=>'2017-11-9', 
+				'Gender'=>'0', 
+				'Cellphone'=>'0912345'.str_pad($i, 3, '0', STR_PAD_LEFT),
+				'IntroducerID'=>'10',//這裡的introducerName已經是ID 
+				'Enable'=>'1',
+				'NickName'=>'',
+				'Career'=>'',
+				'Address'=>'',
+				'Telephone'=>'',
+				'Marry'=>'0',
+				'Coming'=>'0',
+				'ReceiveAd'=>'2',
+				'CardType'=>'會員',
+				'Memo'=>'',
+				'Balance'=>100000,
+				'LastLoginTime'=>Carbon::now()])->ID;
+			PlayerModel::where('ID','=',$newID)->update(['CardNumber'=>$newID]);
+			PlayerAccModel::create([
+				'PlayerID'=>$newID]);
+		}
+		return '新增會員成功！';
+	}
 }
