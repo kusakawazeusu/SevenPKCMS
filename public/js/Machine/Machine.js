@@ -184,8 +184,19 @@ $(document).ready(function() {
         CheckValid();
     });
 
+    /* 左邊補0 */
+    function padLeft(str, len) {
+        str = '' + str;
+        if (str.length >= len) {
+            return str;
+        } else {
+            return padLeft("0" + str, len);
+        }
+    }
+
     $('input[name="MachineName"]').focusout(function() {
-        var checkMachineNameResponse = CheckNumeric($(this).val());
+        var checkMachineNameResponse = CheckNumeric($(this).val(), 1, 1000);
+        $(this).val(padLeft($(this).val(), 3));
         if (CheckAgent($('select[name="AgentID"]').val()).valid == false) {
             checkMachineNameResponse = { valid: false, errMsg: '請先輸入經銷商編號' };
         }
@@ -280,12 +291,12 @@ function GetData(ShowEntries, Page, SearchText) {
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
     swal({
-        html:'<strong id="progressText">loading...</strong>',
+        html: '<strong id="progressText">loading...</strong>',
         imageUrl: 'img/waiting.gif',
         showConfirmButton: false,
-        allowOutsideClick:false,
-        allowEscapeKey:false,
-        allowEnterKey:false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
     })
     $.ajax({
         url: 'Machine/GetTableData',
