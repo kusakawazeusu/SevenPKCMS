@@ -279,11 +279,20 @@ $(document).ready(function() {
 function GetData(ShowEntries, Page, SearchText) {
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
+    swal({
+        html:'<strong id="progressText">loading...</strong>',
+        imageUrl: 'img/waiting.gif',
+        showConfirmButton: false,
+        allowOutsideClick:false,
+        allowEscapeKey:false,
+        allowEnterKey:false,
+    })
     $.ajax({
         url: 'Machine/GetTableData',
         method: "GET",
         data: SendingData,
         success: function(data) {
+            swal.close();
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);

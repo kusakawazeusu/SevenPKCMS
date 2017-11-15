@@ -112,6 +112,14 @@ $(document).ready(function() {
 function GetData(ShowEntries, Page, SearchText) {
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
+    swal({
+        html:'<strong id="progressText">loading...</strong>',
+        imageUrl: '../../img/waiting.gif',
+        showConfirmButton: false,
+        allowOutsideClick:false,
+        allowEscapeKey:false,
+        allowEnterKey:false,
+    })
     $.ajax({
         url: 'GetTableDataByID',
         method: "GET",
@@ -124,7 +132,7 @@ function GetData(ShowEntries, Page, SearchText) {
             EndTime: $('#EndTime').val()
         },
         success: function(data) {
-            console.log(data);
+            swal.close();
             t.clear().draw();
             NumberOfEntries = data['count'];
             totalPage = Math.ceil(NumberOfEntries / ShowEntries);
@@ -223,7 +231,7 @@ function GetData(ShowEntries, Page, SearchText) {
                 CardResultRate += CardResultRate * data[i].DoubleStar;
 
                 t.row.add([
-                    data[i].ID,
+                    NumberOfEntries - i  - (ShowEntries * Page),
                     data[i].MachineName,
                     section,
                     data[i].Credit,
