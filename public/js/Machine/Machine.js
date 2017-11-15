@@ -196,7 +196,7 @@ $(document).ready(function() {
 
     $('input[name="MachineName"]').focusout(function() {
         var checkMachineNameResponse = CheckNumeric($(this).val(), 1, 1000);
-        $(this).val(padLeft($(this).val(), 3));
+        if (checkMachineNameResponse.valid) $(this).val(padLeft($(this).val(), 3));
         if (CheckAgent($('select[name="AgentID"]').val()).valid == false) {
             checkMachineNameResponse = { valid: false, errMsg: '請先輸入經銷商編號' };
         }
