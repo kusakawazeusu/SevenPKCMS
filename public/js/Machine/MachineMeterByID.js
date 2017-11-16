@@ -113,12 +113,12 @@ function GetData(ShowEntries, Page, SearchText) {
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
     swal({
-        html:'<strong id="progressText">loading...</strong>',
+        html: '<strong id="progressText">loading...</strong>',
         imageUrl: '../../img/waiting.gif',
         showConfirmButton: false,
-        allowOutsideClick:false,
-        allowEscapeKey:false,
-        allowEnterKey:false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
     })
     $.ajax({
         url: 'GetTableDataByID',
@@ -231,16 +231,16 @@ function GetData(ShowEntries, Page, SearchText) {
                 CardResultRate += CardResultRate * data[i].DoubleStar;
 
                 t.row.add([
-                    NumberOfEntries - i  - (ShowEntries * Page),
+                    NumberOfEntries - i - (ShowEntries * Page),
                     data[i].MachineName,
                     section,
-                    data[i].Credit,
+                    data[i].Credit.toLocaleString("en-US"),
                     CardResult,
                     CardResultRate,
                     DoubleStar,
                     'NaN',
                     data[i].BonusRate,
-                    data[i].WinCredit,
+                    data[i].WinCredit.toLocaleString("en-US"),
                     data[i].Created_at
                 ]).draw(false);
             }
