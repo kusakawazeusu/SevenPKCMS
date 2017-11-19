@@ -64,7 +64,7 @@ class VerifyCsrfToken
         ) {
             return $this->addCookieToResponse($request, $next($request));
         }
-
+        
         throw new TokenMismatchException;
     }
 

@@ -61,7 +61,8 @@
 			<th>比倍贏得倍率</th>
 			<th>JP贏錢金額</th>
 			<th>總贏錢金額</th>
-			<th>建立時間</th>
+			<th>餘額</th>
+			<th>紀錄時間</th>
 		</thead>
 		<tbody>
 		</tbody>

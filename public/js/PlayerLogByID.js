@@ -254,7 +254,8 @@ function GetData(page)
 				'0',
 				response['playerLogDatasByID'][i].BonusRate,
 				response['playerLogDatasByID'][i].Jackpot,
-				response['playerLogDatasByID'][i].WinCredit,
+				response['playerLogDatasByID'][i].WinCredit.toLocaleString("en-US"),
+				response['playerLogDatasByID'][i].Balance.toLocaleString("en-US"),
 				response['playerLogDatasByID'][i].Created_at
 				]).draw(false);
 		}
