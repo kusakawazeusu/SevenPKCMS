@@ -10,6 +10,8 @@ use Response;
 use App\Machine;
 use App\MachineProbability;
 use App\MachineProbabilityLogModel;
+use App\ProbabilityAdjModel;
+use App\BaseProbabilityModel;
 
 class MachineProbabilityController extends Controller
 {
@@ -42,6 +44,21 @@ class MachineProbabilityController extends Controller
         return $machineProbability;
     }
 
+    public function GetProbabilityAdj(){        
+        $prabilityAdjModel = ProbabilityAdjModel::All();
+        return $prabilityAdjModel;
+    }
+
+    public function GetPaytable(){        
+        $paytable = Machine::where('ID', '=', Input::get('id'))->get()[0];
+        return $paytable;
+    }
+
+    public function GetBaseProbability(){        
+        $baseProbability = BaseProbabilityModel::All();
+        return $baseProbability;
+    }
+
     public function Update()
     {
         MachineProbability::where('MachineID', '=', Input::get('id'))
@@ -62,8 +79,8 @@ class MachineProbabilityController extends Controller
             'Turtle' => Input::get('Turtle'),
             'DoubleStar' => Input::get('DoubleStar'),
             'BonusDifficulty' => Input::get('BonusDifficulty'),
-            'WildCard' => Input::get('WildCard')//,
-            //'Water' => Input::get('Water')
+            'WildCard' => Input::get('WildCard'),
+            'Water' => Input::get('Water')
             ]);
             
             MachineProbabilityLogModel::create([
@@ -84,8 +101,8 @@ class MachineProbabilityController extends Controller
             'Turtle' => Input::get('Turtle'),
             'DoubleStar' => Input::get('DoubleStar'),
             'BonusDifficulty' => Input::get('BonusDifficulty'),
-            'WildCard' => Input::get('WildCard')//,
-            //'Water' => Input::get('Water')
+            'WildCard' => Input::get('WildCard'),
+            'Water' => Input::get('Water')
             ]);
     }
 }

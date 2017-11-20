@@ -6,6 +6,22 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 var ChangeFormFlag;
+var ProbabiltyAdj;
+var Paytable = [];
+var BaseProbabilities;
+
+var GameResult = {
+    RoyalFlushOdd: 0,
+    FiveOfAKindOdd: 1,
+    STRFlushOdd: 2,
+    FourOfAKindOdd: 3,
+    FullHouseOdd: 4,
+    FlushOdd: 5,
+    StrightOdd: 6,
+    ThreeOfAKindOdd: 7,
+    TwoPairsOdd: 8,
+    Nothing: 9
+};
 
 $(document).ready(function() {
 
@@ -125,7 +141,37 @@ $(document).ready(function() {
     $('.range').on('input change', function() {
         $('#' + $(this).attr('name') + 'RangeText').text($(this).val());
         ChangeFormFlag = 1;
+        CountWater();
     });
+
+    function CountWater() {
+        var weight = [];
+        weight[GameResult.RoyalFlushOdd] = $("input[name='RoyalFlush']").val();
+        weight[GameResult.FiveOfAKindOdd] = $("input[name='FiveOfAKind']").val();
+        weight[GameResult.STRFlushOdd] = $("input[name='STRFlush']").val();
+        weight[GameResult.FourOfAKindOdd] = $("input[name='FourOfAKind']").val();
+        weight[GameResult.FullHouseOdd] = $("input[name='FullHouse']").val();
+        weight[GameResult.FlushOdd] = $("input[name='Flush']").val();
+        weight[GameResult.StrightOdd] = $("input[name='Straight']").val();
+        weight[GameResult.ThreeOfAKindOdd] = $("input[name='ThreeOfAKind']").val();
+        weight[GameResult.TwoPairsOdd] = $("input[name='TwoPairs']").val();
+        weight[GameResult.Nothing] = 5;
+        var water = 0,
+            temp = 0;
+        var adj = [];
+        for (var i = 0; i <= 9; ++i) {
+            adj[i] = ProbabiltyAdj[weight[i]].AdjMagnification * BaseProbabilities[i].BaseProbability * 10000;
+            temp += adj[i];
+        }
+        temp -= adj[9];
+        adj[9] /= 10000;
+        for (var i = 0; i <= 8; ++i) {
+            console.log(adj[i] / temp * (100 - adj[9]) * Paytable[i]);
+            water += adj[i] / temp * (100 - adj[9]) * Paytable[i];
+        }
+        $('input[name="Water"]').val(water.toFixed(2));
+        return water.toFixed(2);
+    }
 });
 
 /*
@@ -141,12 +187,12 @@ function GetData(ShowEntries, Page, SearchText) {
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
     swal({
-        html:'<strong id="progressText">loading...</strong>',
+        html: '<strong id="progressText">loading...</strong>',
         imageUrl: '../img/waiting.gif',
         showConfirmButton: false,
-        allowOutsideClick:false,
-        allowEscapeKey:false,
-        allowEnterKey:false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
     })
     $.ajax({
         url: 'Probability/GetTableData',
@@ -283,6 +329,44 @@ function OpenUpdateProbabilityModal(id) {
             $("#MachineProbabilityForm").removeClass("was-validated");
             $("#MachineProbabilityModal").modal('show');
             AjaxUrl = 'Probability/Edit';
+        }
+    });
+
+    $.ajax({
+        url: 'Probability/GetProbabilityAdj',
+        method: "GET",
+        success: function(data) {
+            ProbabiltyAdj = data;
+            //console.log(ProbabiltyAdj[0].AdjMagnification);
+        }
+    });
+
+    $.ajax({
+        url: 'Probability/GetBaseProbability',
+        method: "GET",
+        success: function(data) {
+            BaseProbabilities = data;
+            //console.log(BaseProbabilities[0].BaseProbability);
+        }
+    });
+
+    $.ajax({
+        url: 'Probability/GetPaytable',
+        data: { "id": id },
+        method: "POST",
+        success: function(data) {
+            //console.log(data);
+            Paytable[GameResult.RoyalFlushOdd] = data.RoyalFlushOdd;
+            Paytable[GameResult.FiveOfAKindOdd] = data.FiveOfAKindOdd;
+            Paytable[GameResult.STRFlushOdd] = data.STRFlushOdd;
+            Paytable[GameResult.FourOfAKindOdd] = data.FourOfAKindOdd;
+            Paytable[GameResult.FullHouseOdd] = data.FullHouseOdd;
+            Paytable[GameResult.FlushOdd] = data.FlushOdd;
+            Paytable[GameResult.StrightOdd] = data.StraightOdd;
+            Paytable[GameResult.ThreeOfAKindOdd] = data.ThreeOfAKindOdd;
+            Paytable[GameResult.TwoPairsOdd] = data.TwoPairsOdd;
+            Paytable[GameResult.Nothing] = 0;
+            //console.log(Paytable[0]);
         }
     });
 }

@@ -24,6 +24,9 @@
     Route::get('/Probability/GetTableData', 'MachineProbabilityController@GetTableData');
     Route::get('/Probability/GetMachineByID', 'MachineProbabilityController@GetMachineByID');
     Route::post('/Probability/Edit', 'MachineProbabilityController@Update');
+    Route::get('/Probability/GetProbabilityAdj', 'MachineProbabilityController@GetProbabilityAdj');
+    Route::get('/Probability/GetBaseProbability', 'MachineProbabilityController@GetBaseProbability');
+    Route::post('/Probability/GetPaytable', 'MachineProbabilityController@GetPaytable');
     Route::get('/Meter', 'MachineMeterController@Index');
     Route::get('/Meter/GetTableData', 'MachineMeterController@GetTableData');
     Route::post('/Meter/Clean', 'MachineMeterController@Clean');
