@@ -323,7 +323,7 @@ function OpenUpdateProbabilityModal(id) {
             $('#BonusDifficultyRangeText').text(data.BonusDifficulty);
             $('input[name="WildCard"]').val(data.WildCard);
             $('#WildCardRangeText').text(data.WildCard);
-            $('input[name="Water"]').val(data.Water);
+            $('input[name="Water"]').val(data.Water.toFixed(2));
             $('#WaterRangeText').text(data.Water);
 
             $("#MachineProbabilityForm").removeClass("was-validated");
