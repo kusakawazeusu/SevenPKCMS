@@ -32,4 +32,5 @@
     Route::post('/Meter/Clean', 'MachineMeterController@Clean');
     Route::get('/Meter/GetTableDataByID', 'MachineMeterController@GetTableDataByID');
     Route::get('/Meter/{id}', 'MachineMeterController@GetMachineMeterByID');
+    Route::get('/PublicSetting', 'MachinePublicSettingController@Index');
   });
