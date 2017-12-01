@@ -77,7 +77,8 @@
                         <p class="SideBarTitle">遊戲機台</p>
                         <a href="{{url('/Machine/Probability')}}">機台機率管理</a><br>
                         <a href="{{ url('/Machine') }}">機台分區管理</a><br>
-                        <a href="{{url('/Machine/Meter')}}">機台數值表</a><br><br>
+                        <a href="{{url('/Machine/Meter')}}">機台數值表</a><br>
+                        <a href="{{url('/Machine/PublicSetting')}}">機台公共設定</a><br><br>
 
                         <p class="SideBarTitle">通路</p>
                         <a href="{{ url('/introducer') }}">介紹人</a><br>
