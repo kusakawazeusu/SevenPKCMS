@@ -7,4 +7,5 @@ use Illuminate\Database\Eloquent\Model;
 class MachinePublicSettingModel extends Model
 {
     protected $table = 'machinepublicsetting';
+    public $timestamps = false;
 }

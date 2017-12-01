@@ -17,7 +17,9 @@ $(document).ready(function() {
         $.ajax({
             url: AjaxUrl,
             method: "POST",
-            data: $("#MachinePublicSettingForm").serialize(),
+            data: {
+                JokerWin: $('input[name="JokerWin"]:checked').val()
+            },
             success: function(result) {
                 $("#MachinePublicSettingSubmit").prop('disabled', false);
                 swal({
@@ -26,7 +28,7 @@ $(document).ready(function() {
                     type: "success",
                     animation: true
                 });
-                window.reload();
+                Refersh('JokerWin');
             },
             statusCode: {
                 500: function() {
@@ -55,8 +57,7 @@ $(document).ready(function() {
         }
     });
 
-    $('.range').on('input change', function() {
-        $('#' + $(this).attr('name') + 'RangeText').text($(this).val());
+    $('.isChange').on('input change', function() {
         ChangeFormFlag = 1;
     });
 });
@@ -67,9 +68,8 @@ function OpenUpdateProbabilityModal(type, s) {
         data: { "type": type },
         method: "GET",
         success: function(data) {
-            console.log(data);
             $("#MachinePublicSettingModalTitle").text(s);
-            $('input[name="JokerWin"]').val(data);
+            $('input[name="JokerWin"][value='+data+']').prop("checked", true);      
             $("#MachinePublicSettingForm").removeClass("was-validated");
             $("#MachinePublicSettingModal").modal('show');
             AjaxUrl = 'PublicSetting/Edit';
@@ -85,6 +85,22 @@ function GetAgent(appenTo) {
             for (var field in data) {
                 $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#' + appenTo);
             }
+        }
+    });
+}
+
+function Refersh(type){
+    $.ajax({
+        url: 'PublicSetting/GetPublicSetting',
+        data: { "type": type },
+        method: "GET",
+        success: function(data) {
+            console.log(data);
+            console.log('#'+type+'text')
+            if(data == 1)
+            $('#'+type+'Text').text('是');
+            else
+            $('#'+type+'Text').text('否');
         }
     });
 }

@@ -40,7 +40,7 @@
 <li class="list-group-item list-group-item-warning">
 	<div class="row">
 		<div class="col-md-6">遇見鬼牌是否一定中獎</div>
-		<div class="col-md-3">
+		<div class="col-md-3" id="JokerWinText">
 			@if($JokerWin == 1) 是 @else 否 @endif
 		</div>
 		<div calss="col-md-3">
@@ -61,9 +61,9 @@
 				<form id="MachinePublicSettingForm">
 					<div style="text-align: center; font-size: 30px;">
 						<label class="radio-inline">
-							<input type="radio" name="JokerWin" value=1>是</label>
+							<input type="radio" name="JokerWin" value=1 class="isChange">是</label>
 						<label class="radio-inline">
-							<input type="radio" name="JokerWin" value=0>否</label>
+							<input type="radio" name="JokerWin" value=0 class="isChange">否</label>
 					</div>
 			</div>
 			<div class="modal-footer">

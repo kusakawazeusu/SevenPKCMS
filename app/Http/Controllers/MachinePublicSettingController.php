@@ -21,4 +21,8 @@ class MachinePublicSettingController extends Controller
         $type = Input::get('type');
         return MachinePublicSettingModel::where('id', '=', 1)->get()[0]->$type;
     }
+    
+    public function Edit(){
+        MachinePublicSettingModel::where('id', '=', 1)->update(['JokerWin' => Input::get('JokerWin')]);
+    }
 }
