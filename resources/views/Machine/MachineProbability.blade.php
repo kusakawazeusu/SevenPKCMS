@@ -318,7 +318,7 @@
 					<div class="row">
 
 						<div class="col-md-12 form-group">
-							<label class="FormLabel">小烏龜持續時間</label>
+							<label class="FormLabel">小烏龜持續時間(壓注次數)</label>
 							<div class="row">
 								<div class="col-md-10 form-group">
 									<input type="range" name="TurtleTime" class="form-control range" min="1" max="300" value="100">
