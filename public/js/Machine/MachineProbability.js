@@ -166,7 +166,6 @@ $(document).ready(function() {
         temp -= adj[9];
         adj[9] /= 10000;
         for (var i = 0; i <= 8; ++i) {
-            console.log(adj[i] / temp * (100 - adj[9]) * Paytable[i]);
             water += adj[i] / temp * (100 - adj[9]) * Paytable[i];
         }
         $('input[name="Water"]').val(water.toFixed(2));
@@ -228,7 +227,6 @@ function GetData(ShowEntries, Page, SearchText) {
                     default:
                         break;
                 }
-
                 t.row.add([
                     "<button onclick='OpenUpdateProbabilityModal(" + data[i].ID + ")' class='btn btn-success mr-2'><i class='fa fa-pencil'></i>",
                     data[i].ID,
@@ -251,6 +249,7 @@ function GetData(ShowEntries, Page, SearchText) {
                     data[i].RealFiveOfAKind,
                     data[i].RealRoyalFlush,
                     data[i].Turtle,
+                    data[i].TurtleTime,
                     data[i].DoubleStar,
                     data[i].Water
                 ]).draw(false);
@@ -325,6 +324,9 @@ function OpenUpdateProbabilityModal(id) {
             $('#WildCardRangeText').text(data.WildCard);
             $('input[name="Water"]').val(data.Water.toFixed(2));
             $('#WaterRangeText').text(data.Water);
+
+            $('input[name="TurtleTime"]').val(data.TurtleTime);
+            $('#TurtleTimeRangeText').text(data.TurtleTime);
 
             $("#MachineProbabilityForm").removeClass("was-validated");
             $("#MachineProbabilityModal").modal('show');

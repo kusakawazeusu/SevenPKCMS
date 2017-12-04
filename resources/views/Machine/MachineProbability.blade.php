@@ -89,6 +89,7 @@
 				<th>正五枚機率</th>
 				<th>正同花大順機率</th>
 				<th>小烏龜出現機率</th>
+				<th>小烏龜出現時間</th>
 				<th>雙星出現機率</th>
 				<th>水位數值</th>
 			</tr>
@@ -310,6 +311,20 @@
 						<div class="col-md-2 form-group">
 							<label class="FormLabel">水位數值</label>
 							<input id="Water" type="text" name="Water" class="form-control" readonly>
+						</div>
+
+					</div>
+
+					<div class="row">
+
+						<div class="col-md-12 form-group">
+							<label class="FormLabel">小烏龜持續時間</label>
+							<div class="row">
+								<div class="col-md-10 form-group">
+									<input type="range" name="TurtleTime" class="form-control range" min="1" max="300" value="100">
+								</div>
+								<label id="TurtleTimeRangeText" class="text-center" />
+							</div>
 						</div>
 
 					</div>

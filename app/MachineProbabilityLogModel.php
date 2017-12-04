@@ -27,6 +27,7 @@ class MachineProbabilityLogModel extends Model
             'RealFiveOfAKind',
             'RealRoyalFlush',
             'Turtle',
+            'TurtleTime',
             'DoubleStar',
             'BonusDifficulty',
             'WildCard'//,
