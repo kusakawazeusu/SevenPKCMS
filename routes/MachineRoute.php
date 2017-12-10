@@ -34,5 +34,6 @@
     Route::get('/Meter/{id}', 'MachineMeterController@GetMachineMeterByID');
     Route::get('/PublicSetting', 'MachinePublicSettingController@Index');
     Route::get('/PublicSetting/GetPublicSetting', 'MachinePublicSettingController@GetPublicSetting');
-    Route::post('/PublicSetting/Edit', 'MachinePublicSettingController@Edit');
+    Route::post('/PublicSetting/EditJokerWin', 'MachinePublicSettingController@EditJokerWin');
+    Route::post('/PublicSetting/EditProbility', 'MachinePublicSettingController@EditProbility');
   });

@@ -19,10 +19,29 @@ class MachinePublicSettingController extends Controller
 
     public function GetPublicSetting(){
         $type = Input::get('type');
-        return MachinePublicSettingModel::where('id', '=', 1)->get()[0]->$type;
+        if($type == 'JokerWin')
+            return MachinePublicSettingModel::where('id', '=', 1)->get()[0]->$type;
+        else
+            return MachinePublicSettingModel::where('id', '=', 1)->get()[0];
     }
     
-    public function Edit(){
+    public function EditJokerWin(){
         MachinePublicSettingModel::where('id', '=', 1)->update(['JokerWin' => Input::get('JokerWin')]);
+    }
+
+    public function EditProbility(){
+        MachinePublicSettingModel::where('id', '=', 1)->update([
+            'TwoPairs' => Input::get('TwoPairs'),
+            'ThreeOfAKind' => Input::get('ThreeOfAKind'),
+            'Straight' => Input::get('Straight'),
+            'Flush' => Input::get('Flush'),
+            'FullHouse' => Input::get('FullHouse'),
+            'FourOfAKind' => Input::get('FourOfAKind'),
+            'STRFlush' => Input::get('STRFlush'),
+            'FiveOfAKind' => Input::get('FiveOfAKind'),
+            'RoyalFlush' => Input::get('RoyalFlush'),
+            'Water' => Input::get('Water'),
+            'DoubleStar' => Input::get('DoubleStar')
+            ]);
     }
 }
