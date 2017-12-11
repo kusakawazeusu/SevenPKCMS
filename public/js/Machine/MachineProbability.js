@@ -8,7 +8,7 @@ var AjaxUrl;
 var ChangeFormFlag;
 var ProbabiltyAdj;
 var Paytable = [];
-var BaseProbabilities;
+var BaseProbabilities = [];
 
 var GameResult = {
     RoyalFlushOdd: 0,
@@ -146,30 +146,24 @@ $(document).ready(function() {
 
     function CountWater() {
         var weight = [];
-        weight[GameResult.RoyalFlushOdd] = $("input[name='RoyalFlush']").val();
-        weight[GameResult.FiveOfAKindOdd] = $("input[name='FiveOfAKind']").val();
-        weight[GameResult.STRFlushOdd] = $("input[name='STRFlush']").val();
-        weight[GameResult.FourOfAKindOdd] = $("input[name='FourOfAKind']").val();
-        weight[GameResult.FullHouseOdd] = $("input[name='FullHouse']").val();
-        weight[GameResult.FlushOdd] = $("input[name='Flush']").val();
-        weight[GameResult.StrightOdd] = $("input[name='Straight']").val();
-        weight[GameResult.ThreeOfAKindOdd] = $("input[name='ThreeOfAKind']").val();
-        weight[GameResult.TwoPairsOdd] = $("input[name='TwoPairs']").val();
+        weight[GameResult.RoyalFlushOdd] = Number($("input[name='RoyalFlush']").val());
+        weight[GameResult.FiveOfAKindOdd] = Number($("input[name='FiveOfAKind']").val());
+        weight[GameResult.STRFlushOdd] = Number($("input[name='STRFlush']").val());
+        weight[GameResult.FourOfAKindOdd] = Number($("input[name='FourOfAKind']").val());
+        weight[GameResult.FullHouseOdd] = Number($("input[name='FullHouse']").val());
+        weight[GameResult.FlushOdd] = Number($("input[name='Flush']").val());
+        weight[GameResult.StrightOdd] = Number($("input[name='Straight']").val());
+        weight[GameResult.ThreeOfAKindOdd] = Number($("input[name='ThreeOfAKind']").val());
+        weight[GameResult.TwoPairsOdd] = Number($("input[name='TwoPairs']").val());
         weight[GameResult.Nothing] = 5;
-        var water = 0,
-            temp = 0;
+        var water = 0;
         var adj = [];
-        for (var i = 0; i <= 9; ++i) {
-            adj[i] = ProbabiltyAdj[weight[i]].AdjMagnification * BaseProbabilities[i].BaseProbability * 10000;
-            temp += adj[i];
-        }
-        temp -= adj[9];
-        adj[9] /= 10000;
         for (var i = 0; i <= 8; ++i) {
-            water += adj[i] / temp * (100 - adj[9]) * Paytable[i];
+            adj[i] = Number(ProbabiltyAdj[weight[i]].AdjMagnification) + BaseProbabilities[i];
+            water += adj[i];
         }
-        $('input[name="Water"]').val(water.toFixed(2));
-        return water.toFixed(2);
+        $('input[name="Water"]').val(water.toFixed(3));
+        return water.toFixed(3);
     }
 });
 
@@ -339,7 +333,7 @@ function OpenUpdateProbabilityModal(id) {
         method: "GET",
         success: function(data) {
             ProbabiltyAdj = data;
-            //console.log(ProbabiltyAdj[0].AdjMagnification);
+            //console.log(ProbabiltyAdj);
         }
     });
 
@@ -347,8 +341,20 @@ function OpenUpdateProbabilityModal(id) {
         url: 'Probability/GetBaseProbability',
         method: "GET",
         success: function(data) {
-            BaseProbabilities = data;
-            //console.log(BaseProbabilities[0].BaseProbability);
+            BaseProbabilities[GameResult.RoyalFlushOdd] = data.RoyalFlush;
+            BaseProbabilities[GameResult.FiveOfAKindOdd] = data.FiveOfAKind;
+            BaseProbabilities[GameResult.STRFlushOdd] = data.STRFlush;
+            BaseProbabilities[GameResult.FourOfAKindOdd] = data.FourOfAKind;
+            BaseProbabilities[GameResult.FullHouseOdd] = data.FullHouse;
+            BaseProbabilities[GameResult.FlushOdd] = data.Flush;
+            BaseProbabilities[GameResult.StrightOdd] = data.Straight;
+            BaseProbabilities[GameResult.ThreeOfAKindOdd] = data.ThreeOfAKind;
+            BaseProbabilities[GameResult.TwoPairsOdd] = data.TwoPairs;
+            var win = 0;
+            for (var i = 0; i <= 8; ++i) {}
+            win += BaseProbabilities[i];
+            BaseProbabilities[GameResult.Nothing] = 100 - win;
+            //console.log(BaseProbabilities.FiveOfAKind);
         }
     });
 
