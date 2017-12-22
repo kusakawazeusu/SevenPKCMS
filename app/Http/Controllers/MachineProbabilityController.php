@@ -11,7 +11,7 @@ use App\Machine;
 use App\MachineProbability;
 use App\MachineProbabilityLogModel;
 use App\ProbabilityAdjModel;
-use App\MachinePublicSettingModel;
+use App\BaseProbabilityModel;
 
 class MachineProbabilityController extends Controller
 {
@@ -56,7 +56,7 @@ class MachineProbabilityController extends Controller
 
     public function GetBaseProbability(){   
         
-        $baseProbability = MachinePublicSettingModel::where('id','=',1)->get()[0];     
+        $baseProbability = BaseProbabilityModel::All();     
         return $baseProbability;
     }
 

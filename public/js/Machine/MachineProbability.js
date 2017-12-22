@@ -6,7 +6,7 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 var ChangeFormFlag;
-var ProbabiltyAdj;
+var ProbabiltyAdj = [];
 var Paytable = [];
 var BaseProbabilities = [];
 
@@ -159,7 +159,16 @@ $(document).ready(function() {
         var water = 0;
         var adj = [];
         for (var i = 0; i <= 8; ++i) {
-            adj[i] = Number(ProbabiltyAdj[weight[i]].AdjMagnification) + BaseProbabilities[i];
+            adj[i] = (BaseProbabilities[i] - (weight[i] - 1) * ProbabiltyAdj[i]) * 100 * Paytable[i];
+            /*
+            console.log(i);
+            console.log(BaseProbabilities[i]);
+            console.log(weight[i]);
+            console.log(ProbabiltyAdj[i]);
+            console.log(Paytable[i]);
+            console.log(adj[i]);
+            console.log("-----------------");
+            */
             water += adj[i];
         }
         $('input[name="Water"]').val(water.toFixed(3));
@@ -332,8 +341,16 @@ function OpenUpdateProbabilityModal(id) {
         url: 'Probability/GetProbabilityAdj',
         method: "GET",
         success: function(data) {
-            ProbabiltyAdj = data;
-            //console.log(ProbabiltyAdj);
+            ProbabiltyAdj[GameResult.RoyalFlushOdd] = data[0].RoyalFlush;
+            ProbabiltyAdj[GameResult.FiveOfAKindOdd] = data[0].FiveOfAKind;
+            ProbabiltyAdj[GameResult.STRFlushOdd] = data[0].STRFlush;
+            ProbabiltyAdj[GameResult.FourOfAKindOdd] = data[0].FourOfAKind;
+            ProbabiltyAdj[GameResult.FullHouseOdd] = data[0].FullHouse;
+            ProbabiltyAdj[GameResult.FlushOdd] = data[0].Flush;
+            ProbabiltyAdj[GameResult.StrightOdd] = data[0].Straight;
+            ProbabiltyAdj[GameResult.ThreeOfAKindOdd] = data[0].ThreeOfAKind;
+            ProbabiltyAdj[GameResult.TwoPairsOdd] = data[0].TwoPairs;
+            //console.log(Number(ProbabiltyAdj[0]));
         }
     });
 
@@ -341,19 +358,38 @@ function OpenUpdateProbabilityModal(id) {
         url: 'Probability/GetBaseProbability',
         method: "GET",
         success: function(data) {
-            BaseProbabilities[GameResult.RoyalFlushOdd] = data.RoyalFlush;
-            BaseProbabilities[GameResult.FiveOfAKindOdd] = data.FiveOfAKind;
-            BaseProbabilities[GameResult.STRFlushOdd] = data.STRFlush;
-            BaseProbabilities[GameResult.FourOfAKindOdd] = data.FourOfAKind;
-            BaseProbabilities[GameResult.FullHouseOdd] = data.FullHouse;
-            BaseProbabilities[GameResult.FlushOdd] = data.Flush;
-            BaseProbabilities[GameResult.StrightOdd] = data.Straight;
-            BaseProbabilities[GameResult.ThreeOfAKindOdd] = data.ThreeOfAKind;
-            BaseProbabilities[GameResult.TwoPairsOdd] = data.TwoPairs;
-            var win = 0;
-            for (var i = 0; i <= 8; ++i) {}
-            win += BaseProbabilities[i];
-            BaseProbabilities[GameResult.Nothing] = 100 - win;
+            console.log(data);
+            for (var i = 0; i <= 9; ++i) {
+                if (data[i].GameResult == 'RoyalFlushOdd')
+                    BaseProbabilities[GameResult.RoyalFlushOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'FiveOfAKindOdd')
+                    BaseProbabilities[GameResult.FiveOfAKindOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'STRFlushOdd')
+                    BaseProbabilities[GameResult.STRFlushOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'FourOfAKindOdd')
+                    BaseProbabilities[GameResult.FourOfAKindOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'FullHouseOdd')
+                    BaseProbabilities[GameResult.FullHouseOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'FlushOdd')
+                    BaseProbabilities[GameResult.FlushOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'StraightOdd')
+                    BaseProbabilities[GameResult.StrightOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'ThreeOfAKindOdd')
+                    BaseProbabilities[GameResult.ThreeOfAKindOdd] = data[i].BaseProbability;
+                else if (data[i].GameResult == 'TwoPairsOdd')
+                    BaseProbabilities[GameResult.TwoPairsOdd] = data[i].BaseProbability;
+            }
+            /*
+            BaseProbabilities[GameResult.RoyalFlushOdd] = data[0].RoyalFlushOdd;
+            BaseProbabilities[GameResult.FiveOfAKindOdd] = data.FiveOfAKindOdd;
+            BaseProbabilities[GameResult.STRFlushOdd] = data.STRFlushOdd;
+            BaseProbabilities[GameResult.FourOfAKindOdd] = data.FourOfAKindOdd;
+            BaseProbabilities[GameResult.FullHouseOdd] = data.FullHouseOdd;
+            BaseProbabilities[GameResult.FlushOdd] = data.FlushOdd;
+            BaseProbabilities[GameResult.StrightOdd] = data.StrightOdd;
+            BaseProbabilities[GameResult.ThreeOfAKindOdd] = data.ThreeOfAKindOdd;
+            BaseProbabilities[GameResult.TwoPairsOdd] = data.TwoPairsOdd;
+            */
             //console.log(BaseProbabilities.FiveOfAKind);
         }
     });
