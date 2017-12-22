@@ -13,6 +13,7 @@ use App\MachineProbability;
 use App\MachineProbabilityLogModel;
 use App\MachineMeter;
 use App\AgentModel;
+use App\defaultProbabilityModel;
 
 class MachineController extends Controller
 {
@@ -44,11 +45,21 @@ class MachineController extends Controller
             'FiveOfAKindOdd' => Input::get('FiveOfAKindOdd'),
             'RoyalFlushOdd' => Input::get('RoyalFlushOdd')
         ])->ID;
+        $defaultProbability = defaultProbabilityModel::where('SectionID', '=', Input::get('SectionID'))->get()[0];
         $machineStatus = new MachineStatus;
         $machineStatus->MachineID = $newMachineID;
         $machineStatus->save();
         $machineProbability = new MachineProbability;
         $machineProbability->MachineID = $newMachineID;
+        $machineProbability->TwoPairs = $defaultProbability->TwoPairs;
+        $machineProbability->ThreeOfAKind = $defaultProbability->ThreeOfAKind;
+        $machineProbability->Straight = $defaultProbability->Straight;
+        $machineProbability->Flush = $defaultProbability->Flush;
+        $machineProbability->FullHouse = $defaultProbability->FullHouse;
+        $machineProbability->FourOfAKind = $defaultProbability->FourOfAKind;
+        $machineProbability->STRFlush = $defaultProbability->STRFlush;
+        $machineProbability->FiveOfAKind = $defaultProbability->FiveOfAKind;
+        $machineProbability->RoyalFlush = $defaultProbability->RoyalFlush;
         $machineProbability->save();
         $machineMeter = new MachineMeter;
         $machineMeter->MachineID = $newMachineID;
