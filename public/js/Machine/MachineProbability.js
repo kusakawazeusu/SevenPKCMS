@@ -325,7 +325,7 @@ function OpenUpdateProbabilityModal(id) {
             $('#BonusDifficultyRangeText').text(data.BonusDifficulty);
             $('input[name="WildCard"]').val(data.WildCard);
             $('#WildCardRangeText').text(data.WildCard);
-            $('input[name="Water"]').val(data.Water.toFixed(2));
+            $('input[name="Water"]').val(data.Water.toFixed(3));
             $('#WaterRangeText').text(data.Water);
 
             $('input[name="TurtleTime"]').val(data.TurtleTime);
