@@ -6,7 +6,7 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     $.ajaxSetup({
         headers: {
@@ -28,12 +28,12 @@ $(document).ready(function () {
         對表格進行的操作。
     */
 
-    $("#AgentID").keyup(function (event) {
+    $("#AgentID").keyup(function(event) {
         SeachText = $(this).val();
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $(".ShowEntries").change(function () {
+    $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -45,7 +45,7 @@ $(document).ready(function () {
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $("#nextPage").click(function (event) {
+    $("#nextPage").click(function(event) {
 
         if (Page >= totalPage - 1) {
             swal({
@@ -58,7 +58,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#previousPage").click(function () {
+    $("#previousPage").click(function() {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
@@ -83,19 +83,19 @@ $(document).ready(function () {
 function GetData(ShowEntries, Page, SearchText) {
     var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
 
-	swal({
-        html:'<strong id="progressText">loading...</strong>',
+    swal({
+        html: '<strong id="progressText">loading...</strong>',
         imageUrl: '../img/waiting.gif',
         showConfirmButton: false,
-        allowOutsideClick:false,
-        allowEscapeKey:false,
-        allowEnterKey:false,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        allowEnterKey: false,
     })
     $.ajax({
         url: 'Meter/GetTableData',
         method: "GET",
         data: SendingData,
-        success: function (data) {
+        success: function(data) {
             swal.close();
             t.clear().draw();
             NumberOfEntries = data['count'];
@@ -128,7 +128,7 @@ function GetData(ShowEntries, Page, SearchText) {
 
                 var water = Math.round(data[i].Credit / data[i].BetCredit * 100).toString();
                 var throughput = Math.round(data[i].TotalCreditOut / data[i].TotalCreditIn).toString();
-
+                console.log(data[i]);
                 t.row.add([
                     data[i].ID,
                     data[i].MachineName,
@@ -143,16 +143,16 @@ function GetData(ShowEntries, Page, SearchText) {
                     data[i].FourOfAKind.toLocaleString("en-US"),
                     data[i].RealFourOfAKind.toLocaleString("en-US"),
                     data[i].STRFlush.toLocaleString("en-US"),
-                    data[i].RealSTRFlush.toLocaleString("en-US"),
+                    // data[i].RealSTRFlush.toLocaleString("en-US"),
                     data[i].FiveOfAKind.toLocaleString("en-US"),
                     data[i].RoyalFlush.toLocaleString("en-US"),
-                    data[i].RealRoyalFlush.toLocaleString("en-US"),
+                    // data[i].RealRoyalFlush.toLocaleString("en-US"),
                     data[i].BetCredit.toLocaleString("en-US"),
                     data[i].Credit.toLocaleString("en-US"),
                     water.toLocaleString("en-US") + '%',
-                    //data[i].TotalCreditIn.toLocaleString("en-US"),
-                    //data[i].TotalCreditOut.toLocaleString("en-US"),
-                    //throughput.toLocaleString("en-US") + '%',
+                    data[i].TotalCreditIn.toLocaleString("en-US"),
+                    data[i].TotalCreditOut.toLocaleString("en-US"),
+                    throughput.toLocaleString("en-US") + '%',
                     "<button onclick='CleanMachineMeter(" + data[i].ID + ")' class='btn btn-danger'><i class='fa fa-trash'></i></button>",
                     "<a href='Meter/" + data[i].ID + "' class='btn btn-success mr-2'><i class='fa fa-search'></i></a>"
                 ]).draw(false);
@@ -175,13 +175,13 @@ function CleanMachineMeter(id) {
         allowEscapeKey: false,
         allowOutsideClick: false,
         allowEnterKey: false
-    }).then(function () {
+    }).then(function() {
         $.ajax({
             url: 'Meter/Clean',
             data: { "id": id },
             method: "post",
             statusCode: {
-                200: function () {
+                200: function() {
                     swal({
                         title: "清除成功！",
                         type: "success"
@@ -190,7 +190,7 @@ function CleanMachineMeter(id) {
                 }
             }
         });
-    }, function (dismiss) {
+    }, function(dismiss) {
         swal('取消!', '', 'error');
     });
 }

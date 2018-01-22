@@ -11,6 +11,7 @@ use App\Monitor;
 use App\MachineStatus;
 use App\PlayerModel;
 use App\MachineCreditLog;
+use App\MachineMeter;
 
 class MachineMonitorController extends Controller
 {
@@ -49,6 +50,7 @@ class MachineMonitorController extends Controller
         if (Input::get('needCode')=='true') {
             $code = $this->VerificationCode(Input::get('machineID'));
         }
+        MachineMeter::where('MachineID', '=', Input::get('machineID'))->update(['TotalCreditIn' => Input::get('credit')]);
         return Response::json(['done'=>'success','machineID'=>Monitor::where('Cellphone', '=', Input::get('playerCellphone'))->select('CurCredit',
             'ID')->get()[0]->ID, 'code'=>$code]);
     }
@@ -76,6 +78,7 @@ class MachineMonitorController extends Controller
             $machineCreditLog->save();
             return $response;
         }
+        MachineMeter::where('MachineID', '=', Input::get('machineID'))->update(['TotalCreditOut' => Input::get('credit')]);
             return Response::json(['done'=>'unsuccess', 'type'=>'ToCredit', 'credit'=>0]);
     }
 
