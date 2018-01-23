@@ -148,7 +148,8 @@ return [
     |
     */
 
-    'domain' => env('SESSION_DOMAIN', '13.125.8.63'),
+    // 'domain' => env('SESSION_DOMAIN', '13.125.8.63'),
+    'domain' => env('SESSION_DOMAIN', null),
 
     /*
     |--------------------------------------------------------------------------
