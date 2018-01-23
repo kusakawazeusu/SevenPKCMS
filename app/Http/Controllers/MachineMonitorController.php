@@ -60,10 +60,11 @@ class MachineMonitorController extends Controller
         $monitor = Monitor::where('ID', '=', Input::get('ID'))->get()[0];
         $machineCreditLog = new MachineCreditLog;
         $machineCreditLog->OperatorID = Input::get('operatorID');
-        $machineCreditLog->Credit = $monitor->CurCredit + ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
+        $Credit = $monitor->CurCredit + ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
+        $machineCreditLog->Credit = $Credit;
         $machineCreditLog->MachineID = $monitor->ID;
         $machineCreditLog->PlayerID = $monitor->CurPlayer;
-        MachineMeter::where('MachineID', '=', Input::get('machineID'))->increment('TotalCreditOut' , Input::get('credit'));
+        MachineMeter::where('MachineID', '=', Input::get('ID'))->increment('TotalCreditOut' , $Credit);
         if (Input::get('type') == 'ToCredit') {
             $machineCreditLog->Operation = 1;
             $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $machineCreditLog->Credit;
