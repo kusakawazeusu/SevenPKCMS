@@ -50,7 +50,7 @@ class MachineMonitorController extends Controller
         if (Input::get('needCode')=='true') {
             $code = $this->VerificationCode(Input::get('machineID'));
         }
-        MachineMeter::where('MachineID', '=', Input::get('machineID'))->update(['TotalCreditIn' => Input::get('credit')]);
+        MachineMeter::where('MachineID', '=', Input::get('machineID'))->increment('TotalCreditIn',Input::get('credit'));
         return Response::json(['done'=>'success','machineID'=>Monitor::where('Cellphone', '=', Input::get('playerCellphone'))->select('CurCredit',
             'ID')->get()[0]->ID, 'code'=>$code]);
     }
@@ -63,6 +63,7 @@ class MachineMonitorController extends Controller
         $machineCreditLog->Credit = $monitor->CurCredit + ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
         $machineCreditLog->MachineID = $monitor->ID;
         $machineCreditLog->PlayerID = $monitor->CurPlayer;
+        MachineMeter::where('MachineID', '=', Input::get('machineID'))->increment('TotalCreditOut' , Input::get('credit'));
         if (Input::get('type') == 'ToCredit') {
             $machineCreditLog->Operation = 1;
             $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $machineCreditLog->Credit;
@@ -78,7 +79,6 @@ class MachineMonitorController extends Controller
             $machineCreditLog->save();
             return $response;
         }
-        MachineMeter::where('MachineID', '=', Input::get('machineID'))->update(['TotalCreditOut' => Input::get('credit')]);
             return Response::json(['done'=>'unsuccess', 'type'=>'ToCredit', 'credit'=>0]);
     }
 
