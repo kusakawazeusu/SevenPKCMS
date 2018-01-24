@@ -57,7 +57,7 @@
 			<div class="col-md-4">
 				<div class="input-group mb-2">
 					<div class="input-group-addon">開始時間</div>
-					<input type="text" id="StartTime" name="StartTime" class="form-control search" placeholder="開始時間" aria-label="開始時間">
+					<input type="text" id="StartTime" name="StartTime" class="form-control search" placeholder="開始時間" aria-label="開始時間">        
 				</div>
 			</div>
 

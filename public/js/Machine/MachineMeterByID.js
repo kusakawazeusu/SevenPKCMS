@@ -68,18 +68,14 @@ $(document).ready(function() {
         }
     });
 
-    $('#StartTime').datepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-TW',
-        autoclose: 1,
-        todayHighlight: true
+
+    $('#StartTime').datetimepicker({
+        showClose: true
     });
 
-    $('#EndTime').datepicker({
-        format: 'yyyy-mm-dd',
-        language: 'zh-TW',
-        autoclose: 1,
-        todayHighlight: true
+    $('#EndTime').datetimepicker({
+        showClose: true,
+        useCurrent: false
     });
 
     $("#StartTime").keypress(function(e) {
@@ -90,12 +86,11 @@ $(document).ready(function() {
         e.preventDefault();
     });
 
-    $('#StartTime').datepicker().on('changeDate', function(event) {
-        var startTime = $('#StartTime').datepicker().val();
-        $('#EndTime').datepicker('setStartDate', startTime);
+    $("#StartTime").on("dp.change", function(e) {
+        $('#EndTime').data("DateTimePicker").minDate(e.date);
     });
 
-    $('#EndTime').datepicker().on('changeDate', function(event) {
+    $("#EndTime").on("dp.change", function(e) {
         GetData(ShowEntries, Page, SeachText);
     });
 });
