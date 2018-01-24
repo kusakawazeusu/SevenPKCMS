@@ -87,13 +87,13 @@
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">開始時間</label>
-							<input type="time" id="StartTime" name="StartTime" class="form-control createInput checkInput">
+							<input type="text" id="StartTime" name="StartTime" class="form-control createInput checkInput">
 							<small id="ErrStartTimeText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
 						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">結束時間</label>
-							<input type="time" id="EndTime" name="EndTime" class="form-control createInput checkInput">
+							<input type="text" id="EndTime" name="EndTime" class="form-control createInput checkInput">
 							<small id="ErrEndTimeText" style="display:none;color:brown !important" class="form-text text-muted checkText"></small>
 						</div>						
 					</div>
