@@ -56,7 +56,7 @@ $(document).ready(function () {
 	$("#StartTime").on("dp.change", function (e) {
 		$('#EndTime').data("DateTimePicker").minDate(e.date);
 	});
-	$("#EndTime").on("dp.change", function (e) {
+	$("#EndTime").on("dp.hide", function (e) {
 		GetData(page);
 	});
 	// $('#StartTime').datetimepicker().on('changeDate', function (event) {
