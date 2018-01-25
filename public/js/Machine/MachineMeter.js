@@ -6,7 +6,7 @@ var SeachText = "%";
 var t;
 var AjaxUrl;
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $.ajaxSetup({
         headers: {
@@ -28,12 +28,12 @@ $(document).ready(function() {
         對表格進行的操作。
     */
 
-    $("#AgentID").keyup(function(event) {
+    $("#AgentID").keyup(function (event) {
         SeachText = $(this).val();
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $(".ShowEntries").change(function() {
+    $(".ShowEntries").change(function () {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -45,7 +45,7 @@ $(document).ready(function() {
         GetData(ShowEntries, Page, SeachText);
     });
 
-    $("#nextPage").click(function(event) {
+    $("#nextPage").click(function (event) {
 
         if (Page >= totalPage - 1) {
             swal({
@@ -58,7 +58,7 @@ $(document).ready(function() {
         }
     });
 
-    $("#previousPage").click(function() {
+    $("#previousPage").click(function () {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
@@ -95,7 +95,7 @@ function GetData(ShowEntries, Page, SearchText) {
         url: 'Meter/GetTableData',
         method: "GET",
         data: SendingData,
-        success: function(data) {
+        success: function (data) {
             swal.close();
             t.clear().draw();
             NumberOfEntries = data['count'];
@@ -127,7 +127,7 @@ function GetData(ShowEntries, Page, SearchText) {
                 }
 
                 var water = Math.round(data[i].Credit / data[i].BetCredit * 100).toString();
-                var throughput = Math.round(data[i].TotalCreditOut / data[i].TotalCreditIn).toString();
+                var throughput = Math.round(data[i].TotalCreditOut / data[i].TotalCreditIn * 100).toString();
                 console.log(data[i]);
                 t.row.add([
                     data[i].ID,
@@ -175,13 +175,13 @@ function CleanMachineMeter(id) {
         allowEscapeKey: false,
         allowOutsideClick: false,
         allowEnterKey: false
-    }).then(function() {
+    }).then(function () {
         $.ajax({
             url: 'Meter/Clean',
             data: { "id": id },
             method: "post",
             statusCode: {
-                200: function() {
+                200: function () {
                     swal({
                         title: "清除成功！",
                         type: "success"
@@ -190,7 +190,7 @@ function CleanMachineMeter(id) {
                 }
             }
         });
-    }, function(dismiss) {
+    }, function (dismiss) {
         swal('取消!', '', 'error');
     });
 }
