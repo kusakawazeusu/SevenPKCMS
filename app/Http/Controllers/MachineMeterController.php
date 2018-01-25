@@ -83,8 +83,8 @@ class MachineMeterController extends Controller
 
         if (Input::get('StartTime')!=null && Input::get('EndTime')!=null) {
             $query = $query->where([
-                ['Created_at','>=',Input::get('StartTime').' 00:00:00'],
-                ['Created_at','<=',Input::get('EndTime').' 23:59:59']
+                    ['Created_at','>=',Input::get('StartTime').':00'],
+                    ['Created_at','<=',Input::get('EndTime').' :59']
             ]);
         }
 
