@@ -3,6 +3,7 @@ var Page = 0;
 var totalPage = 0;
 var ShowEntries = 5;
 var SeachText = "%";
+var MachineName = "%";
 var t;
 var AjaxUrl;
 var ChangeFormFlag;
@@ -23,7 +24,7 @@ var GameResult = {
     Nothing: 9
 };
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $.ajaxSetup({
         headers: {
@@ -39,20 +40,25 @@ $(document).ready(function() {
     });
 
     // Initialize the table
-    GetData(ShowEntries, Page, SeachText);
+    GetData(ShowEntries, Page, SeachText, MachineName);
 
     /*
         對表格進行的操作。
     */
 
-    $("#AgentID").change(function(event) {
+    $("#AgentID").change(function (event) {
         SeachText = $(this).val() != -1 ? $(this).val() : "%";
-        GetData(ShowEntries, Page, SeachText);
+        GetData(ShowEntries, Page, SeachText, MachineName);
+    });
+
+    $("#MachineName").change(function (event) {
+        MachineName = $(this).val() != -1 ? $(this).val() : "%";
+        GetData(ShowEntries, Page, SeachText, MachineName);
     });
 
     GetAgent('AgentID');
 
-    $(".ShowEntries").change(function() {
+    $(".ShowEntries").change(function () {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -61,10 +67,10 @@ $(document).ready(function() {
         } else {
             Page = 0;
         }
-        GetData(ShowEntries, Page, SeachText);
+        GetData(ShowEntries, Page, SeachText, MachineName);
     });
 
-    $("#nextPage").click(function(event) {
+    $("#nextPage").click(function (event) {
 
         if (Page >= totalPage - 1) {
             swal({
@@ -73,11 +79,11 @@ $(document).ready(function() {
             });
         } else {
             Page += 1;
-            GetData(ShowEntries, Page, SeachText);
+            GetData(ShowEntries, Page, SeachText, MachineName);
         }
     });
 
-    $("#previousPage").click(function() {
+    $("#previousPage").click(function () {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
@@ -85,7 +91,7 @@ $(document).ready(function() {
             });
         } else {
             Page -= 1;
-            GetData(ShowEntries, Page, SeachText);
+            GetData(ShowEntries, Page, SeachText, MachineName);
         }
     });
 
@@ -96,12 +102,12 @@ $(document).ready(function() {
     var CreateForm = document.getElementById("MachineProbabilityForm");
     CreateForm.novalidate = false;
 
-    $("#MachineProbabilitySubmit").click(function() {
+    $("#MachineProbabilitySubmit").click(function () {
         $.ajax({
             url: AjaxUrl,
             method: "POST",
             data: $("#MachineProbabilityForm").serialize(),
-            success: function(result) {
+            success: function (result) {
                 $("#MachineProbabilitySubmit").prop('disabled', false);
                 swal({
                     title: "操作成功！",
@@ -109,10 +115,10 @@ $(document).ready(function() {
                     type: "success",
                     animation: true
                 });
-                GetData(ShowEntries, Page, SeachText);
+                GetData(ShowEntries, Page, SeachText, MachineName);
             },
             statusCode: {
-                500: function() {
+                500: function () {
                     swal("操作失敗", "請確認欄位是否填寫正確！", "error");
                 }
             }
@@ -121,7 +127,7 @@ $(document).ready(function() {
         $('#MachineProbabilityModal').modal('toggle');
     });
 
-    $('#MachineProbabilityModal').on('hide.bs.modal', function(e) {
+    $('#MachineProbabilityModal').on('hide.bs.modal', function (e) {
         if (ChangeFormFlag == 1) {
             e.preventDefault();
             swal({
@@ -131,14 +137,14 @@ $(document).ready(function() {
                 showCancelButton: true,
                 confirmButtonText: '放棄編輯',
                 cancelButtonText: '留在此視窗'
-            }).then(function() {
+            }).then(function () {
                 ChangeFormFlag = 0;
                 $('#MachineProbabilityModal').modal('toggle');
             });
         }
     });
 
-    $('.range').on('input change', function() {
+    $('.range').on('input change', function () {
         $('#' + $(this).attr('name') + 'RangeText').text($(this).val());
         ChangeFormFlag = 1;
         CountWater();
@@ -185,8 +191,8 @@ $(document).ready(function() {
         - SearchText : The keyword we're searching for.
  
 */
-function GetData(ShowEntries, Page, SearchText) {
-    var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
+function GetData(ShowEntries, Page, SearchText, MachineName) {
+    var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText, "MachineName": MachineName };
 
     swal({
         html: '<strong id="progressText">loading...</strong>',
@@ -200,7 +206,7 @@ function GetData(ShowEntries, Page, SearchText) {
         url: 'Probability/GetTableData',
         method: "GET",
         data: SendingData,
-        success: function(data) {
+        success: function (data) {
             swal.close();
             t.clear().draw();
             NumberOfEntries = data['count'];
@@ -266,7 +272,7 @@ function OpenUpdateProbabilityModal(id) {
         url: 'Probability/GetMachineByID',
         data: { "id": id },
         method: "GET",
-        success: function(data) {
+        success: function (data) {
 
             var section;
             switch (data.SectionID) {
@@ -340,7 +346,7 @@ function OpenUpdateProbabilityModal(id) {
     $.ajax({
         url: 'Probability/GetProbabilityAdj',
         method: "GET",
-        success: function(data) {
+        success: function (data) {
             ProbabiltyAdj[GameResult.RoyalFlushOdd] = data[0].RoyalFlush;
             ProbabiltyAdj[GameResult.FiveOfAKindOdd] = data[0].FiveOfAKind;
             ProbabiltyAdj[GameResult.STRFlushOdd] = data[0].STRFlush;
@@ -357,7 +363,7 @@ function OpenUpdateProbabilityModal(id) {
     $.ajax({
         url: 'Probability/GetBaseProbability',
         method: "GET",
-        success: function(data) {
+        success: function (data) {
             console.log(data);
             for (var i = 0; i <= 9; ++i) {
                 if (data[i].GameResult == 'RoyalFlushOdd')
@@ -398,7 +404,7 @@ function OpenUpdateProbabilityModal(id) {
         url: 'Probability/GetPaytable',
         data: { "id": id },
         method: "POST",
-        success: function(data) {
+        success: function (data) {
             //console.log(data);
             Paytable[GameResult.RoyalFlushOdd] = data.RoyalFlushOdd;
             Paytable[GameResult.FiveOfAKindOdd] = data.FiveOfAKindOdd;
@@ -419,7 +425,7 @@ function GetAgent(appenTo) {
     $.ajax({
         url: 'GetAgent',
         method: "GET",
-        success: function(data) {
+        success: function (data) {
             for (var field in data) {
                 $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#' + appenTo);
             }

@@ -25,14 +25,14 @@ class MachineProbabilityController extends Controller
         $Page = Input::get('Page');
         $ShowEntries = Input::get('ShowEntries');
         $SearchText = Input::get('SearchText');
-
-        $count = Machine::where('AgentID', 'like', '%'.$SearchText.'%')->count();
+        $MachineName = Input::get('MachineName');
+        $count = Machine::where('AgentID', 'like', '%'.$SearchText.'%')->where('MachineName', 'like', '%'.$MachineName.'%') ->count();
 
         if ($ShowEntries == "ALL") {
             $ShowEntries = $count;
         }
 
-        $machines = MachineProbability::join('machine', 'machineprobability.MachineID', '=', 'machine.ID')->join('agent', 'machine.AgentID', '=', 'agent.ID')->where('AgentID', 'like', '%'.$SearchText.'%')->select('machine.*', 'agent.Name', 'machineprobability.*')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
+        $machines = MachineProbability::join('machine', 'machineprobability.MachineID', '=', 'machine.ID')->join('agent', 'machine.AgentID', '=', 'agent.ID')->where('AgentID', 'like', '%'.$SearchText.'%')->where('MachineName', 'like', '%'.$MachineName.'%')->select('machine.*', 'agent.Name', 'machineprobability.*')->limit($ShowEntries)->offset($Page*$ShowEntries)->get();
         $machines['count'] = $count;
 
         return Response::json($machines);

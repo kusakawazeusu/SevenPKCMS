@@ -37,29 +37,35 @@
 	<div class="col-md-2">
 	</div>
 
-	<div class="col-md-5 mr-3">
-		<div class="row">
-			<div class="col-md-6">
-				<div class="input-group mb-2">
-					<div class="input-group-addon">顯示筆數</div>
-					<select class="form-control ShowEntries">
-						<option value="5">5</option>
-						<option value="10">10</option>
-						<option value="ALL">全部</option>
-					</select>
-				</div>
-			</div>
+    <div class="col-md-7 mr-7">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="input-group mb-2">
+                    <div class="input-group-addon">顯示筆數</div>
+                    <select class="form-control ShowEntries">
+                        <option value="5">5</option>
+                        <option value="10">10</option>
+                        <option value="ALL">全部</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="col-md-5">
+                <div class="input-group mb-2">
+                    <div class="input-group-addon">廠商編號</div>
+                    <select id="AgentID" class="form-control">
+                        <option value="-1"> -- 選擇經銷商 -- </option>
+                    </select>
+                </div>
+            </div>
 
-			<div class="col-md-6">
-				<div class="input-group mb-2">
-					<div class="input-group-addon">廠商編號</div>
-					<select id="AgentID" class="form-control">
-						<option value="-1"> -- 選擇經銷商 -- </option>
-					</select>
-				</div>
-			</div>
-
-		</div>
+            <div class="col-md-4">
+                <div class="input-group mb-2">
+                    <div class="input-group-addon">機台名稱</div>
+                    <input type="text" class="form-control" id="MachineName" placeholder="要搜尋的名稱 ...">
+                </div>
+            </div>            
+        </div>
 	</div>
 
 </div>

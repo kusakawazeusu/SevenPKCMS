@@ -52,9 +52,9 @@
         <button class="btn btn-primary" onclick="OpenCreateMachineModal()">新增機台</button>
     </div>
 
-    <div class="col-md-5 mr-3">
+    <div class="col-md-7 mr-7">
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-3">
                 <div class="input-group mb-2">
                     <div class="input-group-addon">顯示筆數</div>
                     <select class="form-control ShowEntries">
@@ -65,7 +65,7 @@
                 </div>
             </div>
             
-            <div class="col-md-6">
+            <div class="col-md-5">
                 <div class="input-group mb-2">
                     <div class="input-group-addon">廠商編號</div>
                     <select id="AgentID" class="form-control">
@@ -73,7 +73,13 @@
                     </select>
                 </div>
             </div>
-            
+
+            <div class="col-md-4">
+                <div class="input-group mb-2">
+                    <div class="input-group-addon">機台名稱</div>
+                    <input type="text" class="form-control" id="MachineName" placeholder="要搜尋的名稱 ...">
+                </div>
+            </div>            
         </div>
     </div>
 

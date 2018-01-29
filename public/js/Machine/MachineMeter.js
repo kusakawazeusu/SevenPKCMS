@@ -3,6 +3,7 @@ var Page = 0;
 var totalPage = 0;
 var ShowEntries = 5;
 var SeachText = "%";
+var MachineName = "%";
 var t;
 var AjaxUrl;
 
@@ -22,16 +23,23 @@ $(document).ready(function () {
     });
 
     // Initialize the table
-    GetData(ShowEntries, Page, SeachText);
+    GetData(ShowEntries, Page, SeachText, MachineName);
 
     /*
         對表格進行的操作。
     */
 
-    $("#AgentID").keyup(function (event) {
-        SeachText = $(this).val();
-        GetData(ShowEntries, Page, SeachText);
+    $("#AgentID").change(function (event) {
+        SeachText = $(this).val() != -1 ? $(this).val() : "%";
+        GetData(ShowEntries, Page, SeachText, MachineName);
     });
+
+    $("#MachineName").change(function (event) {
+        MachineName = $(this).val() != -1 ? $(this).val() : "%";
+        GetData(ShowEntries, Page, SeachText, MachineName);
+    });
+
+    GetAgent('AgentID');
 
     $(".ShowEntries").change(function () {
         ShowEntries = $(this).val();
@@ -42,7 +50,7 @@ $(document).ready(function () {
         } else {
             Page = 0;
         }
-        GetData(ShowEntries, Page, SeachText);
+        GetData(ShowEntries, Page, SeachText, MachineName);
     });
 
     $("#nextPage").click(function (event) {
@@ -54,7 +62,7 @@ $(document).ready(function () {
             });
         } else {
             Page += 1;
-            GetData(ShowEntries, Page, SeachText);
+            GetData(ShowEntries, Page, SeachText, MachineName);
         }
     });
 
@@ -66,7 +74,7 @@ $(document).ready(function () {
             });
         } else {
             Page -= 1;
-            GetData(ShowEntries, Page, SeachText);
+            GetData(ShowEntries, Page, SeachText, MachineName);
         }
     });
 });
@@ -80,8 +88,8 @@ $(document).ready(function () {
         - SearchText : The keyword we're searching for.
  
 */
-function GetData(ShowEntries, Page, SearchText) {
-    var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText };
+function GetData(ShowEntries, Page, SearchText, MachineName) {
+    var SendingData = { "ShowEntries": ShowEntries, "Page": Page, "SearchText": SearchText, "MachineName": MachineName };
 
     swal({
         html: '<strong id="progressText">loading...</strong>',
@@ -186,11 +194,23 @@ function CleanMachineMeter(id) {
                         title: "清除成功！",
                         type: "success"
                     });
-                    GetData(ShowEntries, Page, SeachText);
+                    GetData(ShowEntries, Page, SeachText, MachineName);
                 }
             }
         });
     }, function (dismiss) {
         swal('取消!', '', 'error');
+    });
+}
+
+function GetAgent(appenTo) {
+    $.ajax({
+        url: 'GetAgent',
+        method: "GET",
+        success: function (data) {
+            for (var field in data) {
+                $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#' + appenTo);
+            }
+        }
     });
 }
