@@ -69,14 +69,14 @@ class MachineMonitorController extends Controller
             $machineCreditLog->Operation = 1;
             $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $machineCreditLog->Credit;
             PlayerModel::where('ID', '=', $monitor->CurPlayer)->update(['Balance' => $credit]);
-            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0','CurCoinIn'=>'0', 'CurBet'=>'0']);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['CurCredit' =>'0']);
             $machineCreditLog->save();
             return Response::json(['done'=>'success', 'type'=>'ToCredit', 'credit'=>$credit, 'machineID'=>$monitor->ID, 't'=>floor($monitor->CurCoinIn / 100) * 100]);
         } elseif (Input::get('type') == 'ToCash') {
             $machineCreditLog->Operation = 2;
             $credit =  $machineCreditLog->Credit;
             $response = Response::json(['done'=>'success', 'type'=>'ToCash', 'credit'=>$credit, 'playerName'=>$monitor->Name,'machineID'=>$monitor->ID]);
-            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['Status' => '0','CurCredit' =>'0', 'CurPlayer' =>'0','CurCoinIn'=>'0', 'CurBet'=>'0']);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['CurCredit' =>'0']);
             $machineCreditLog->save();
             return $response;
         }
