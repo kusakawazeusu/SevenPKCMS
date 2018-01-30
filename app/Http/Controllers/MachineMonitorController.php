@@ -61,6 +61,7 @@ class MachineMonitorController extends Controller
         $machineCreditLog = new MachineCreditLog;
         $machineCreditLog->OperatorID = Input::get('operatorID');
         $Credit = $monitor->CurCredit + ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
+        $leftCredit = $monitor->CurCoinIn - ($monitor->CurCoinIn > $monitor->MinCoinOut?(floor($monitor->CurCoinIn / 100) * 100):0);
         $machineCreditLog->Credit = $Credit;
         $machineCreditLog->MachineID = $monitor->ID;
         $machineCreditLog->PlayerID = $monitor->CurPlayer;
@@ -69,14 +70,14 @@ class MachineMonitorController extends Controller
             $machineCreditLog->Operation = 1;
             $credit = PlayerModel::where('ID', '=', $monitor->CurPlayer)->select('Balance')->get()[0]->Balance + $machineCreditLog->Credit;
             PlayerModel::where('ID', '=', $monitor->CurPlayer)->update(['Balance' => $credit]);
-            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['CurCredit' =>'0']);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['CurCredit' =>'0', 'CurCoinIn' => $leftCredit]);
             $machineCreditLog->save();
             return Response::json(['done'=>'success', 'type'=>'ToCredit', 'credit'=>$credit, 'machineID'=>$monitor->ID, 't'=>floor($monitor->CurCoinIn / 100) * 100]);
         } elseif (Input::get('type') == 'ToCash') {
             $machineCreditLog->Operation = 2;
             $credit =  $machineCreditLog->Credit;
             $response = Response::json(['done'=>'success', 'type'=>'ToCash', 'credit'=>$credit, 'playerName'=>$monitor->Name,'machineID'=>$monitor->ID]);
-            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['CurCredit' =>'0']);
+            $machineCurStatus = MachineStatus::where('MachineID', '=', Input::get('ID'))->update(['CurCredit' =>'0', 'CurCoinIn' => $leftCredit]);
             $machineCreditLog->save();
             return $response;
         }
