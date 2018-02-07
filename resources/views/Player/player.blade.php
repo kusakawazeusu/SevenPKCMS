@@ -130,6 +130,12 @@
 							<input type="text" id="Name" name="Name" class="form-control createInput checkInput" >
 							<small id="ErrNameText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-3"></small>
 						</div>						
+						
+						<div class="col-md-3 form-group">
+							<label class="FormLabel">暱稱</label>
+							<input type="text" id="NickName" name="NickName" class="form-control createInput checkInput">
+							<small id="ErrNickNameText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-3"></small>
+						</div>
 
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">身分證字號</label>
@@ -141,19 +147,17 @@
 							<label class="FormLabel">生日</label>
 							<input type="text" id="Birthday" name="Birthday" class="form-control createInput checkInput" >
 							<small id="ErrBirthdayText" style="display:none;color:brown !important" class="form-text text-muted checkText ml-3"></small>
-						</div>
+						</div>				
+					</div>
 
+					<div class="row">
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">性別</label>
 							<select id="Gender" name="Gender" class="form-control" >
 								<option value="0">男</option>
 								<option value="1">女</option>
 							</select>
-						</div>						
-					</div>
-
-					<div class="row">
-
+						</div>
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">介紹人名稱</label>
 							<select id="IntroducerName" name="IntroducerName" class="form-control" >
@@ -172,11 +176,6 @@
 					<h5 class="mt-4">額外資訊</h5>
 					<hr>
 					<div class="row">
-						<div class="col-md-3 form-group">
-							<label class="FormLabel">暱稱</label>
-							<input type="text" id="NickName" name="NickName" class="form-control createInput">
-						</div>
-
 						<div class="col-md-3 form-group">
 							<label class="FormLabel">職業</label>
 							<input type="text" id="Career" name="Career" class="form-control createInput">
