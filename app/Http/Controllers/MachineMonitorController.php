@@ -98,7 +98,7 @@ class MachineMonitorController extends Controller
 
     public function GetDepositCredit()
     {
-        $response = Monitor::where('ID', '=', Input::get('id'))->select('MaxDepositCredit', 'DepositCreditOnce', 'Cellphone')->get()[0];
+        $response = Monitor::where('ID', '=', Input::get('id'))->select('MaxDepositCredit', 'DepositCreditOnce', 'Cellphone', 'Name')->get()[0];
         return $response;
     }
 

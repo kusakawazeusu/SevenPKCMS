@@ -20,7 +20,7 @@ $(function() {
 
 function CreditIn(id) {
     var maxDepositCredit, depositCreditOnce, needCode = 'true',
-        playerPhone;
+        playerPhone, machineName;
 
     $.ajax({
         url: 'Machine/Monitor/GetDepositCredit',
@@ -34,13 +34,14 @@ function CreditIn(id) {
             depositCreditOnce = data.DepositCreditOnce;
             playerPhone = data.Cellphone;
             if (playerPhone != null) needCode = 'false';
+            machineName = data.Name;
         },
     });
     var htmlCode = playerPhone != null ?
         '<input type="text" id="PlayerPhone" class="swal2-input" value ="' + playerPhone + '" disabled>' + '<input type="number" id="Credit" class="swal2-input" min="0" max="' + maxDepositCredit + '" step="' + depositCreditOnce + '" value="0">' : '<input type="text" id="PlayerPhone" class="swal2-input" placeholder="會員電話">' + '<input type="number" id="Credit" class="swal2-input" min="0" max="' + maxDepositCredit + '" step="' + depositCreditOnce + '" value="0">';
 
     swal({
-        title: "鍵入第" + id + "台",
+        title: "鍵入第" + machineName + "台",
         html: htmlCode,
         confirmButtonColor: '#3085d6',
         cancelButtonColor: '#d33',
