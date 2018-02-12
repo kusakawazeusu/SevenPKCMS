@@ -34,7 +34,7 @@ function CreditIn(id) {
             depositCreditOnce = data.DepositCreditOnce;
             playerPhone = data.Cellphone;
             if (playerPhone != null) needCode = 'false';
-            machineName = data.Name;
+            machineName = data.MachineName;
         },
     });
     var htmlCode = playerPhone != null ?

@@ -183,7 +183,7 @@
 
                         <div class="col-md-4 form-group">
                             <label class="FormLabel">最少可以上分的金額</label>
-                            <input type="text" name="MinCoinOut" class="form-control check numberic" required>
+                            <input type="text" name="MinCoinOut" class="form-control check" required>
 							<small id="ErrorMsgMinCoinOut" style="display:none;color:brown !important" class="form-text text-muted errmsg"></small>
                         </div>
 

@@ -8,7 +8,7 @@ var t;
 var AjaxUrl;
 var ChangeFormFlag;
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     $.ajaxSetup({
         headers: {
@@ -52,19 +52,19 @@ $(document).ready(function () {
     /*
         對表格進行的操作。
     */
-    $("#AgentID").change(function (event) {
+    $("#AgentID").change(function(event) {
         SeachText = $(this).val() != -1 ? $(this).val() : "%";
         GetData(ShowEntries, Page, SeachText, MachineName);
     });
 
-    $("#MachineName").change(function (event) {
+    $("#MachineName").change(function(event) {
         MachineName = $(this).val() != -1 ? $(this).val() : "%";
         GetData(ShowEntries, Page, SeachText, MachineName);
     });
 
     GetAgent('AgentID');
 
-    $(".ShowEntries").change(function () {
+    $(".ShowEntries").change(function() {
         ShowEntries = $(this).val();
         if (ShowEntries == 'ALL') {
             ShowEntries = NumberOfEntries;
@@ -76,7 +76,7 @@ $(document).ready(function () {
         GetData(ShowEntries, Page, SeachText, MachineName);
     });
 
-    $("#nextPage").click(function (event) {
+    $("#nextPage").click(function(event) {
 
         if (Page >= totalPage - 1) {
             swal({
@@ -89,7 +89,7 @@ $(document).ready(function () {
         }
     });
 
-    $("#previousPage").click(function () {
+    $("#previousPage").click(function() {
         if (Page < 1) {
             swal({
                 title: "已到第一頁！",
@@ -108,10 +108,10 @@ $(document).ready(function () {
     var CreateForm = document.getElementById("MachineForm");
     CreateForm.novalidate = false;
 
-    $("#MachineSubmit").click(function () {
+    $("#MachineSubmit").click(function() {
         var $inputs = $('#MachineForm :input');
         var valid = true;
-        $inputs.each(function () {
+        $inputs.each(function() {
             $(this).focusout();
             if ($(this).hasClass('error')) {
                 valid = false;
@@ -124,7 +124,7 @@ $(document).ready(function () {
                 url: AjaxUrl,
                 method: "POST",
                 data: $("#MachineForm").serialize(),
-                success: function (result) {
+                success: function(result) {
                     $("#MachineSubmit").prop('disabled', false);
                     $("#MachineModal").modal('hide');
                     swal({
@@ -136,7 +136,7 @@ $(document).ready(function () {
                     GetData(ShowEntries, Page, SeachText, MachineName);
                 },
                 statusCode: {
-                    500: function () {
+                    500: function() {
                         swal("操作失敗", "請確認欄位是否填寫正確！", "error");
                     }
                 }
@@ -146,15 +146,15 @@ $(document).ready(function () {
         }
     });
 
-    $("input").on('input', function () {
+    $("input").on('input', function() {
         ChangeFormFlag = 1;
     });
 
-    $("select").change(function () {
+    $("select").change(function() {
         ChangeFormFlag = 1;
     });
 
-    $('#MachineModal').on('hide.bs.modal', function (e) {
+    $('#MachineModal').on('hide.bs.modal', function(e) {
         if (ChangeFormFlag == 1) {
             e.preventDefault();
             swal({
@@ -164,7 +164,7 @@ $(document).ready(function () {
                 showCancelButton: true,
                 confirmButtonText: '放棄編輯',
                 cancelButtonText: '留在此視窗'
-            }).then(function () {
+            }).then(function() {
                 ChangeFormFlag = 0;
                 $('#MachineModal').modal('toggle');
             });
@@ -174,7 +174,7 @@ $(document).ready(function () {
     function CheckValid() {
         var $inputs = $('#MachineForm :input');
         var valid = true;
-        $inputs.each(function () {
+        $inputs.each(function() {
             if ($(this).hasClass('error')) {
                 valid = false;
             }
@@ -185,7 +185,7 @@ $(document).ready(function () {
             $('#MachineSubmit').attr('disabled', true);
     }
 
-    $('select[name="AgentID"]').focusout(function () {
+    $('select[name="AgentID"]').focusout(function() {
         CheckAgent($(this).val());
         CheckValid();
     });
@@ -200,7 +200,7 @@ $(document).ready(function () {
         }
     }
 
-    $('input[name="MachineName"]').focusout(function () {
+    $('input[name="MachineName"]').focusout(function() {
         var checkMachineNameResponse = CheckNumeric($(this).val(), 1, 1000);
         if (checkMachineNameResponse.valid) $(this).val(padLeft($(this).val(), 3));
         if (CheckAgent($('select[name="AgentID"]').val()).valid == false) {
@@ -209,20 +209,20 @@ $(document).ready(function () {
         if (checkMachineNameResponse.valid) {
             var type = AjaxUrl;
             $.ajax({
-                url: "Machine/CheckDepulicatedMachineName",
-                method: "POST",
-                async: false,
-                data: {
-                    "AgentID": $('select[name="AgentID"]').val(),
-                    "MachineName": $(this).val(),
-                    "Type": type,
-                    "ID": $("input[name='id']").val()
-                },
-            })
-                .done(function (response) {
+                    url: "Machine/CheckDepulicatedMachineName",
+                    method: "POST",
+                    async: false,
+                    data: {
+                        "AgentID": $('select[name="AgentID"]').val(),
+                        "MachineName": $(this).val(),
+                        "Type": type,
+                        "ID": $("input[name='id']").val()
+                    },
+                })
+                .done(function(response) {
                     checkMachineNameResponse = response;
                 })
-                .fail(function () {
+                .fail(function() {
                     console.log("error");
                 });
         }
@@ -230,7 +230,16 @@ $(document).ready(function () {
         CheckValid();
     });
 
-    $('.numberic').focusout(function () {
+    $('input[name="MinCoinOut"]').focusout(function() {
+        var checkMinCoinOutResponse = CheckNumeric($(this).val(), 1);
+        if (checkMinCoinOutResponse.valid)
+            if ($(this).val() % 100 !== 0)
+                checkMinCoinOutResponse = { valid: false, errMsg: '請以100為一個單位' };
+        CheckStyle(checkMinCoinOutResponse, 'MinCoinOut');
+        CheckValid();
+    });
+
+    $('.numberic').focusout(function() {
         var checkResponse = CheckNumeric($(this).val(), 1);
         CheckStyle(checkResponse, $(this).attr('name'));
         CheckValid();
@@ -253,15 +262,15 @@ $(document).ready(function () {
         var checkAgentIDResponse = CheckNumeric(data);
         if (checkAgentIDResponse.valid) {
             $.ajax({
-                url: "Machine/CheckExistAgentID",
-                method: "POST",
-                async: false,
-                data: { "AgentID": data },
-            })
-                .done(function (response) {
+                    url: "Machine/CheckExistAgentID",
+                    method: "POST",
+                    async: false,
+                    data: { "AgentID": data },
+                })
+                .done(function(response) {
                     checkAgentIDResponse = response;
                 })
-                .fail(function () {
+                .fail(function() {
                     console.log("error");
                 });
         }
@@ -308,7 +317,7 @@ function GetData(ShowEntries, Page, SearchText, MachineName) {
         url: 'Machine/GetTableData',
         method: "GET",
         data: SendingData,
-        success: function (data) {
+        success: function(data) {
             swal.close();
             t.clear().draw();
             NumberOfEntries = data['count'];
@@ -385,13 +394,13 @@ function DeleteMachine(id) {
         allowEscapeKey: false,
         allowOutsideClick: false,
         allowEnterKey: false
-    }).then(function () {
+    }).then(function() {
         $.ajax({
             url: 'Machine/Delete',
             data: { "id": id },
             method: "post",
             statusCode: {
-                200: function () {
+                200: function() {
                     swal({
                         title: "刪除成功！",
                         type: "success"
@@ -400,7 +409,7 @@ function DeleteMachine(id) {
                 }
             }
         });
-    }, function (dismiss) {
+    }, function(dismiss) {
         swal('取消!', '', 'error');
     });
 }
@@ -412,7 +421,7 @@ function OpenUpdateMachineModal(id) {
         url: 'Machine/GetMachineByID',
         data: { "id": id },
         method: "GET",
-        success: function (data) {
+        success: function(data) {
             $("#MachineModalTitle").text('正在編輯： 第' + data.ID + '台');
             $("input[name='id']").val(data.ID);
             $("select[name='AgentID']").val(data.AgentID);
@@ -471,7 +480,7 @@ function GetAgent(appenTo) {
     $.ajax({
         url: 'Machine/GetAgent',
         method: "GET",
-        success: function (data) {
+        success: function(data) {
             for (var field in data) {
                 $('<option value="' + data[field].ID + '">' + data[field].Name + '</option>').appendTo('#' + appenTo);
             }
